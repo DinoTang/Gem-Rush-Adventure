@@ -1,0 +1,15 @@
+D:\CodeGame\Gem Crush Adventure\Match3Test\obj\Debug\net9.0\Match3Test.GeneratedMSBuildEditorConfig.editorconfig
+D:\CodeGame\Gem Crush Adventure\Match3Test\obj\Debug\net9.0\Match3Test.AssemblyInfoInputs.cache
+D:\CodeGame\Gem Crush Adventure\Match3Test\obj\Debug\net9.0\Match3Test.AssemblyInfo.cs
+D:\CodeGame\Gem Crush Adventure\Match3Test\obj\Debug\net9.0\Match3Test.csproj.CoreCompileInputs.cache
+D:\CodeGame\Gem Crush Adventure\Match3Test\obj\Debug\net9.0\Match3Test.sourcelink.json
+D:\CodeGame\Gem Crush Adventure\Match3Test\bin\Debug\net9.0\Match3Test.exe
+D:\CodeGame\Gem Crush Adventure\Match3Test\bin\Debug\net9.0\Match3Test.deps.json
+D:\CodeGame\Gem Crush Adventure\Match3Test\bin\Debug\net9.0\Match3Test.runtimeconfig.json
+D:\CodeGame\Gem Crush Adventure\Match3Test\bin\Debug\net9.0\Match3Test.dll
+D:\CodeGame\Gem Crush Adventure\Match3Test\bin\Debug\net9.0\Match3Test.pdb
+D:\CodeGame\Gem Crush Adventure\Match3Test\obj\Debug\net9.0\Match3Test.dll
+D:\CodeGame\Gem Crush Adventure\Match3Test\obj\Debug\net9.0\refint\Match3Test.dll
+D:\CodeGame\Gem Crush Adventure\Match3Test\obj\Debug\net9.0\Match3Test.pdb
+D:\CodeGame\Gem Crush Adventure\Match3Test\obj\Debug\net9.0\Match3Test.genruntimeconfig.cache
+D:\CodeGame\Gem Crush Adventure\Match3Test\obj\Debug\net9.0\ref\Match3Test.dll
