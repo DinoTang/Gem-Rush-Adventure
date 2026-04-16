@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Match3Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a9785a39afc3353daeb1fbeca3172ce74080b1a0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+723ce300b84ddd73a274d25c40b6f63046ed346e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Match3Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Match3Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

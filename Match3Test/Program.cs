@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Diagnostics;
 class Program
 {
     static GridModel grid;
     static MatchFinder matchFinder = new MatchFinder();
     static Random rand = new Random();
-
     static PieceType[] types =
     {
         PieceType.Red,
         PieceType.Blue,
         PieceType.Green,
-        PieceType.White,
+        PieceType.Yellow,
         PieceType.Purple
     };
 
@@ -44,9 +43,10 @@ class Program
             int x2 = int.Parse(parts[2]);
             int y2 = int.Parse(parts[3]);
 
+            bool valid;
             try
             {
-                grid.Swap((x1, y1), (x2, y2));
+                valid = TrySwap((x1, y1), (x2, y2));
             }
             catch (Exception e)
             {
@@ -54,6 +54,11 @@ class Program
                 continue;
             }
 
+            if (!valid)
+            {
+                Console.WriteLine("Swap khong tao match → revert!");
+                continue;
+            }
             var matches = matchFinder.FindMatches(grid);
 
             Console.WriteLine($"Matches found: {matches.Count}");
@@ -126,6 +131,20 @@ class Program
         Console.WriteLine();
     }
 
+
+    static bool TrySwap((int x, int y) a, (int x, int y) b)
+    {
+        grid.Swap(a, b);
+
+        var matches = matchFinder.FindMatches(grid);
+        if (matches.Count == 0)
+        {
+            grid.Swap(a, b);
+            return false;
+        }
+        return true;
+    }
+
     static void SetColor(PieceType t)
     {
         switch (t)
@@ -142,8 +161,8 @@ class Program
                 Console.ForegroundColor = ConsoleColor.Green;
                 break;
 
-            case PieceType.White:
-                Console.ForegroundColor = ConsoleColor.Gray;
+            case PieceType.Yellow:
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 break;
 
             case PieceType.Purple:
@@ -163,7 +182,7 @@ class Program
             PieceType.Red => 'R',
             PieceType.Blue => 'B',
             PieceType.Green => 'G',
-            PieceType.White => 'W',
+            PieceType.Yellow => 'Y',
             PieceType.Purple => 'P',
             _ => '.'
         };

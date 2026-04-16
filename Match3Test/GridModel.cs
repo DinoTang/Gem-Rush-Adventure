@@ -41,7 +41,10 @@ public class GridModel
             throw new System.Exception("Swap out of bounds");
 
         // Nếu không cạnh nhau return
-        
+        int dx = Math.Abs(a.x - b.x);
+        int dy = Math.Abs(a.y - b.y);
+        if (dx + dy != 1)
+            throw new System.Exception("Swap must be adjacent");
 
         var temp = this.cells[a.x, a.y];
         this.cells[a.x, a.y] = this.cells[b.x, b.y];
