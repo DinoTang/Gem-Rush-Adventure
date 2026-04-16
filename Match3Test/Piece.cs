@@ -4,7 +4,7 @@ public enum PieceType
     Red,
     Blue,
     Green,
-    White,
+    Yellow,
     Purple
 }
 
