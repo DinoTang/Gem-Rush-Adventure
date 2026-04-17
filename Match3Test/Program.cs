@@ -72,60 +72,17 @@ class Program
         }
     }
 
-    // static void InitGrid()
-    // {
-    //     for (int x = 0; x < grid.Width; x++)
-    //     {
-    //         for (int y = 0; y < grid.Height; y++)
-    //         {
-    //             grid.Set(x, y, new Piece(RandomType()));
-    //         }
-    //     }
-    // }
-
     static void InitGrid()
     {
-        for (int y = 0; y < grid.Height; y++)
+        for (int x = 0; x < grid.Width; x++)
         {
-            for (int x = 0; x < grid.Width; x++)
+            for (int y = 0; y < grid.Height; y++)
             {
-                if (x < 2 && y < 2)
-                {
-                    grid.Set(x, y, new Piece(RandomType()));
-                    continue;
-                }
-
-                grid.Set(x, y, new Piece(GetSafeRandomPieceType(x, y)));
+                grid.Set(x, y, new Piece(RandomType()));
             }
         }
     }
 
-    static PieceType GetSafeRandomPieceType(int x, int y)
-    {
-        List<PieceType> available = new List<PieceType>(types);
-
-        RemoveHorizontalMatchCandidate(x, y, available);
-        RemoveVerticalMatchCandidate(x, y, available);
-
-        return available[rand.Next(available.Count)];
-    }
-
-    static void RemoveHorizontalMatchCandidate(int x, int y, List<PieceType> availableTypes)
-    {
-        if (x < 2) return;
-        var left1 = grid.Get(x - 1, y).pieceType;
-        var left2 = grid.Get(x - 2, y).pieceType;
-        if (left1 == left2 && left1 != PieceType.None)
-            availableTypes.Remove(left1);
-    }
-    static void RemoveVerticalMatchCandidate(int x, int y, List<PieceType> availableTypes)
-    {
-        if (y < 2) return;
-        var up1 = grid.Get(x, y - 1).pieceType;
-        var up2 = grid.Get(x, y - 2).pieceType;
-        if (up1 == up2 && up1 != PieceType.None)
-            availableTypes.Remove(up1);
-    }
     static PieceType RandomType()
     {
         return types[rand.Next(types.Length)];
