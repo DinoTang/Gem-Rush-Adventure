@@ -5,6 +5,7 @@ class Program
 {
     static GridModel grid;
     static MatchFinder matchFinder = new MatchFinder();
+    static ResolveMatchResult matchResolver = new ResolveMatchResult();
     static Random rand = new Random();
 
     static PieceType[] types =
@@ -65,19 +66,20 @@ class Program
 
             var matches = matchFinder.FindMatches(grid);
 
-            Console.WriteLine($"Matches found: {matches.Count}");
+            // Console.WriteLine($"Matches found: {matches.Count}");
 
-            foreach (var match in matches)
-            {
-                Console.WriteLine("Match:");
+            // foreach (var match in matches)
+            // {
+            //     Console.WriteLine("Match:");
 
-                foreach (var cell in match.Cells)
-                {
-                    Console.Write($"({cell.x},{cell.y}) ");
-                }
+            //     foreach (var cell in match.Cells)
+            //     {
+            //         Console.Write($"({cell.x},{cell.y}) ");
+            //     }
 
-                Console.WriteLine();
-            }
+            //     Console.WriteLine();
+            // }
+            matchResolver.ClearMatches(matches, grid);
         }
     }
 
@@ -234,7 +236,7 @@ class Program
             PieceType.Green => 'G',
             PieceType.Yellow => 'Y',
             PieceType.Purple => 'P',
-            _ => '.'
+            PieceType.None => '_'
         };
     }
 }
