@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+
 class Program
 {
     static GridModel grid;
     static MatchFinder matchFinder = new MatchFinder();
+    static ResolveMatchResult matchResolver = new ResolveMatchResult();
     static Random rand = new Random();
+
     static PieceType[] types =
     {
         PieceType.Red,
@@ -28,7 +30,8 @@ class Program
             Console.WriteLine("Nhap swap: x1 y1 x2 y2 (hoac q de thoat)");
             string input = Console.ReadLine();
 
-            if (input == "q") break;
+            if (input == "q")
+                break;
 
             var parts = input.Split(' ');
 
@@ -44,6 +47,7 @@ class Program
             int y2 = int.Parse(parts[3]);
 
             bool valid;
+
             try
             {
                 valid = TrySwap((x1, y1), (x2, y2));
@@ -56,31 +60,82 @@ class Program
 
             if (!valid)
             {
-                Console.WriteLine("Swap khong tao match → revert!");
+                Console.WriteLine("Swap khong tao match -> revert!");
                 continue;
             }
+
             var matches = matchFinder.FindMatches(grid);
 
-            Console.WriteLine($"Matches found: {matches.Count}");
-            foreach (var m in matches)
+            // Console.WriteLine($"Matches found: {matches.Count}");
+
+            // foreach (var match in matches)
+            // {
+            //     Console.WriteLine("Match:");
+
+            //     foreach (var cell in match.Cells)
+            //     {
+            //         Console.Write($"({cell.x},{cell.y}) ");
+            //     }
+
+            //     Console.WriteLine();
+            // }
+            matchResolver.ClearMatches(matches, grid);
+        }
+    }
+
+    // ==========================
+    // Spawn board không có match sẵn
+    // ==========================
+    static void InitGrid()
+    {
+        for (int y = 0; y < grid.Height; y++)
+        {
+            for (int x = 0; x < grid.Width; x++)
             {
-                Console.WriteLine("Match:");
-                foreach (var c in m.Cells)
-                    Console.Write($"({c.x},{c.y}) ");
-                Console.WriteLine();
+                PieceType type = GetSafeRandomPieceType(x, y);
+                grid.Set(x, y, new Piece(type));
             }
         }
     }
 
-    static void InitGrid()
+    static PieceType GetSafeRandomPieceType(int x, int y)
     {
-        for (int x = 0; x < grid.Width; x++)
-        {
-            for (int y = 0; y < grid.Height; y++)
-            {
-                grid.Set(x, y, new Piece(RandomType()));
-            }
-        }
+        List<PieceType> availableTypes = new List<PieceType>(types);
+
+        RemoveHorizontalMatchCandidate(x, y, availableTypes);
+        RemoveVerticalMatchCandidate(x, y, availableTypes);
+
+        return availableTypes[rand.Next(availableTypes.Count)];
+    }
+
+    static void RemoveHorizontalMatchCandidate(
+        int x,
+        int y,
+        List<PieceType> availableTypes)
+    {
+        if (x < 2)
+            return;
+
+        PieceType left1 = grid.Get(x - 1, y).pieceType;
+        PieceType left2 = grid.Get(x - 2, y).pieceType;
+
+        if (left1 == left2 && left1 != PieceType.None)
+            availableTypes.Remove(left1);
+    }
+
+    static void RemoveVerticalMatchCandidate(
+        int x,
+        int y,
+        List<PieceType> availableTypes)
+    {
+        if (y < 2)
+            return;
+
+        PieceType up1 = grid.Get(x, y - 1).pieceType;
+        PieceType up2 = grid.Get(x, y - 2).pieceType;
+
+        if (up1 == up2 && up1 != PieceType.None)
+            availableTypes.Remove(up1);
     }
 
     static PieceType RandomType()
@@ -88,17 +143,32 @@ class Program
         return types[rand.Next(types.Length)];
     }
 
-    // =======================
-    // 🔥 PRINT GRID (CÓ MÀU)
-    // =======================
+    // ==========================
+    // Swap hợp lệ nếu tạo match
+    // ==========================
+    static bool TrySwap((int x, int y) a, (int x, int y) b)
+    {
+        grid.Swap(a, b);
+
+        var matches = matchFinder.FindMatches(grid);
+
+        if (matches.Count == 0)
+        {
+            grid.Swap(a, b);
+            return false;
+        }
+
+        return true;
+    }
+
+    // ==========================
+    // In board debug
+    // ==========================
     static void PrintGrid()
     {
         Console.WriteLine("\nGRID:\n");
 
-        // ======================
-        // In header cột (x-axis)
-        // ======================
-        Console.Write("    "); // offset cho cột số
+        Console.Write("    ");
 
         for (int x = 0; x < grid.Width; x++)
         {
@@ -106,22 +176,18 @@ class Program
         }
 
         Console.WriteLine();
-
         Console.WriteLine("   " + new string('-', grid.Width * 2));
 
-        // ======================
-        // In từng hàng + số hàng (y-axis)
-        // ======================
         for (int y = 0; y < grid.Height; y++)
         {
             Console.Write(y + " | ");
 
             for (int x = 0; x < grid.Width; x++)
             {
-                var p = grid.Get(x, y).pieceType;
+                PieceType type = grid.Get(x, y).pieceType;
 
-                SetColor(p);
-                Console.Write(ToChar(p) + " ");
+                SetColor(type);
+                Console.Write(ToChar(type) + " ");
                 Console.ResetColor();
             }
 
@@ -131,23 +197,9 @@ class Program
         Console.WriteLine();
     }
 
-
-    static bool TrySwap((int x, int y) a, (int x, int y) b)
+    static void SetColor(PieceType type)
     {
-        grid.Swap(a, b);
-
-        var matches = matchFinder.FindMatches(grid);
-        if (matches.Count == 0)
-        {
-            grid.Swap(a, b);
-            return false;
-        }
-        return true;
-    }
-
-    static void SetColor(PieceType t)
-    {
-        switch (t)
+        switch (type)
         {
             case PieceType.Red:
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -175,16 +227,16 @@ class Program
         }
     }
 
-    static char ToChar(PieceType t)
+    static char ToChar(PieceType type)
     {
-        return t switch
+        return type switch
         {
             PieceType.Red => 'R',
             PieceType.Blue => 'B',
             PieceType.Green => 'G',
             PieceType.Yellow => 'Y',
             PieceType.Purple => 'P',
-            _ => '.'
+            PieceType.None => '_'
         };
     }
 }
