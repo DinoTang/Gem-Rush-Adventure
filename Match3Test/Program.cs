@@ -7,6 +7,7 @@ class Program
     static MatchFinder matchFinder = new MatchFinder();
     static ResolveMatchResult matchResolver = new ResolveMatchResult();
     static GravityResolver gravityResolver = new GravityResolver();
+    static SpawnResolver spawnResolver = new SpawnResolver();
     static Random rand = new Random();
 
     static PieceType[] types =
@@ -78,8 +79,7 @@ class Program
             matchResolver.ClearMatches(matches, grid);
             gravityResolver.ApplyGravity(grid);
 
-            // sau này thêm spawn ở đây
-            // spawnResolver.Fill(grid);
+            spawnResolver.FillEmptyCells(grid);
         }
     }
     // ==========================
