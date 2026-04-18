@@ -6,6 +6,7 @@ class Program
     static GridModel grid;
     static MatchFinder matchFinder = new MatchFinder();
     static ResolveMatchResult matchResolver = new ResolveMatchResult();
+    static GravityResolver gravityResolver = new GravityResolver();
     static Random rand = new Random();
 
     static PieceType[] types =
@@ -64,25 +65,23 @@ class Program
                 continue;
             }
 
-            var matches = matchFinder.FindMatches(grid);
-
-            // Console.WriteLine($"Matches found: {matches.Count}");
-
-            // foreach (var match in matches)
-            // {
-            //     Console.WriteLine("Match:");
-
-            //     foreach (var cell in match.Cells)
-            //     {
-            //         Console.Write($"({cell.x},{cell.y}) ");
-            //     }
-
-            //     Console.WriteLine();
-            // }
-            matchResolver.ClearMatches(matches, grid);
+            ResolveBoard();
         }
     }
+    static void ResolveBoard()
+    {
+        while (true)
+        {
+            var matches = matchFinder.FindMatches(grid);
+            if (matches.Count == 0) break;
 
+            matchResolver.ClearMatches(matches, grid);
+            gravityResolver.ApplyGravity(grid);
+
+            // sau này thêm spawn ở đây
+            // spawnResolver.Fill(grid);
+        }
+    }
     // ==========================
     // Spawn board không có match sẵn
     // ==========================
@@ -108,10 +107,7 @@ class Program
         return availableTypes[rand.Next(availableTypes.Count)];
     }
 
-    static void RemoveHorizontalMatchCandidate(
-        int x,
-        int y,
-        List<PieceType> availableTypes)
+    static void RemoveHorizontalMatchCandidate(int x, int y, List<PieceType> availableTypes)
     {
         if (x < 2)
             return;
@@ -123,10 +119,7 @@ class Program
             availableTypes.Remove(left1);
     }
 
-    static void RemoveVerticalMatchCandidate(
-        int x,
-        int y,
-        List<PieceType> availableTypes)
+    static void RemoveVerticalMatchCandidate(int x, int y, List<PieceType> availableTypes)
     {
         if (y < 2)
             return;
@@ -236,7 +229,8 @@ class Program
             PieceType.Green => 'G',
             PieceType.Yellow => 'Y',
             PieceType.Purple => 'P',
-            PieceType.None => '_'
+            PieceType.None => '_',
+            _ => throw new NotImplementedException()
         };
     }
 }
