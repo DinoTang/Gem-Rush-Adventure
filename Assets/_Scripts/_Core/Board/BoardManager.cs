@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridManager : MonoBehaviour
+public class BoardManager : BaseBehaviour
 {
-   public int width = 8;
-    public int height = 8;
+    [SerializeField] protected int width = 8;
+    [SerializeField] protected int height = 8;
 
     public GameObject[] gemPrefabs;
 
     private GameObject[,] grid;
 
-    void Start()
+    protected override void Start()
     {
         grid = new GameObject[width, height];
         SpawnGrid();
