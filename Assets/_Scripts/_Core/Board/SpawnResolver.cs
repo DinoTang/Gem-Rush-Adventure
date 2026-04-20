@@ -17,15 +17,15 @@ public class SpawnResolver
         return types[new Random().Next(types.Length)];
     }
 
-    public void FillEmptyCells(GridModel grid)
-    {
-        for (int x = 0; x < grid.Width; x++)
-        {
-            for (int y = 0; y < grid.Height; y++)
-            {
-                if (grid.Get(x, y).pieceType == PieceType.None)
-                    grid.Set(x, y, new Piece(GetRandomPieceType()));
-            }
-        }
-    }
+    // public void FillEmptyCells(GridModel grid)
+    // {
+    //     for (int x = 0; x < grid.Width; x++)
+    //     {
+    //         for (int y = 0; y < grid.Height; y++)
+    //         {
+    //             if (grid.Get(x, y).pieceType == PieceType.None)
+    //                 grid.Set(x, y, new Piece(GetRandomPieceType()));
+    //         }
+    //     }
+    // }
 }
