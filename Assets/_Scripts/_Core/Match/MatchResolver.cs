@@ -1,32 +1,38 @@
-// using System.Collections.Generic;
+using System.Collections.Generic;
 
-// public class ResolveMatchResult
-// {
-//     public List<(int x, int y)> GetCellsToClear(List<MatchResult> matches)
-//     {
-//         HashSet<(int x, int y)> cellsToClear = new();
+public class MatchResolver
+{
+    public List<(int x, int y)> GetCellsToClear(List<MatchResult> matches)
+    {
+        HashSet<(int x, int y)> cellsToClear = new();
 
-//         foreach (var match in matches)
-//         {
-//             foreach (var cell in match.Cells)
-//             {
-//                 cellsToClear.Add((cell.x, cell.y));
-//             }
-//         }
+        foreach (var match in matches)
+        {
+            foreach (var cell in match.Cells)
+            {
+                cellsToClear.Add(cell);
+            }
+        }
 
-//         List<(int x, int y)> result = new List<(int x, int y)>(cellsToClear);
+        return new List<(int x, int y)>(cellsToClear);
+    }
 
-//         return result;
-//     }
+    public void ClearMatches(
+        List<MatchResult> matches,
+        GridModel<GemCtrl> grid,
+        GemSpawner gemSpawner)
+    {
+        List<(int x, int y)> cells = GetCellsToClear(matches);
 
-//     public void ClearMatches(List<MatchResult> matches, GridModel grid)
-//     {
-//         List<(int x, int y)> result = GetCellsToClear(matches);
-//         result.Sort();
+        foreach (var cell in cells)
+        {
+            GemCtrl gem = grid.Get(cell.x, cell.y);
 
-//         foreach (var cell in result)
-//         {
-//             grid.Set(cell.x, cell.y, new Piece(PieceType.None));
-//         }
-//     }
-// }
+            if (gem == null)
+                continue;
+
+            gemSpawner.Despawn(gem);
+            grid.Set(cell.x, cell.y, null);
+        }
+    }
+}
