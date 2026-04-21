@@ -2,10 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GemCtrl : BaseBehaviour
+public class GemCtrl : PoolObj
 {
     [SerializeField] protected GemModel gemModel;
     public GemModel GemModel => gemModel;
+
+    [SerializeField] private Vector2Int gridPos;
+    public Vector2Int GridPos => gridPos;
+
+    public void SetGridPos(int x, int y)
+    {
+        gridPos = new Vector2Int(x, y);
+    }
+    public override string GetName()
+    {
+        return "";
+    }
     protected override void LoadComponent()
     {
         base.LoadComponent();

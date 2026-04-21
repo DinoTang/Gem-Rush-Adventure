@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,25 +8,41 @@ public class BoardManager : BaseBehaviour
 {
     [SerializeField] protected int width = 8;
     [SerializeField] protected int height = 8;
-
-    public GameObject[] gemPrefabs;
-
-    protected Transform[,] grid;
-    private static GridModel<GemCtrl> gridModel;
-    private static GemType[] types =
+    [SerializeField] protected GemSpawner gemSpawner;
+    protected GemCtrl selectedGem;
+    private GridModel<GemCtrl> grid;
+    protected static BoardManager instance;
+    public static BoardManager Instance => instance;
+    private MatchFinder matchFinder = new MatchFinder();
+    private MatchResolver matchResolver = new MatchResolver();
+    private GravityResolver gravityResolver = new GravityResolver();
+    protected override void Awake()
     {
-        GemType.Red,
-        GemType.Blue,
-        GemType.Green,
-        GemType.Yellow,
-        GemType.Purple
-    };
+        base.Awake();
+        if (instance != null) Debug.LogWarning("Only 1 BoardManager allows to exist");
+        instance = this;
+    }
+
+    protected override void LoadComponent()
+    {
+        base.LoadComponent();
+        this.LoadGemSpawner();
+    }
+
     protected override void Start()
     {
-        this.grid = new Transform[this.width, this.height];
-        gridModel = new GridModel<GemCtrl>(width, height);
-
+        this.InitGrid();
         this.SpawnGrid();
+    }
+    protected void LoadGemSpawner()
+    {
+        if (this.gemSpawner != null) return;
+        this.gemSpawner = FindAnyObjectByType<GemSpawner>();
+        Debug.Log(transform.name + ": LoadGemSpawner");
+    }
+    protected void InitGrid()
+    {
+        this.grid = new GridModel<GemCtrl>(width, height);
     }
     protected void SpawnGrid()
     {
@@ -35,56 +52,91 @@ public class BoardManager : BaseBehaviour
             {
                 Vector2 pos = new Vector2(x, -y);
 
-                GemType type = GetSafeRandomGemType(x, y);
-                GemCtrl prefab = GetGemBy(type);
+                GemType type = this.gemSpawner.GetSafeRandomGemType(x, y, this.grid);
+                GemCtrl gem = this.gemSpawner.Spawn(type, pos);
+                gem.SetGridPos(x, y);
 
-                Transform gem = Instantiate(prefab.transform, pos, Quaternion.identity);
-
-                this.grid[x, y] = gem;
-                gridModel.Set(x, y, gem.GetComponent<GemCtrl>());
+                this.grid.Set(x, y, gem);
             }
         }
     }
-    protected GemCtrl GetGemBy(GemType gemType)
+
+    public void SetSelectedGem(GemCtrl gem)
     {
-        foreach (var gem in this.gemPrefabs)
+        if (this.selectedGem == null)
         {
-            GemCtrl gemCtrl = gem.GetComponent<GemCtrl>();
-            if (gemCtrl.GemModel.GemType != gemType) continue;
-            return gemCtrl;
+            this.selectedGem = gem;
+            return;
         }
-        return null;
-    }
-    protected GemType GetSafeRandomGemType(int x, int y)
-    {
-        List<GemType> availableTypes = new List<GemType>(types);
 
-        RemoveHorizontalMatchCandidate(x, y, availableTypes);
-        RemoveVerticalMatchCandidate(x, y, availableTypes);
-
-        return availableTypes[Random.Range(0, availableTypes.Count)];
-    }
-    protected void RemoveHorizontalMatchCandidate(int x, int y, List<GemType> availableTypes)
-    {
-        if (x < 2)
+        if (this.selectedGem == gem)
+        {
+            this.selectedGem = null;
             return;
+        }
 
-        GemType left1 = gridModel.Get(x - 1, y).GemModel.GemType;
-        GemType left2 = gridModel.Get(x - 2, y).GemModel.GemType;
-
-        if (left1 == left2 && left1 != GemType.None)
-            availableTypes.Remove(left1);
+        this.TrySwap(this.selectedGem, gem);
+        this.ResolveBoard();
     }
 
-    protected void RemoveVerticalMatchCandidate(int x, int y, List<GemType> availableTypes)
+    protected void TrySwap(GemCtrl gemA, GemCtrl gemB)
     {
-        if (y < 2)
+        Vector2Int posA = gemA.GridPos;
+        Vector2Int posB = gemB.GridPos;
+
+        if (!IsAdjacent(posA, posB))
+        {
+            this.selectedGem = null;
+            Debug.Log("Swap must be adjacent!");
             return;
+        }
 
-        GemType up1 = gridModel.Get(x, y - 1).GemModel.GemType;
-        GemType up2 = gridModel.Get(x, y - 2).GemModel.GemType;
+        grid.Swap((posA.x, posA.y), (posB.x, posB.y));
 
-        if (up1 == up2 && up1 != GemType.None)
-            availableTypes.Remove(up1);
+        gemA.SetGridPos(posB.x, posB.y);
+        gemB.SetGridPos(posA.x, posA.y);
+
+        gemA.transform.position = new Vector2(posB.x, -posB.y);
+        gemB.transform.position = new Vector2(posA.x, -posA.y);
+
+        var matches = matchFinder.FindMatches(grid);
+
+        if (matches.Count == 0)
+        {
+            grid.Swap((posB.x, posB.y), (posA.x, posA.y));
+
+            gemA.SetGridPos(posA.x, posA.y);
+            gemB.SetGridPos(posB.x, posB.y);
+
+            gemA.transform.position = new Vector2(posA.x, -posA.y);
+            gemB.transform.position = new Vector2(posB.x, -posB.y);
+
+            Debug.Log("Swap khong tao match -> revert!");
+        }
+        this.selectedGem = null;
     }
+
+    private bool IsAdjacent(Vector2Int posA, Vector2Int posB)
+    {
+        int dx = Math.Abs(posA.x - posB.x);
+        int dy = Math.Abs(posA.y - posB.y);
+        if (dx + dy != 1) return false;
+
+        return true;
+    }
+
+    protected void ResolveBoard()
+    {
+        // while (true)
+        // {
+        //     var matches = matchFinder.FindMatches(grid);
+        //     if (matches.Count == 0) break;
+
+        //     matchResolver.ClearMatches(matches, grid, this.gemSpawner);
+        //     gravityResolver.ApplyGravity(grid);
+
+        //     gemSpawner.FillEmptyCells(grid);
+        // }
+    }
+
 }

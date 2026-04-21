@@ -1,27 +1,33 @@
-using System.Collections.Generic;
+using UnityEngine;
 
 public class GravityResolver
 {
-    // public void ApplyGravity(GridModel grid)
-    // {
-    //     for (int column = 0; column < grid.Width; column++)
-    //     {
-    //         for (int emptyRow = grid.Height - 1; emptyRow >= 0; emptyRow--)
-    //         {
-    //             if (grid.Get(column, emptyRow).pieceType != PieceType.None) continue;
+    public void ApplyGravity(GridModel<GemCtrl> grid)
+    {
+        for (int x = 0; x < grid.Width; x++)
+        {
+            for (int y = grid.Height - 1; y >= 0; y--)
+            {
+                if (grid.Get(x, y) != null)
+                    continue;
 
-    //             for (int sourceRow = emptyRow - 1; sourceRow >= 0; sourceRow--)
-    //             {
-    //                 if (grid.Get(column, sourceRow).pieceType == PieceType.None) continue;
+                for (int sourceY = y - 1; sourceY >= 0; sourceY--)
+                {
+                    GemCtrl fallingGem = grid.Get(x, sourceY);
 
-    //                 PieceType fallingType = grid.Get(column, sourceRow).pieceType;
+                    if (fallingGem == null)
+                        continue;
 
-    //                 grid.Set(column, emptyRow, new Piece(fallingType));
-    //                 grid.Set(column, sourceRow, new Piece(PieceType.None));
+                    grid.Set(x, y, fallingGem);
+                    grid.Set(x, sourceY, null);
 
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
+                    fallingGem.SetGridPos(x, y);
+                    fallingGem.transform.position =
+                        new Vector2(x, -y);
+
+                    break;
+                }
+            }
+        }
+    }
 }
