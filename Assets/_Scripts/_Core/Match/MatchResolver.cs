@@ -17,10 +17,7 @@ public class MatchResolver
         return new List<(int x, int y)>(cellsToClear);
     }
 
-    public void ClearMatches(
-        List<MatchResult> matches,
-        GridModel<GemCtrl> grid,
-        GemSpawner gemSpawner)
+    public void ClearMatches(List<MatchResult> matches, GridModel<GemCtrl> grid)
     {
         List<(int x, int y)> cells = GetCellsToClear(matches);
 
@@ -31,7 +28,7 @@ public class MatchResolver
             if (gem == null)
                 continue;
 
-            gemSpawner.Despawn(gem);
+            gem.GemDespawn.DoDespawn();
             grid.Set(cell.x, cell.y, null);
         }
     }
