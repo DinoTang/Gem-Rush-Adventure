@@ -201,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemCtrl: {fileID: 1674780362}
   gemType: 4
+  sprtRdr: {fileID: 0}
 --- !u!212 &157547631
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -486,6 +487,52 @@ Transform:
   - {fileID: 1265476433}
   m_Father: {fileID: 2043929220}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &439449835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 439449836}
+  - component: {fileID: 439449837}
+  m_Layer: 0
+  m_Name: GemDespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &439449836
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439449835}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1504749218}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &439449837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439449835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6458beefbbb159948937ea432aabc8e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 1504749219}
+  spawner: {fileID: 2043929221}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,6 +657,7 @@ Transform:
   m_Children:
   - {fileID: 1461172659}
   - {fileID: 872812828}
+  - {fileID: 2077364661}
   m_Father: {fileID: 413287969}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &725150472
@@ -625,7 +673,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemModel: {fileID: 1461172657}
+  gemDespawn: {fileID: 2077364662}
   gridPos: {x: 0, y: 0}
+--- !u!1 &858800640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 858800641}
+  - component: {fileID: 858800642}
+  m_Layer: 0
+  m_Name: GemDespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &858800641
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858800640}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1674780361}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &858800642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858800640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6458beefbbb159948937ea432aabc8e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 1674780362}
+  spawner: {fileID: 2043929221}
 --- !u!1 &872812827
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,6 +844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemCtrl: {fileID: 1265476434}
   gemType: 5
+  sprtRdr: {fileID: 0}
 --- !u!212 &927556433
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -816,6 +912,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1265476433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1103838427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1103838428}
+  - component: {fileID: 1103838429}
+  m_Layer: 0
+  m_Name: GemDespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1103838428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103838427}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5799545102188735975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1103838429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103838427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6458beefbbb159948937ea432aabc8e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 3257417002442519731}
+  spawner: {fileID: 2043929221}
 --- !u!1 &1263381557
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,6 +1034,7 @@ Transform:
   m_Children:
   - {fileID: 927556434}
   - {fileID: 1289090280}
+  - {fileID: 1316345821}
   m_Father: {fileID: 413287969}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1265476434
@@ -907,6 +1050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemModel: {fileID: 927556432}
+  gemDespawn: {fileID: 1316345822}
   gridPos: {x: 0, y: 0}
 --- !u!1 &1281076615
 GameObject:
@@ -1031,6 +1175,52 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
+--- !u!1 &1316345820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1316345821}
+  - component: {fileID: 1316345822}
+  m_Layer: 0
+  m_Name: GemDespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1316345821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316345820}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1265476433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1316345822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316345820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6458beefbbb159948937ea432aabc8e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 1265476434}
+  spawner: {fileID: 2043929221}
 --- !u!1 &1327934396
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,6 +1253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemCtrl: {fileID: 1504749219}
   gemType: 2
+  sprtRdr: {fileID: 0}
 --- !u!212 &1327934398
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1162,6 +1353,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemCtrl: {fileID: 725150472}
   gemType: 3
+  sprtRdr: {fileID: 0}
 --- !u!212 &1461172658
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1261,6 +1453,7 @@ Transform:
   m_Children:
   - {fileID: 1327934399}
   - {fileID: 266316144}
+  - {fileID: 439449836}
   m_Father: {fileID: 413287969}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1504749219
@@ -1276,6 +1469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemModel: {fileID: 1327934397}
+  gemDespawn: {fileID: 439449837}
   gridPos: {x: 0, y: 0}
 --- !u!1 &1674780360
 GameObject:
@@ -1309,6 +1503,7 @@ Transform:
   m_Children:
   - {fileID: 157547632}
   - {fileID: 225028627}
+  - {fileID: 858800641}
   m_Father: {fileID: 413287969}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1674780362
@@ -1324,6 +1519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemModel: {fileID: 157547630}
+  gemDespawn: {fileID: 858800642}
   gridPos: {x: 0, y: 0}
 --- !u!1 &1696200430
 GameObject:
@@ -1472,6 +1668,52 @@ MonoBehaviour:
   - {fileID: 1674780362}
   - {fileID: 725150472}
   - {fileID: 1265476434}
+--- !u!1 &2077364660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2077364661}
+  - component: {fileID: 2077364662}
+  m_Layer: 0
+  m_Name: GemDespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2077364661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077364660}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 725150471}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2077364662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077364660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6458beefbbb159948937ea432aabc8e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 725150472}
+  spawner: {fileID: 2043929221}
 --- !u!114 &948262611453653912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1486,6 +1728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemCtrl: {fileID: 3257417002442519731}
   gemType: 1
+  sprtRdr: {fileID: 0}
 --- !u!1 &2487046421010035585
 GameObject:
   m_ObjectHideFlags: 0
@@ -1516,6 +1759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemModel: {fileID: 948262611453653912}
+  gemDespawn: {fileID: 1103838429}
   gridPos: {x: 0, y: 0}
 --- !u!4 &3842374642005158714
 Transform:
@@ -1547,6 +1791,7 @@ Transform:
   m_Children:
   - {fileID: 3842374642005158714}
   - {fileID: 1696200431}
+  - {fileID: 1103838428}
   m_Father: {fileID: 413287969}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7698528005509212404

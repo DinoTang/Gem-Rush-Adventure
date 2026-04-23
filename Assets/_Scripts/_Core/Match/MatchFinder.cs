@@ -7,8 +7,8 @@ public class MatchFinder
     {
         List<MatchResult> results = new List<MatchResult>();
 
-        FindHorizontalMatches(grid, results);
-        FindVerticalMatches(grid, results);
+        this.FindHorizontalMatches(grid, results);
+        this.FindVerticalMatches(grid, results);
 
         return results;
     }

@@ -75,11 +75,17 @@ public class BoardManager : BaseBehaviour
             return;
         }
 
-        this.TrySwap(this.selectedGem, gem);
-        this.ResolveBoard();
+        bool success = this.TrySwap(this.selectedGem, gem);
+
+        this.selectedGem = null;
+
+        if (success)
+        {
+            this.ResolveBoard();
+        }
     }
 
-    protected void TrySwap(GemCtrl gemA, GemCtrl gemB)
+    protected bool TrySwap(GemCtrl gemA, GemCtrl gemB)
     {
         Vector2Int posA = gemA.GridPos;
         Vector2Int posB = gemB.GridPos;
@@ -88,10 +94,10 @@ public class BoardManager : BaseBehaviour
         {
             this.selectedGem = null;
             Debug.Log("Swap must be adjacent!");
-            return;
+            return false;
         }
 
-        grid.Swap((posA.x, posA.y), (posB.x, posB.y));
+        this.grid.Swap((posA.x, posA.y), (posB.x, posB.y));
 
         gemA.SetGridPos(posB.x, posB.y);
         gemB.SetGridPos(posA.x, posA.y);
@@ -103,7 +109,7 @@ public class BoardManager : BaseBehaviour
 
         if (matches.Count == 0)
         {
-            grid.Swap((posB.x, posB.y), (posA.x, posA.y));
+            this.grid.Swap((posB.x, posB.y), (posA.x, posA.y));
 
             gemA.SetGridPos(posA.x, posA.y);
             gemB.SetGridPos(posB.x, posB.y);
@@ -112,8 +118,10 @@ public class BoardManager : BaseBehaviour
             gemB.transform.position = new Vector2(posB.x, -posB.y);
 
             Debug.Log("Swap khong tao match -> revert!");
+            return false;
         }
-        this.selectedGem = null;
+
+        return true;
     }
 
     private bool IsAdjacent(Vector2Int posA, Vector2Int posB)
@@ -127,16 +135,23 @@ public class BoardManager : BaseBehaviour
 
     protected void ResolveBoard()
     {
-        // while (true)
-        // {
-        //     var matches = matchFinder.FindMatches(grid);
-        //     if (matches.Count == 0) break;
+        while (true)
+        {
+            var matches = this.matchFinder.FindMatches(this.grid);
 
-        //     matchResolver.ClearMatches(matches, grid, this.gemSpawner);
-        //     gravityResolver.ApplyGravity(grid);
+            if (matches.Count == 0) break;
 
-        //     gemSpawner.FillEmptyCells(grid);
-        // }
+            this.matchResolver.ClearMatches(matches, this.grid);
+            this.gravityResolver.ApplyGravity(this.grid);
+            this.gemSpawner.FillEmptyCells(this.grid);
+        }
+
     }
-
+    // protected void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Space))
+    //     {
+    //         this.gemSpawner.FillEmptyCells(this.grid);
+    //     }
+    // }
 }
