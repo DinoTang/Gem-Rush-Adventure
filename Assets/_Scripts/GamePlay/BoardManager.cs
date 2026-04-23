@@ -8,6 +8,7 @@ public class BoardManager : BaseBehaviour
 {
     [SerializeField] protected int width = 8;
     [SerializeField] protected int height = 8;
+    [SerializeField] protected bool isBusy = false;
     [SerializeField] protected GemSpawner gemSpawner;
     protected GemCtrl selectedGem;
     private GridModel<GemCtrl> grid;
@@ -63,65 +64,117 @@ public class BoardManager : BaseBehaviour
 
     public void SetSelectedGem(GemCtrl gem)
     {
+        if (this.isBusy) return;
+        if (this.TryProcessSelectionOnly(gem)) return;
+
+        StartCoroutine(this.TrySwapRoutine(this.selectedGem, gem));
+        this.selectedGem = null;
+    }
+
+    protected bool TryProcessSelectionOnly(GemCtrl gem)
+    {
         if (this.selectedGem == null)
         {
             this.selectedGem = gem;
-            return;
+            return true;
         }
 
         if (this.selectedGem == gem)
         {
             this.selectedGem = null;
-            return;
+            return true;
         }
 
-        bool success = this.TrySwap(this.selectedGem, gem);
+        return false;
+    }
 
-        this.selectedGem = null;
+    IEnumerator TrySwapRoutine(GemCtrl gemA, GemCtrl gemB)
+    {
+        this.isBusy = true;
 
-        if (success)
+        if (!this.CanSwap(gemA, gemB))
         {
-            this.ResolveBoard();
+            this.isBusy = false;
+            yield break;
+        }
+
+        yield return StartCoroutine(this.PerformSwapRoutine(gemA, gemB));
+
+        if (this.HasAnyMatch())
+        {
+            yield return StartCoroutine(this.ResolveBoardRoutine());
+            this.isBusy = false;
+            yield break;
+        }
+
+        yield return StartCoroutine(this.RevertSwapRoutine(gemA, gemB));
+
+        Debug.Log("Swap khong tao match -> revert!");
+
+        this.isBusy = false;
+    }
+
+    protected IEnumerator ResolveBoardRoutine()
+    {
+        while (true)
+        {
+            var matches = matchFinder.FindMatches(grid);
+
+            if (matches.Count == 0)
+                yield break;
+
+            this.matchResolver.ClearMatches(matches, grid);
+            yield return new WaitForSeconds(0.15f);
+
+            this.gravityResolver.ApplyGravity(grid);
+            yield return new WaitForSeconds(0.15f);
+
+            this.gemSpawner.FillEmptyCells(grid);
+            yield return new WaitForSeconds(0.15f);
         }
     }
 
-    protected bool TrySwap(GemCtrl gemA, GemCtrl gemB)
+    protected bool CanSwap(GemCtrl gemA, GemCtrl gemB)
     {
         Vector2Int posA = gemA.GridPos;
         Vector2Int posB = gemB.GridPos;
 
-        if (!IsAdjacent(posA, posB))
-        {
-            this.selectedGem = null;
-            Debug.Log("Swap must be adjacent!");
-            return false;
-        }
+        if (this.IsAdjacent(posA, posB))
+            return true;
 
-        this.grid.Swap((posA.x, posA.y), (posB.x, posB.y));
+        this.selectedGem = null;
+        Debug.Log("Swap must be adjacent!");
+        return false;
+    }
 
-        gemA.SetGridPos(posB.x, posB.y);
-        gemB.SetGridPos(posA.x, posA.y);
+    protected IEnumerator PerformSwapRoutine(GemCtrl gemA, GemCtrl gemB)
+    {
+        Vector2Int posA = gemA.GridPos;
+        Vector2Int posB = gemB.GridPos;
 
-        gemA.transform.position = new Vector2(posB.x, -posB.y);
-        gemB.transform.position = new Vector2(posA.x, -posA.y);
+        this.SwapData((posA.x, posA.y), (posB.x, posB.y));
 
-        var matches = matchFinder.FindMatches(grid);
+        yield return StartCoroutine(
+            this.SwapViewRoutine(gemA, gemB, posB, posA)
+        );
+    }
 
-        if (matches.Count == 0)
-        {
-            this.grid.Swap((posB.x, posB.y), (posA.x, posA.y));
+    protected IEnumerator RevertSwapRoutine(GemCtrl gemA, GemCtrl gemB)
+    {
+        Vector2Int posA = gemA.GridPos;
+        Vector2Int posB = gemB.GridPos;
 
-            gemA.SetGridPos(posA.x, posA.y);
-            gemB.SetGridPos(posB.x, posB.y);
+        this.SwapData((posA.x, posA.y), (posB.x, posB.y));
 
-            gemA.transform.position = new Vector2(posA.x, -posA.y);
-            gemB.transform.position = new Vector2(posB.x, -posB.y);
+        yield return StartCoroutine(
+            this.SwapViewRoutine(gemA, gemB, posB, posA)
+        );
+    }
 
-            Debug.Log("Swap khong tao match -> revert!");
-            return false;
-        }
-
-        return true;
+    protected bool HasAnyMatch()
+    {
+        var matches = this.matchFinder.FindMatches(this.grid);
+        return matches.Count > 0;
     }
 
     private bool IsAdjacent(Vector2Int posA, Vector2Int posB)
@@ -133,25 +186,22 @@ public class BoardManager : BaseBehaviour
         return true;
     }
 
-    protected void ResolveBoard()
+    protected void SwapData((int x, int y) a, (int x, int y) b)
     {
-        while (true)
-        {
-            var matches = this.matchFinder.FindMatches(this.grid);
-
-            if (matches.Count == 0) break;
-
-            this.matchResolver.ClearMatches(matches, this.grid);
-            this.gravityResolver.ApplyGravity(this.grid);
-            this.gemSpawner.FillEmptyCells(this.grid);
-        }
-
+        this.grid.Swap(a, b);
     }
-    // protected void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.Space))
-    //     {
-    //         this.gemSpawner.FillEmptyCells(this.grid);
-    //     }
-    // }
+
+    protected IEnumerator SwapViewRoutine(GemCtrl gemA, GemCtrl gemB, Vector2Int posA, Vector2Int posB)
+    {
+        gemA.SetGridPos(posA.x, posA.y);
+        gemB.SetGridPos(posB.x, posB.y);
+
+        Vector3 worldPosA = new Vector3(posA.x, -posA.y, 0f);
+        Vector3 worldPosB = new Vector3(posB.x, -posB.y, 0f);
+
+        StartCoroutine(gemA.GemMove.MoveTo(worldPosA, 0.18f));
+        StartCoroutine(gemB.GemMove.MoveTo(worldPosB, 0.18f));
+
+        yield return new WaitForSeconds(0.18f);
+    }
 }

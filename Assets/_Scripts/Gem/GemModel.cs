@@ -8,6 +8,11 @@ public class GemModel : BaseBehaviour
     [SerializeField] protected SpriteRenderer sprtRdr;
     [SerializeField] protected GemType gemType;
     public GemType GemType => gemType;
+    protected override void Start()
+    {
+        base.Start();
+        this.SetColor();
+    }
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -32,7 +37,7 @@ public class GemModel : BaseBehaviour
     {
         this.gemType = gemType;
     }
-    
+
     public void SetColor()
     {
         if (this.gemType == GemType.Red)

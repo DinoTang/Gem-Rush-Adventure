@@ -167,7 +167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   width: 7
-  height: 5
+  height: 6
+  isBusy: 0
   gemSpawner: {fileID: 2043929221}
 --- !u!1 &157547629
 GameObject:
@@ -451,6 +452,96 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
+--- !u!1 &291008150
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 291008152}
+  - component: {fileID: 291008151}
+  m_Layer: 0
+  m_Name: GemMove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &291008151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291008150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0455d15ad68ee8f4180df1938b19b869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gemCtrl: {fileID: 1265476434}
+--- !u!4 &291008152
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291008150}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1265476433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &391136459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 391136461}
+  - component: {fileID: 391136460}
+  m_Layer: 0
+  m_Name: GemMove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &391136460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391136459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0455d15ad68ee8f4180df1938b19b869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gemCtrl: {fileID: 1674780362}
+--- !u!4 &391136461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391136459}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1674780361}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &413287968
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,6 +747,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1461172659}
+  - {fileID: 1642524650}
   - {fileID: 872812828}
   - {fileID: 2077364661}
   m_Father: {fileID: 413287969}
@@ -673,8 +765,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemModel: {fileID: 1461172657}
+  gemMove: {fileID: 1642524649}
   gemDespawn: {fileID: 2077364662}
   gridPos: {x: 0, y: 0}
+--- !u!1 &772515578
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 772515580}
+  - component: {fileID: 772515579}
+  m_Layer: 0
+  m_Name: GemMove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &772515579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772515578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0455d15ad68ee8f4180df1938b19b869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gemCtrl: {fileID: 1504749219}
+--- !u!4 &772515580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772515578}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1504749218}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &858800640
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,6 +1096,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 3257417002442519731}
   spawner: {fileID: 2043929221}
+--- !u!1 &1201098787
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1201098789}
+  - component: {fileID: 1201098788}
+  m_Layer: 0
+  m_Name: GemMove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1201098788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201098787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0455d15ad68ee8f4180df1938b19b869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gemCtrl: {fileID: 3257417002442519731}
+--- !u!4 &1201098789
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201098787}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5799545102188735975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1263381557
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,6 +1216,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 927556434}
+  - {fileID: 291008152}
   - {fileID: 1289090280}
   - {fileID: 1316345821}
   m_Father: {fileID: 413287969}
@@ -1050,6 +1234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemModel: {fileID: 927556432}
+  gemMove: {fileID: 291008151}
   gemDespawn: {fileID: 1316345822}
   gridPos: {x: 0, y: 0}
 --- !u!1 &1281076615
@@ -1452,6 +1637,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1327934399}
+  - {fileID: 772515580}
   - {fileID: 266316144}
   - {fileID: 439449836}
   m_Father: {fileID: 413287969}
@@ -1469,8 +1655,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemModel: {fileID: 1327934397}
+  gemMove: {fileID: 772515579}
   gemDespawn: {fileID: 439449837}
   gridPos: {x: 0, y: 0}
+--- !u!1 &1642524648
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1642524650}
+  - component: {fileID: 1642524649}
+  m_Layer: 0
+  m_Name: GemMove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1642524649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642524648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0455d15ad68ee8f4180df1938b19b869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gemCtrl: {fileID: 725150472}
+--- !u!4 &1642524650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642524648}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 725150471}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1674780360
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,6 +1734,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 157547632}
+  - {fileID: 391136461}
   - {fileID: 225028627}
   - {fileID: 858800641}
   m_Father: {fileID: 413287969}
@@ -1519,6 +1752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemModel: {fileID: 157547630}
+  gemMove: {fileID: 391136460}
   gemDespawn: {fileID: 858800642}
   gridPos: {x: 0, y: 0}
 --- !u!1 &1696200430
@@ -1759,6 +1993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemModel: {fileID: 948262611453653912}
+  gemMove: {fileID: 1201098788}
   gemDespawn: {fileID: 1103838429}
   gridPos: {x: 0, y: 0}
 --- !u!4 &3842374642005158714
@@ -1790,6 +2025,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3842374642005158714}
+  - {fileID: 1201098789}
   - {fileID: 1696200431}
   - {fileID: 1103838428}
   m_Father: {fileID: 413287969}

@@ -6,6 +6,8 @@ public class GemCtrl : PoolObj
 {
     [SerializeField] protected GemModel gemModel;
     public GemModel GemModel => gemModel;
+    [SerializeField] protected GemMove gemMove;
+    public GemMove GemMove => gemMove;
     [SerializeField] protected GemDespawn gemDespawn;
     public GemDespawn GemDespawn => gemDespawn;
 
@@ -22,7 +24,7 @@ public class GemCtrl : PoolObj
     }
     public void ResetGemData()
     {
-        this.transform.parent.name = "GemNone";
+        this.transform.name = "GemNone";
         this.gemModel.SetGemType(GemType.None);
         this.SetGridPos(-1, -1);
     }
@@ -39,6 +41,7 @@ public class GemCtrl : PoolObj
     {
         base.LoadComponent();
         this.LoadGemModel();
+        this.LoadGemMove();
         this.LoadGemDespawn();
     }
 
@@ -47,6 +50,12 @@ public class GemCtrl : PoolObj
         if (this.gemModel != null) return;
         this.gemModel = transform.GetComponentInChildren<GemModel>();
         Debug.Log(transform.name + ": LoadGemModel");
+    }
+    protected void LoadGemMove()
+    {
+        if (this.gemMove != null) return;
+        this.gemMove = transform.GetComponentInChildren<GemMove>();
+        Debug.Log(transform.name + ": LoadGemDespawn");
     }
     protected void LoadGemDespawn()
     {
