@@ -200,8 +200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemCtrl: {fileID: 1674780362}
+  sprtRdr: {fileID: 157547631}
   gemType: 4
-  sprtRdr: {fileID: 0}
 --- !u!212 &157547631
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -843,8 +843,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemCtrl: {fileID: 1265476434}
+  sprtRdr: {fileID: 927556433}
   gemType: 5
-  sprtRdr: {fileID: 0}
 --- !u!212 &927556433
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1252,8 +1252,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemCtrl: {fileID: 1504749219}
+  sprtRdr: {fileID: 1327934398}
   gemType: 2
-  sprtRdr: {fileID: 0}
 --- !u!212 &1327934398
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1352,8 +1352,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemCtrl: {fileID: 725150472}
+  sprtRdr: {fileID: 1461172658}
   gemType: 3
-  sprtRdr: {fileID: 0}
 --- !u!212 &1461172658
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1727,8 +1727,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemCtrl: {fileID: 3257417002442519731}
+  sprtRdr: {fileID: 7698528005509212404}
   gemType: 1
-  sprtRdr: {fileID: 0}
 --- !u!1 &2487046421010035585
 GameObject:
   m_ObjectHideFlags: 0
