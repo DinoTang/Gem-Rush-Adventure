@@ -70,8 +70,11 @@ public class GemSpawner : Spawner<GemCtrl>
 
                 Vector2 pos = new Vector2(x, -y);
                 GemType type = GetRandomPieceType();
+
                 GemCtrl gem = Spawn(type, pos);
-                gem.SetGridPos(x, y);
+
+                gem.Init(type, x, y);
+
                 grid.Set(x, y, gem);
             }
         }
