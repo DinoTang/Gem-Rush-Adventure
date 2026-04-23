@@ -6,17 +6,22 @@ using UnityEngine;
 
 public class BoardManager : BaseBehaviour
 {
+    [SerializeField] protected GemSpawner gemSpawner;
     [SerializeField] protected int width = 8;
     [SerializeField] protected int height = 8;
+    [SerializeField] protected float animGemMoveTime = 0.18f;
     [SerializeField] protected bool isBusy = false;
-    [SerializeField] protected GemSpawner gemSpawner;
+    [SerializeField] private int possibleMoveCount;
+    [SerializeField] private List<GemPair> hintPairs;
     protected GemCtrl selectedGem;
     private GridModel<GemCtrl> grid;
     protected static BoardManager instance;
     public static BoardManager Instance => instance;
-    private MatchFinder matchFinder = new MatchFinder();
-    private MatchResolver matchResolver = new MatchResolver();
-    private GravityResolver gravityResolver = new GravityResolver();
+    private MatchFinder matchFinder = new();
+    private MatchResolver matchResolver = new();
+    private GravityResolver gravityResolver = new();
+    private BoardValidator boardValidator = new();
+    private HintSystem hintSystem = new();
     protected override void Awake()
     {
         base.Awake();
@@ -60,6 +65,7 @@ public class BoardManager : BaseBehaviour
                 this.grid.Set(x, y, gem);
             }
         }
+        this.RefreshHint();
     }
 
     public void SetSelectedGem(GemCtrl gem)
@@ -92,8 +98,9 @@ public class BoardManager : BaseBehaviour
     {
         this.isBusy = true;
 
-        if (!this.CanSwap(gemA, gemB))
+        if (!this.boardValidator.CanSwap(gemA, gemB))
         {
+            this.selectedGem = null;
             this.isBusy = false;
             yield break;
         }
@@ -121,7 +128,10 @@ public class BoardManager : BaseBehaviour
             var matches = matchFinder.FindMatches(grid);
 
             if (matches.Count == 0)
+            {
+                this.RefreshHint();
                 yield break;
+            }
 
             this.matchResolver.ClearMatches(matches, grid);
             yield return new WaitForSeconds(0.15f);
@@ -134,18 +144,7 @@ public class BoardManager : BaseBehaviour
         }
     }
 
-    protected bool CanSwap(GemCtrl gemA, GemCtrl gemB)
-    {
-        Vector2Int posA = gemA.GridPos;
-        Vector2Int posB = gemB.GridPos;
 
-        if (this.IsAdjacent(posA, posB))
-            return true;
-
-        this.selectedGem = null;
-        Debug.Log("Swap must be adjacent!");
-        return false;
-    }
 
     protected IEnumerator PerformSwapRoutine(GemCtrl gemA, GemCtrl gemB)
     {
@@ -177,15 +176,6 @@ public class BoardManager : BaseBehaviour
         return matches.Count > 0;
     }
 
-    private bool IsAdjacent(Vector2Int posA, Vector2Int posB)
-    {
-        int dx = Math.Abs(posA.x - posB.x);
-        int dy = Math.Abs(posA.y - posB.y);
-        if (dx + dy != 1) return false;
-
-        return true;
-    }
-
     protected void SwapData((int x, int y) a, (int x, int y) b)
     {
         this.grid.Swap(a, b);
@@ -199,9 +189,17 @@ public class BoardManager : BaseBehaviour
         Vector3 worldPosA = new Vector3(posA.x, -posA.y, 0f);
         Vector3 worldPosB = new Vector3(posB.x, -posB.y, 0f);
 
-        StartCoroutine(gemA.GemMove.MoveTo(worldPosA, 0.18f));
-        StartCoroutine(gemB.GemMove.MoveTo(worldPosB, 0.18f));
+        StartCoroutine(gemA.GemMove.MoveTo(worldPosA, this.animGemMoveTime));
+        StartCoroutine(gemB.GemMove.MoveTo(worldPosB, this.animGemMoveTime));
 
-        yield return new WaitForSeconds(0.18f);
+        yield return new WaitForSeconds(this.animGemMoveTime);
+    }
+
+    protected void RefreshHint()
+    {
+        this.hintSystem.Calculating(this.grid);
+
+        this.possibleMoveCount = this.hintSystem.PossibleMoveCount;
+        this.hintPairs = this.hintSystem.HintPairs;
     }
 }
