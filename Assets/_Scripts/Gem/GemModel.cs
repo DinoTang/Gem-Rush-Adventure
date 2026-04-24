@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,15 @@ public class GemModel : BaseBehaviour
     [SerializeField] protected SpriteRenderer sprtRdr;
     [SerializeField] protected GemType gemType;
     public GemType GemType => gemType;
+
+    [SerializeField] private float hintPulseSpeed = 3f;
+    protected Vector3 defaultLocalScale;
+    private Coroutine hintRoutine;
     protected override void Start()
     {
         base.Start();
         this.SetColor();
+        this.defaultLocalScale = this.transform.localScale;
     }
     protected override void LoadComponent()
     {
@@ -59,6 +65,49 @@ public class GemModel : BaseBehaviour
         else if (this.gemType == GemType.Purple)
         {
             this.sprtRdr.color = new Color(0.6f, 0f, 0.8f);
+        }
+    }
+
+    public void ShowHintRoutine()
+    {
+        this.HideHintRoutine();
+        this.hintRoutine = StartCoroutine(this.HintPulseRoutine());
+    }
+
+    public void HideHintRoutine()
+    {
+        if (this.hintRoutine != null)
+        {
+            StopCoroutine(this.hintRoutine);
+            this.hintRoutine = null;
+        }
+
+        this.transform.localScale = this.defaultLocalScale;
+    }
+
+    IEnumerator HintPulseRoutine()
+    {
+        while (true)
+        {
+            float t = 0f;
+            while (t < 1)
+            {
+                t += Time.deltaTime * this.hintPulseSpeed;
+                float scale = Mathf.Lerp(1.08f, 1, t);
+                this.transform.localScale = this.defaultLocalScale * scale;
+
+                yield return null;
+            }
+
+            t = 0f;
+            while (t < 1)
+            {
+                t += Time.deltaTime * this.hintPulseSpeed;
+                float scale = Mathf.Lerp(1, 1.08f, t);
+                this.transform.localScale = this.defaultLocalScale * scale;
+
+                yield return null;
+            }
         }
     }
 }
