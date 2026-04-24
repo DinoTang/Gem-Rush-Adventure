@@ -56,7 +56,7 @@ public class HintSystem
 
         if (hasMatch)
         {
-            GemPair gemPair = new GemPair(gemA, gemB);
+            GemPair gemPair = new GemPair(gemA.GridPos, gemB.GridPos);
             this.HintPairs.Add(gemPair);
         }
 

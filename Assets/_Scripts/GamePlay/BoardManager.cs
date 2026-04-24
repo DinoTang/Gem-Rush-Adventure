@@ -6,29 +6,31 @@ using UnityEngine;
 
 public class BoardManager : BaseBehaviour
 {
+    protected static BoardManager instance;
+    public static BoardManager Instance => instance;
+    [Header("BoardManager")]
     [SerializeField] protected GemSpawner gemSpawner;
     [SerializeField] protected int width = 8;
     [SerializeField] protected int height = 8;
     [SerializeField] protected float animGemMoveTime = 0.18f;
     [SerializeField] protected bool isBusy = false;
-    [SerializeField] private int possibleMoveCount;
-    [SerializeField] private List<GemPair> hintPairs;
+    [SerializeField] protected bool isClickGem = false;
+    public bool IsBusy => isBusy;
+    public bool IsClickGem => isClickGem;
     protected GemCtrl selectedGem;
-    private GridModel<GemCtrl> grid;
-    protected static BoardManager instance;
-    public static BoardManager Instance => instance;
-    private MatchFinder matchFinder = new();
-    private MatchResolver matchResolver = new();
-    private GravityResolver gravityResolver = new();
-    private BoardValidator boardValidator = new();
-    private HintSystem hintSystem = new();
+
     protected override void Awake()
     {
         base.Awake();
         if (instance != null) Debug.LogWarning("Only 1 BoardManager allows to exist");
         instance = this;
     }
-
+    private GridModel<GemCtrl> grid;
+    public GridModel<GemCtrl> Grid => grid;
+    private MatchFinder matchFinder = new();
+    private MatchResolver matchResolver = new();
+    private GravityResolver gravityResolver = new();
+    private BoardValidator boardValidator = new();
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -65,7 +67,7 @@ public class BoardManager : BaseBehaviour
                 this.grid.Set(x, y, gem);
             }
         }
-        this.RefreshHint();
+        HintManager.Instance.RefreshHint();
     }
 
     public void SetSelectedGem(GemCtrl gem)
@@ -79,6 +81,7 @@ public class BoardManager : BaseBehaviour
 
     protected bool TryProcessSelectionOnly(GemCtrl gem)
     {
+        this.isClickGem = true;
         if (this.selectedGem == null)
         {
             this.selectedGem = gem;
@@ -91,6 +94,7 @@ public class BoardManager : BaseBehaviour
             return true;
         }
 
+        this.isClickGem = false;
         return false;
     }
 
@@ -129,7 +133,7 @@ public class BoardManager : BaseBehaviour
 
             if (matches.Count == 0)
             {
-                this.RefreshHint();
+                HintManager.Instance.RefreshHint();
                 yield break;
             }
 
@@ -193,13 +197,5 @@ public class BoardManager : BaseBehaviour
         StartCoroutine(gemB.GemMove.MoveTo(worldPosB, this.animGemMoveTime));
 
         yield return new WaitForSeconds(this.animGemMoveTime);
-    }
-
-    protected void RefreshHint()
-    {
-        this.hintSystem.Calculating(this.grid);
-
-        this.possibleMoveCount = this.hintSystem.PossibleMoveCount;
-        this.hintPairs = this.hintSystem.HintPairs;
     }
 }
