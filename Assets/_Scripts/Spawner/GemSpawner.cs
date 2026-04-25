@@ -60,24 +60,38 @@ public class GemSpawner : Spawner<GemCtrl>
             availableTypes.Remove(up1);
     }
 
-    public void FillEmptyCells(GridModel<GemCtrl> grid)
+    public List<FallMove> FillEmptyCells(GridModel<GemCtrl> grid)
     {
+        List<FallMove> fallMoves = new();
         for (int x = 0; x < grid.Width; x++)
         {
-            for (int y = 0; y < grid.Height; y++)
+            int count = 1;
+            for (int y = grid.Height - 1; y >= 0; y--)
             {
                 if (grid.Get(x, y) != null) continue;
 
-                Vector2 pos = new Vector2(x, -y);
+
                 GemType type = GetRandomPieceType();
 
-                GemCtrl gem = Spawn(type, pos);
+                Vector2 targetPointPos = new Vector2(x, -y);
+                Vector2 spawnPointPos = new Vector2(x, count);
+                GemCtrl gem = Spawn(type, spawnPointPos);
 
                 gem.Init(type, x, y);
 
                 grid.Set(x, y, gem);
+
+                FallMove fallMove = new FallMove()
+                {
+                    gem = gem,
+                    currentPos = spawnPointPos,
+                    targetPos = targetPointPos,
+                };
+                fallMoves.Add(fallMove);
+                count++;
             }
         }
+        return fallMoves;
     }
     protected GemType GetRandomPieceType()
     {

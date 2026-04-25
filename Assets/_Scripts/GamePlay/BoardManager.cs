@@ -140,15 +140,13 @@ public class BoardManager : BaseBehaviour
             this.matchResolver.ClearMatches(matches, grid);
             yield return new WaitForSeconds(0.15f);
 
-            this.gravityResolver.ApplyGravity(grid);
-            yield return new WaitForSeconds(0.15f);
+            var fallMoves = this.gravityResolver.ApplyGravity(grid);
+            yield return StartCoroutine(AnimateGravity(fallMoves));
 
-            this.gemSpawner.FillEmptyCells(grid);
-            yield return new WaitForSeconds(0.15f);
+            var fallMovesSpawn = this.gemSpawner.FillEmptyCells(grid);
+            yield return StartCoroutine(AnimateGravity(fallMovesSpawn));
         }
     }
-
-
 
     protected IEnumerator PerformSwapRoutine(GemCtrl gemA, GemCtrl gemB)
     {
@@ -197,5 +195,27 @@ public class BoardManager : BaseBehaviour
         StartCoroutine(gemB.GemMove.MoveTo(worldPosB, this.animGemMoveTime));
 
         yield return new WaitForSeconds(this.animGemMoveTime);
+    }
+
+    protected IEnumerator AnimateGravity(List<FallMove> fallMoves)
+    {
+        float time = 0f;
+        float duration = 1f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+
+            foreach (var fallMove in fallMoves)
+            {
+                fallMove.gem.transform.position = Vector3.Lerp(fallMove.currentPos, fallMove.targetPos, t);
+            }
+            yield return null;
+        }
+
+        foreach (var fallMove in fallMoves)
+        {
+            fallMove.gem.transform.position = fallMove.targetPos;
+        }
     }
 }
