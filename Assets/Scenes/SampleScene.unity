@@ -167,8 +167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemSpawner: {fileID: 2043929221}
-  width: 5
-  height: 3
+  width: 7
+  height: 6
   animGemMoveTime: 0.18
   isBusy: 0
   isClickGem: 0
