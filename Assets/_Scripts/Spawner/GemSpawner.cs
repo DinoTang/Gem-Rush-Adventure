@@ -12,6 +12,7 @@ public class GemSpawner : Spawner<GemCtrl>
         GemType.Yellow,
         GemType.Purple
     };
+
     public GemCtrl Spawn(GemType type, Vector2 pos)
     {
         GemCtrl prefab = this.GetGemPrefabByType(type);
@@ -65,7 +66,7 @@ public class GemSpawner : Spawner<GemCtrl>
         List<FallMove> fallMoves = new();
         for (int x = 0; x < grid.Width; x++)
         {
-            int count = 1;
+            int stackIndex = 1;
             for (int y = grid.Height - 1; y >= 0; y--)
             {
                 if (grid.Get(x, y) != null) continue;
@@ -73,22 +74,22 @@ public class GemSpawner : Spawner<GemCtrl>
 
                 GemType type = GetRandomPieceType();
 
-                Vector2 targetPointPos = new Vector2(x, -y);
-                Vector2 spawnPointPos = new Vector2(x, count);
+                Vector2 spawnPointPos = new Vector3(x, -1 - stackIndex);
+                Vector2 targetPointPos = new Vector3(x, y);
                 GemCtrl gem = Spawn(type, spawnPointPos);
 
                 gem.Init(type, x, y);
 
                 grid.Set(x, y, gem);
 
-                FallMove fallMove = new FallMove()
+                FallMove fallMove = new()
                 {
                     gem = gem,
                     currentPos = spawnPointPos,
-                    targetPos = targetPointPos,
+                    targetPos = targetPointPos
                 };
                 fallMoves.Add(fallMove);
-                count++;
+                stackIndex++;
             }
         }
         return fallMoves;
