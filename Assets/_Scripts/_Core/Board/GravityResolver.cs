@@ -30,8 +30,8 @@ public class GravityResolver
                     FallMove fallMove = new FallMove()
                     {
                         gem = fallingGem,
-                        currentPos = fallingGem.transform.position,
-                        targetPos = new Vector3(x, -y),
+                        currentPos = new Vector3(x, sourceY),
+                        targetPos = new Vector3(x, y),
                     };
 
                     grid.Set(x, y, fallingGem);

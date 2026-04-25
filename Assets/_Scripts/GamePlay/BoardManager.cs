@@ -10,6 +10,8 @@ public class BoardManager : BaseBehaviour
     public static BoardManager Instance => instance;
     [Header("BoardManager")]
     [SerializeField] protected GemSpawner gemSpawner;
+    [SerializeField] protected Vector3 boardOrigin;
+    [SerializeField] protected float cellSpacing;
     [SerializeField] protected int width = 8;
     [SerializeField] protected int height = 8;
     [SerializeField] protected float animGemMoveTime = 0.18f;
@@ -52,13 +54,24 @@ public class BoardManager : BaseBehaviour
     {
         this.grid = new GridModel<GemCtrl>(width, height);
     }
+
+    public Vector3 GetWorldPos(int x, int y)
+    {
+        return this.boardOrigin + new Vector3(x, -y);
+    }
+
+    // public Vector3 GetSpawnWorldPos(int x, int stackIndex)
+    // {
+    //     return GetWorldPos(x, -1 - stackIndex);
+    // }
+
     protected void SpawnGrid()
     {
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                Vector2 pos = new Vector2(x, -y);
+                Vector2 pos = this.GetWorldPos(x, y);
 
                 GemType type = this.gemSpawner.GetSafeRandomGemType(x, y, this.grid);
                 GemCtrl gem = this.gemSpawner.Spawn(type, pos);
@@ -138,7 +151,7 @@ public class BoardManager : BaseBehaviour
             }
 
             this.matchResolver.ClearMatches(matches, grid);
-            yield return new WaitForSeconds(0.15f);
+            // yield return new WaitForSeconds(0.15f);
 
             var fallMoves = this.gravityResolver.ApplyGravity(grid);
             yield return StartCoroutine(AnimateGravity(fallMoves));
@@ -188,8 +201,8 @@ public class BoardManager : BaseBehaviour
         gemA.SetGridPos(posA.x, posA.y);
         gemB.SetGridPos(posB.x, posB.y);
 
-        Vector3 worldPosA = new Vector3(posA.x, -posA.y, 0f);
-        Vector3 worldPosB = new Vector3(posB.x, -posB.y, 0f);
+        Vector3 worldPosA = this.GetWorldPos(posA.x, posA.y);
+        Vector3 worldPosB = this.GetWorldPos(posB.x, posB.y);
 
         StartCoroutine(gemA.GemMove.MoveTo(worldPosA, this.animGemMoveTime));
         StartCoroutine(gemB.GemMove.MoveTo(worldPosB, this.animGemMoveTime));
@@ -200,22 +213,24 @@ public class BoardManager : BaseBehaviour
     protected IEnumerator AnimateGravity(List<FallMove> fallMoves)
     {
         float time = 0f;
-        float duration = 1f;
+        float duration = this.animGemMoveTime;
         while (time < duration)
         {
             time += Time.deltaTime;
-            float t = time / duration;
+            float t = Mathf.Clamp01(time / duration);
 
             foreach (var fallMove in fallMoves)
             {
-                fallMove.gem.transform.position = Vector3.Lerp(fallMove.currentPos, fallMove.targetPos, t);
+                Vector3 start = this.GetWorldPos((int)fallMove.currentPos.x, (int)fallMove.currentPos.y);
+                Vector3 target = this.GetWorldPos((int)fallMove.targetPos.x, (int)fallMove.targetPos.y);
+                fallMove.gem.transform.position = Vector3.Lerp(start, target, t);
             }
             yield return null;
         }
 
         foreach (var fallMove in fallMoves)
         {
-            fallMove.gem.transform.position = fallMove.targetPos;
+            fallMove.gem.transform.position = GetWorldPos((int)fallMove.targetPos.x, (int)fallMove.targetPos.y);
         }
     }
 }

@@ -22,7 +22,7 @@ public class GemMove : BaseBehaviour
 
     public IEnumerator MoveTo(Vector3 target, float duration)
     {
-        Vector3 start = transform.parent.localPosition;
+        Vector3 start = transform.parent.position;
         float time = 0f;
 
         while (time < duration)
@@ -30,10 +30,10 @@ public class GemMove : BaseBehaviour
             time += Time.deltaTime;
             float t = time / duration;
 
-            transform.parent.localPosition = Vector3.Lerp(start, target, t);
+            transform.parent.position = Vector3.Lerp(start, target, t);
             yield return null;
         }
 
-        transform.parent.localPosition = target;
+        transform.parent.position = target;
     }
 }
