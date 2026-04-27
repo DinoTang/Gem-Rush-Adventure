@@ -29,7 +29,7 @@ public abstract class Spawner<T> : BaseBehaviour where T : PoolObj
     {
         if (this.prefab != null) return;
         this.prefab = transform.Find("Prefabs");
-        Debug.Log(transform.name + ": LoadPoolHolder", gameObject);
+        Debug.Log(transform.name + ": LoadPrefab", gameObject);
     }
     protected void LoadPrefabs()
     {

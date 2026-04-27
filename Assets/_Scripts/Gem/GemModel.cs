@@ -9,14 +9,12 @@ public class GemModel : BaseBehaviour
     [SerializeField] protected SpriteRenderer sprtRdr;
     [SerializeField] protected GemType gemType;
     public GemType GemType => gemType;
-
     [SerializeField] private float hintPulseSpeed = 3f;
     protected Vector3 defaultLocalScale;
     private Coroutine hintRoutine;
     protected override void Start()
     {
         base.Start();
-        this.SetColor();
         this.defaultLocalScale = this.transform.localScale;
     }
     protected override void LoadComponent()
@@ -44,28 +42,9 @@ public class GemModel : BaseBehaviour
         this.gemType = gemType;
     }
 
-    public void SetColor()
+    public void SetVisual()
     {
-        if (this.gemType == GemType.Red)
-        {
-            this.sprtRdr.color = Color.red;
-        }
-        else if (this.gemType == GemType.Blue)
-        {
-            this.sprtRdr.color = Color.blue;
-        }
-        else if (this.gemType == GemType.Yellow)
-        {
-            this.sprtRdr.color = Color.yellow;
-        }
-        else if (this.gemType == GemType.Green)
-        {
-            this.sprtRdr.color = Color.green;
-        }
-        else if (this.gemType == GemType.Purple)
-        {
-            this.sprtRdr.color = new Color(0.6f, 0f, 0.8f);
-        }
+        this.sprtRdr.sprite = this.gemCtrl.GemDespawn.GemSpawner.GetGemVisual(this.gemType);
     }
 
     public void ShowHintRoutine()
