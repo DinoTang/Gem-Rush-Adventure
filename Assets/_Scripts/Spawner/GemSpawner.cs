@@ -10,7 +10,8 @@ public class GemSpawner : Spawner<GemCtrl>
         GemType.Blue,
         GemType.Green,
         GemType.Yellow,
-        GemType.Purple
+        GemType.Purple,
+        GemType.Special
     };
 
     public GemCtrl Spawn(GemType type, Vector2 pos)
@@ -97,5 +98,17 @@ public class GemSpawner : Spawner<GemCtrl>
     protected GemType GetRandomPieceType()
     {
         return types[Random.Range(0, this.types.Length)];
+    }
+
+    public void ReturnAllGemsToPool(GridModel<GemCtrl> grid)
+    {
+        for (int x = 0; x < grid.Width; x++)
+        {
+            for (int y = 0; y < grid.Height; y++)
+            {
+                GemCtrl gem = grid.Get(x, y);
+                gem.GemDespawn.DoDespawn();
+            }
+        }
     }
 }
