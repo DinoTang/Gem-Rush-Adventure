@@ -6,5 +6,5 @@ public enum GemType
     Green,
     Yellow,
     Purple,
-    Special
+    // Special
 }

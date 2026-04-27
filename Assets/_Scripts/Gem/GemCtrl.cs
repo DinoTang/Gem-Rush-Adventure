@@ -35,7 +35,7 @@ public class GemCtrl : PoolObj
 
         this.transform.name = $"Gem{type}_{x}_{y}";
 
-        this.gemModel.SetColor();
+        this.gemModel.SetVisual();
     }
     protected override void LoadComponent()
     {
