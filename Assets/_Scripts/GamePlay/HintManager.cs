@@ -30,7 +30,6 @@ public class HintManager : BaseBehaviour
     }
     protected void Update()
     {
-
         if (BoardManager.Instance.IsBusy || BoardManager.Instance.IsClickGem || this.hintPairs.Count == 0)
         {
             this.idleTimer = 0;
@@ -85,4 +84,5 @@ public class HintManager : BaseBehaviour
         this.currentGemA.GemModel.ShowHintRoutine();
         this.currentGemB.GemModel.ShowHintRoutine();
     }
+
 }
