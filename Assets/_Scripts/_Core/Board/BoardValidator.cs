@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BoardValidator
 {
-    
+
     public bool CanSwap(GemCtrl gemA, GemCtrl gemB)
     {
         Vector2Int posA = gemA.GridPos;

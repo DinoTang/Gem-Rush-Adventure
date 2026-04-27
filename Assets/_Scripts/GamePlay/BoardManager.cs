@@ -12,8 +12,8 @@ public class BoardManager : BaseBehaviour
     [SerializeField] protected GemSpawner gemSpawner;
     [SerializeField] protected Vector3 boardOrigin;
     [SerializeField] protected float cellSpacing;
-    [SerializeField] protected int width = 8;
-    [SerializeField] protected int height = 8;
+    [SerializeField] protected int width = 7;
+    [SerializeField] protected int height = 6;
     [SerializeField] protected float animGemMoveTime = 0.18f;
     [SerializeField] protected bool isBusy = false;
     [SerializeField] protected bool isClickGem = false;
@@ -76,8 +76,11 @@ public class BoardManager : BaseBehaviour
                 GemType type = this.gemSpawner.GetSafeRandomGemType(x, y, this.grid);
                 GemCtrl gem = this.gemSpawner.Spawn(type, pos);
                 gem.SetGridPos(x, y);
-
+                gem.GemModel.SetGemType(type);
+                gem.GemModel.SetColor();
+                gem.Init(type, x, y);
                 this.grid.Set(x, y, gem);
+
             }
         }
         HintManager.Instance.RefreshHint();
@@ -206,7 +209,7 @@ public class BoardManager : BaseBehaviour
 
         StartCoroutine(gemA.GemMove.MoveTo(worldPosA, this.animGemMoveTime));
         StartCoroutine(gemB.GemMove.MoveTo(worldPosB, this.animGemMoveTime));
-
+                
         yield return new WaitForSeconds(this.animGemMoveTime);
     }
 
@@ -231,6 +234,20 @@ public class BoardManager : BaseBehaviour
         foreach (var fallMove in fallMoves)
         {
             fallMove.gem.transform.position = GetWorldPos((int)fallMove.targetPos.x, (int)fallMove.targetPos.y);
+        }
+    }
+
+    protected void ShuffleBoard()
+    {
+        this.gemSpawner.ReturnAllGemsToPool(this.grid);
+        this.SpawnGrid();
+    }
+
+    protected void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            this.ShuffleBoard();
         }
     }
 }
