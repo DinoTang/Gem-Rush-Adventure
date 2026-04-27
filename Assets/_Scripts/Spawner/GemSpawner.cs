@@ -4,6 +4,9 @@ using System.Linq;
 using UnityEngine;
 public class GemSpawner : Spawner<GemCtrl>
 {
+    [Header("GemSpawner")]
+    [SerializeField] public Transform gemVisualPrefab;
+    [SerializeField] public List<GemVisual> gemVisuals;
     private GemType[] types =
     {
         GemType.Red,
@@ -11,9 +14,34 @@ public class GemSpawner : Spawner<GemCtrl>
         GemType.Green,
         GemType.Yellow,
         GemType.Purple,
-        GemType.Special
+        // GemType.Special
     };
+    protected override void LoadComponent()
+    {
+        base.LoadComponent();
+        this.LoadGemVisuals();
+    }
+    protected void LoadGemVisualPrefab()
+    {
+        if (this.gemVisualPrefab != null) return;
+        this.gemVisualPrefab = transform.Find("GemVisuals");
+        Debug.Log(transform.name + ": LoadGemVisualPrefab", gameObject);
+    }
+    protected void LoadGemVisuals()
+    {
+        LoadGemVisualPrefab();
 
+        if (gemVisuals.Count > 0) return;
+
+        foreach (Transform child in gemVisualPrefab)
+        {
+            GemVisual visual = child.GetComponent<GemVisual>();
+            if (visual != null)
+                gemVisuals.Add(visual);
+        }
+
+        Debug.Log(transform.name + ": LoadGemVisuals", gameObject);
+    }
     public GemCtrl Spawn(GemType type, Vector2 pos)
     {
         GemCtrl prefab = this.GetGemPrefabByType(type);
@@ -110,5 +138,15 @@ public class GemSpawner : Spawner<GemCtrl>
                 gem.GemDespawn.DoDespawn();
             }
         }
+    }
+
+    public Sprite GetGemVisual(GemType gemType)
+    {
+        foreach (GemVisual gemVisual in this.gemVisuals)
+        {
+            if (gemVisual.gemType != gemType) continue;
+            return gemVisual.sprite;
+        }
+        return null;
     }
 }

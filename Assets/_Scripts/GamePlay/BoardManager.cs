@@ -75,9 +75,7 @@ public class BoardManager : BaseBehaviour
 
                 GemType type = this.gemSpawner.GetSafeRandomGemType(x, y, this.grid);
                 GemCtrl gem = this.gemSpawner.Spawn(type, pos);
-                gem.SetGridPos(x, y);
-                gem.GemModel.SetGemType(type);
-                gem.GemModel.SetColor();
+
                 gem.Init(type, x, y);
                 this.grid.Set(x, y, gem);
 
@@ -209,7 +207,7 @@ public class BoardManager : BaseBehaviour
 
         StartCoroutine(gemA.GemMove.MoveTo(worldPosA, this.animGemMoveTime));
         StartCoroutine(gemB.GemMove.MoveTo(worldPosB, this.animGemMoveTime));
-                
+
         yield return new WaitForSeconds(this.animGemMoveTime);
     }
 
