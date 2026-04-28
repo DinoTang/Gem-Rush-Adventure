@@ -87,8 +87,7 @@ public class MatchFinder
 
     protected GemType GetGemType(GemCtrl gem)
     {
-        if (gem == null) return GemType.None;
-        return gem.GemModel.GemType;
+        return gem == null ? GemType.None : gem.GemModel.GemType;
     }
 
     protected MatchResult CreateHorizontal(int endX, int y, int count)
@@ -113,5 +112,73 @@ public class MatchFinder
         }
 
         return match;
+    }
+
+    public List<(int x, int y)> GetProtectedSpecialCells(
+        GridModel<GemCtrl> grid,
+        List<MatchResult> matches,
+        Vector2Int selected,
+        Vector2Int target)
+    {
+        Vector2Int from = selected;
+        Vector2Int to = target;
+
+        List<(int x, int y)> protectedCells = new();
+        foreach (MatchResult match in matches)
+        {
+            if (match.Cells.Count != 4) continue;
+
+            this.ProcessMatch4(grid, match, from, to, protectedCells);
+        }
+        return protectedCells;
+    }
+    protected void ProcessMatch4(
+        GridModel<GemCtrl> grid,
+        MatchResult match,
+        Vector2Int from,
+        Vector2Int to,
+        List<(int x, int y)> protectedCells
+    )
+    {
+        bool hasA = match.Cells.Contains((from.x, from.y));
+        bool hasB = match.Cells.Contains((to.x, to.y));
+
+        if (hasA)
+        {
+            this.TransformToSpecial(grid, (from.x, from.y), protectedCells);
+        }
+
+        if (hasB)
+        {
+            this.TransformToSpecial(grid, (to.x, to.y), protectedCells);
+        }
+
+        if (!hasA && !hasB)
+        {
+            this.TransformRandomMatchCell(grid, match, protectedCells);
+        }
+    }
+
+    protected void TransformToSpecial(
+        GridModel<GemCtrl> grid,
+        (int x, int y) cell,
+        List<(int x, int y)> protectedCells)
+    {
+        var gem = grid.Get(cell.x, cell.y);
+        if (gem == null) return;
+        gem.GemModel.SetGemType(GemType.Purple);
+        gem.GemModel.SetVisual();
+        protectedCells.Add((cell.x, cell.y));
+    }
+
+    protected void TransformRandomMatchCell(
+        GridModel<GemCtrl> grid,
+        MatchResult match,
+        List<(int x, int y)> protectedCells)
+    {
+        int rand = Random.Range(0, match.Cells.Count);
+        var cell = match.Cells[rand];
+
+        this.TransformToSpecial(grid, cell, protectedCells);
     }
 }
