@@ -19,8 +19,8 @@ public class BoardManager : BaseBehaviour
     [SerializeField] protected bool isClickGem = false;
     public bool IsBusy => isBusy;
     public bool IsClickGem => isClickGem;
-    protected GemCtrl selectedGem;
-
+    [SerializeField] protected GemCtrl selectedGem;
+    // [SerializeField] protected GemCtrl targetGem;
     protected override void Awake()
     {
         base.Awake();
@@ -109,6 +109,7 @@ public class BoardManager : BaseBehaviour
         }
 
         this.isClickGem = false;
+        // this.targetGem = gem;
         return false;
     }
 
@@ -127,7 +128,7 @@ public class BoardManager : BaseBehaviour
 
         if (this.HasAnyMatch())
         {
-            yield return StartCoroutine(this.ResolveBoardRoutine());
+            yield return StartCoroutine(this.ResolveBoardRoutine(gemA, gemB));
             this.isBusy = false;
             yield break;
         }
@@ -139,19 +140,19 @@ public class BoardManager : BaseBehaviour
         this.isBusy = false;
     }
 
-    protected IEnumerator ResolveBoardRoutine()
+    protected IEnumerator ResolveBoardRoutine(GemCtrl gemA, GemCtrl gemB)
     {
         while (true)
         {
             var matches = matchFinder.FindMatches(grid);
-
+            var excluded = matchFinder.GetProtectedSpecialCells(grid, matches, gemA.GridPos, gemB.GridPos);
             if (matches.Count == 0)
             {
                 HintManager.Instance.RefreshHint();
                 yield break;
             }
 
-            this.matchResolver.ClearMatches(matches, grid);
+            this.matchResolver.ClearMatches(matches, grid, excluded);
             // yield return new WaitForSeconds(0.15f);
 
             var fallMoves = this.gravityResolver.ApplyGravity(grid);
