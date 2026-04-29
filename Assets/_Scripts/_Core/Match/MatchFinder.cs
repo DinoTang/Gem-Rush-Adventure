@@ -124,18 +124,23 @@ public class MatchFinder
         Vector2Int to = target;
 
         List<(int x, int y)> protectedCells = new();
+
+        this.ProcessTLShapeBomb(matches, grid, protectedCells);
+
         foreach (MatchResult match in matches)
         {
+
+            // if (match.Cells.Count == 5)
+            // {
+            //     this.ProcessMatch5(grid, match, from, to, protectedCells, GemType.DragonBall);
+            // }
+
             if (match.Cells.Count == 4)
             {
                 this.ProcessMatch4(grid, match, from, to, protectedCells, GemType.Purple);
             }
-
-            if (match.Cells.Count == 5)
-            {
-                this.ProcessMatch5(grid, match, from, to, protectedCells, GemType.DragonBall);
-            }
         }
+
         return protectedCells;
     }
     protected void ProcessMatch4(
@@ -173,6 +178,8 @@ public class MatchFinder
         GemType type
         )
     {
+        if (protectedCells.Contains(cell)) return;
+
         var gem = grid.Get(cell.x, cell.y);
         if (gem == null) return;
         gem.GemModel.SetGemType(type);
@@ -212,6 +219,32 @@ public class MatchFinder
         if (hasB)
         {
             this.TransformToSpecial(grid, (to.x, to.y), protectedCells, type);
+        }
+    }
+
+    protected List<(int x, int y)> GetOverlapCells(List<MatchResult> matches)
+    {
+        HashSet<(int x, int y)> cells = new();
+        for (int i = 0; i < matches.Count - 1; i++)
+        {
+            for (int j = i + 1; j < matches.Count; j++)
+            {
+                foreach (var cell in matches[i].Cells)
+                {
+                    if (matches[j].Cells.Contains(cell)) cells.Add(cell);
+                }
+            }
+        }
+        return new List<(int x, int y)>(cells);
+    }
+
+    protected void ProcessTLShapeBomb(List<MatchResult> matches, GridModel<GemCtrl> grid, List<(int x, int y)> protectedCells)
+    {
+        var overlarpCells = this.GetOverlapCells(matches);
+
+        foreach (var cell in overlarpCells)
+        {
+            this.TransformToSpecial(grid, cell, protectedCells, GemType.Purple);
         }
     }
 }
