@@ -126,9 +126,15 @@ public class MatchFinder
         List<(int x, int y)> protectedCells = new();
         foreach (MatchResult match in matches)
         {
-            if (match.Cells.Count != 4) continue;
+            if (match.Cells.Count == 4)
+            {
+                this.ProcessMatch4(grid, match, from, to, protectedCells, GemType.Purple);
+            }
 
-            this.ProcessMatch4(grid, match, from, to, protectedCells);
+            if (match.Cells.Count == 5)
+            {
+                this.ProcessMatch5(grid, match, from, to, protectedCells, GemType.DragonBall);
+            }
         }
         return protectedCells;
     }
@@ -137,7 +143,8 @@ public class MatchFinder
         MatchResult match,
         Vector2Int from,
         Vector2Int to,
-        List<(int x, int y)> protectedCells
+        List<(int x, int y)> protectedCells,
+        GemType type
     )
     {
         bool hasA = match.Cells.Contains((from.x, from.y));
@@ -145,28 +152,30 @@ public class MatchFinder
 
         if (hasA)
         {
-            this.TransformToSpecial(grid, (from.x, from.y), protectedCells);
+            this.TransformToSpecial(grid, (from.x, from.y), protectedCells, type);
         }
 
         if (hasB)
         {
-            this.TransformToSpecial(grid, (to.x, to.y), protectedCells);
+            this.TransformToSpecial(grid, (to.x, to.y), protectedCells, type);
         }
 
         if (!hasA && !hasB)
         {
-            this.TransformRandomMatchCell(grid, match, protectedCells);
+            this.TransformRandomMatchCell(grid, match, protectedCells, type);
         }
     }
 
     protected void TransformToSpecial(
         GridModel<GemCtrl> grid,
         (int x, int y) cell,
-        List<(int x, int y)> protectedCells)
+        List<(int x, int y)> protectedCells,
+        GemType type
+        )
     {
         var gem = grid.Get(cell.x, cell.y);
         if (gem == null) return;
-        gem.GemModel.SetGemType(GemType.Purple);
+        gem.GemModel.SetGemType(type);
         gem.GemModel.SetVisual();
         protectedCells.Add((cell.x, cell.y));
     }
@@ -174,11 +183,35 @@ public class MatchFinder
     protected void TransformRandomMatchCell(
         GridModel<GemCtrl> grid,
         MatchResult match,
-        List<(int x, int y)> protectedCells)
+        List<(int x, int y)> protectedCells,
+        GemType type)
     {
         int rand = Random.Range(0, match.Cells.Count);
         var cell = match.Cells[rand];
 
-        this.TransformToSpecial(grid, cell, protectedCells);
+        this.TransformToSpecial(grid, cell, protectedCells, type);
+    }
+
+    protected void ProcessMatch5(
+       GridModel<GemCtrl> grid,
+       MatchResult match,
+       Vector2Int from,
+       Vector2Int to,
+       List<(int x, int y)> protectedCells,
+       GemType type
+   )
+    {
+        bool hasA = match.Cells.Contains((from.x, from.y));
+        bool hasB = match.Cells.Contains((to.x, to.y));
+
+        if (hasA)
+        {
+            this.TransformToSpecial(grid, (from.x, from.y), protectedCells, type);
+        }
+
+        if (hasB)
+        {
+            this.TransformToSpecial(grid, (to.x, to.y), protectedCells, type);
+        }
     }
 }
