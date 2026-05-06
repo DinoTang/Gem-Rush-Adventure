@@ -125,7 +125,8 @@ public class BoardManager : BaseBehaviour
         }
 
         yield return StartCoroutine(this.PerformSwapRoutine(gemA, gemB));
-
+        
+        
         if (this.HasAnyMatch())
         {
             yield return StartCoroutine(this.ResolveBoardRoutine(gemA, gemB));
