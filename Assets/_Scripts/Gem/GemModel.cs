@@ -9,6 +9,8 @@ public class GemModel : BaseBehaviour
     [SerializeField] protected SpriteRenderer sprtRdr;
     [SerializeField] protected GemType gemType;
     public GemType GemType => gemType;
+    [SerializeField] protected GemSpecialType gemSpecialType;
+    public GemSpecialType GemSpecialType => gemSpecialType;
     [SerializeField] private float hintPulseSpeed = 3f;
     protected Vector3 defaultLocalScale;
     private Coroutine hintRoutine;
@@ -41,10 +43,13 @@ public class GemModel : BaseBehaviour
     {
         this.gemType = gemType;
     }
-
+    public void SetGemSpecialType(GemSpecialType gemSpecialType)
+    {
+        this.gemSpecialType = gemSpecialType;
+    }
     public void SetVisual()
     {
-        this.sprtRdr.sprite = this.gemCtrl.GemDespawn.GemSpawner.GetGemVisual(this.gemType);
+        this.sprtRdr.sprite = this.gemCtrl.GemDespawn.GemSpawner.GetGemVisual(this.gemType, this.gemSpecialType);
     }
 
     public void ShowHintRoutine()

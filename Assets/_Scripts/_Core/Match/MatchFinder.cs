@@ -98,7 +98,7 @@ public class MatchFinder
         {
             match.Cells.Add((endX - i, y));
         }
-
+        match.MatchDirection = MatchDirection.Horizontal;
         return match;
     }
 
@@ -110,7 +110,7 @@ public class MatchFinder
         {
             match.Cells.Add((x, endY - i));
         }
-
+         match.MatchDirection = MatchDirection.Vertical;
         return match;
     }
 
@@ -130,14 +130,14 @@ public class MatchFinder
         foreach (MatchResult match in matches)
         {
 
-            // if (match.Cells.Count == 5)
-            // {
-            //     this.ProcessMatch5(grid, match, from, to, protectedCells, GemType.DragonBall);
-            // }
+            if (match.Cells.Count == 5)
+            {
+                this.ProcessMatch5(grid, match, from, to, protectedCells);
+            }
 
             if (match.Cells.Count == 4)
             {
-                this.ProcessMatch4(grid, match, from, to, protectedCells, GemType.Purple);
+                this.ProcessMatch4(grid, match, from, to, protectedCells);
             }
         }
 
@@ -148,26 +148,45 @@ public class MatchFinder
         MatchResult match,
         Vector2Int from,
         Vector2Int to,
-        List<(int x, int y)> protectedCells,
-        GemType type
+        List<(int x, int y)> protectedCells
     )
     {
         bool hasA = match.Cells.Contains((from.x, from.y));
         bool hasB = match.Cells.Contains((to.x, to.y));
+        bool isPlayerMatch = hasA || hasB;
+        bool swapHorizontal;
+
+        if(Mathf.Abs(from.y - to.y) > 0) swapHorizontal = true;
+        else swapHorizontal = false;
+
+        GemSpecialType gemSpecialType;
+
+        if(isPlayerMatch)
+        {
+            gemSpecialType = swapHorizontal ? GemSpecialType.HorizontalRocket
+                                            : GemSpecialType.VerticalRocket;
+        }
+        else
+        {
+            gemSpecialType = match.MatchDirection 
+            == MatchDirection.Horizontal ? GemSpecialType.HorizontalRocket
+                                         : GemSpecialType.VerticalRocket;                                                                
+        }
+
 
         if (hasA)
         {
-            this.TransformToSpecial(grid, (from.x, from.y), protectedCells, type);
+            this.TransformToSpecial(grid, (from.x, from.y), protectedCells, gemSpecialType);
         }
 
         if (hasB)
         {
-            this.TransformToSpecial(grid, (to.x, to.y), protectedCells, type);
+            this.TransformToSpecial(grid, (to.x, to.y), protectedCells, gemSpecialType);
         }
 
         if (!hasA && !hasB)
         {
-            this.TransformRandomMatchCell(grid, match, protectedCells, type);
+            this.TransformRandomMatchCell(grid, match, protectedCells, gemSpecialType);
         }
     }
 
@@ -175,14 +194,17 @@ public class MatchFinder
         GridModel<GemCtrl> grid,
         (int x, int y) cell,
         List<(int x, int y)> protectedCells,
-        GemType type
+        // GemType type,
+        GemSpecialType gemSpecialType
         )
     {
         if (protectedCells.Contains(cell)) return;
 
         var gem = grid.Get(cell.x, cell.y);
         if (gem == null) return;
-        gem.GemModel.SetGemType(type);
+
+        if(gemSpecialType == GemSpecialType.RainBow)gem.GemModel.SetGemType(GemType.RainBow);
+        gem.GemModel.SetGemSpecialType(gemSpecialType);
         gem.GemModel.SetVisual();
         protectedCells.Add((cell.x, cell.y));
     }
@@ -191,12 +213,13 @@ public class MatchFinder
         GridModel<GemCtrl> grid,
         MatchResult match,
         List<(int x, int y)> protectedCells,
-        GemType type)
+        // GemType type,
+        GemSpecialType specialType)
     {
         int rand = Random.Range(0, match.Cells.Count);
         var cell = match.Cells[rand];
 
-        this.TransformToSpecial(grid, cell, protectedCells, type);
+        this.TransformToSpecial(grid, cell, protectedCells, specialType);
     }
 
     protected void ProcessMatch5(
@@ -204,8 +227,7 @@ public class MatchFinder
        MatchResult match,
        Vector2Int from,
        Vector2Int to,
-       List<(int x, int y)> protectedCells,
-       GemType type
+       List<(int x, int y)> protectedCells
    )
     {
         bool hasA = match.Cells.Contains((from.x, from.y));
@@ -213,12 +235,12 @@ public class MatchFinder
 
         if (hasA)
         {
-            this.TransformToSpecial(grid, (from.x, from.y), protectedCells, type);
+            this.TransformToSpecial(grid, (from.x, from.y), protectedCells, GemSpecialType.RainBow);
         }
 
         if (hasB)
         {
-            this.TransformToSpecial(grid, (to.x, to.y), protectedCells, type);
+            this.TransformToSpecial(grid, (to.x, to.y), protectedCells, GemSpecialType.RainBow);
         }
     }
 
@@ -244,7 +266,7 @@ public class MatchFinder
 
         foreach (var cell in overlarpCells)
         {
-            this.TransformToSpecial(grid, cell, protectedCells, GemType.Purple);
+            this.TransformToSpecial(grid, cell, protectedCells, GemSpecialType.Bomb);
         }
     }
 }

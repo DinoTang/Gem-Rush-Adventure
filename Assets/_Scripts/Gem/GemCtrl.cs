@@ -26,6 +26,7 @@ public class GemCtrl : PoolObj
     {
         this.transform.name = "GemNone";
         this.gemModel.SetGemType(GemType.None);
+        this.gemModel.SetGemSpecialType(GemSpecialType.None);
         this.SetGridPos(-1, -1);
     }
     public void Init(GemType type, int x, int y)

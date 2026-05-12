@@ -141,13 +141,12 @@ public class GemSpawner : Spawner<GemCtrl>
         }
     }
 
-    public Sprite GetGemVisual(GemType gemType)
+    public Sprite GetGemVisual(GemType gemType, GemSpecialType gemSpecialType)
     {
-        foreach (GemVisual gemVisual in this.gemVisuals)
-        {
-            if (gemVisual.gemType != gemType) continue;
-            return gemVisual.sprite;
-        }
-        return null;
+        return this.gemVisuals.Find(
+            x=> 
+            x.gemType == gemType && 
+            x.gemSpecialType == gemSpecialType
+        ).sprite;
     }
 }
