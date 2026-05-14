@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Gem Crush Adventure.sln"
+    "dotnet.defaultSolution": "Gem-Rush-Adventure.slnx"
 }
