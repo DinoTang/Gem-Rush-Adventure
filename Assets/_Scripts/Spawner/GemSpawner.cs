@@ -14,7 +14,7 @@ public class GemSpawner : Spawner<GemCtrl>
         GemType.Green,
         GemType.Yellow,
         GemType.Purple,
-        GemType.Orange,
+        // GemType.Orange,
         // GemType.RainBow
     };
     protected override void LoadComponent()
