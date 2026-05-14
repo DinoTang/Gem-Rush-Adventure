@@ -24,7 +24,7 @@ public class GemSpawner : Spawner<GemCtrl>
     protected void LoadGemVisualPrefab()
     {
         if (this.gemVisualPrefab != null) return;
-        this.gemVisualPrefab = transform.Find("GemVisuals");
+        this.gemVisualPrefab = transform.Find("VisualPrefabs");
         Debug.Log(transform.name + ": LoadGemVisualPrefab", gameObject);
     }
     protected void LoadGemVisuals()
