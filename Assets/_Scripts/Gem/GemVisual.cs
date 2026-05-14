@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GemVisual : BaseBehaviour
 {
-    public Sprite sprite;
     public GemType gemType;
+    public GemSpecialType gemSpecialType;
+    public Sprite sprite;
 }
