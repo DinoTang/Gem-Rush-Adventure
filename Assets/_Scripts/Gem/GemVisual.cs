@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class GemVisual : BaseBehaviour
 {
-    public GemType gemType;
-    public GemSpecialType gemSpecialType;
-    public Sprite sprite;
+    public GemType GemType;
+    public GemSpecialType GemSpecialType;
+    public Sprite Sprite_Idle;
+    public Sprite Sprite_Selected;
 }
