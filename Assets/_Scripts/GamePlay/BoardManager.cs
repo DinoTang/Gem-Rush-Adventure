@@ -57,7 +57,7 @@ public class BoardManager : BaseBehaviour
 
     public Vector3 GetWorldPos(int x, int y)
     {
-        return this.boardOrigin + new Vector3(x, -y);
+        return this.boardOrigin + new Vector3(x * this.cellSpacing, -y * this.cellSpacing);
     }
 
     // public Vector3 GetSpawnWorldPos(int x, int stackIndex)
