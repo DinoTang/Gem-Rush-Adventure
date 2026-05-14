@@ -110,7 +110,7 @@ public class MatchFinder
         {
             match.Cells.Add((x, endY - i));
         }
-         match.MatchDirection = MatchDirection.Vertical;
+        match.MatchDirection = MatchDirection.Vertical;
         return match;
     }
 
@@ -156,21 +156,21 @@ public class MatchFinder
         bool isPlayerMatch = hasA || hasB;
         bool swapHorizontal;
 
-        if(Mathf.Abs(from.y - to.y) > 0) swapHorizontal = true;
+        if (Mathf.Abs(from.y - to.y) > 0) swapHorizontal = true;
         else swapHorizontal = false;
 
         GemSpecialType gemSpecialType;
 
-        if(isPlayerMatch)
+        if (isPlayerMatch)
         {
             gemSpecialType = swapHorizontal ? GemSpecialType.HorizontalRocket
                                             : GemSpecialType.VerticalRocket;
         }
         else
         {
-            gemSpecialType = match.MatchDirection 
+            gemSpecialType = match.MatchDirection
             == MatchDirection.Horizontal ? GemSpecialType.HorizontalRocket
-                                         : GemSpecialType.VerticalRocket;                                                                
+                                         : GemSpecialType.VerticalRocket;
         }
 
 
@@ -203,7 +203,7 @@ public class MatchFinder
         var gem = grid.Get(cell.x, cell.y);
         if (gem == null) return;
 
-        if(gemSpecialType == GemSpecialType.RainBow)gem.GemModel.SetGemType(GemType.RainBow);
+        if (gemSpecialType == GemSpecialType.Cube) gem.GemModel.SetGemType(GemType.RainBow);
         gem.GemModel.SetGemSpecialType(gemSpecialType);
         gem.GemModel.SetVisual();
         protectedCells.Add((cell.x, cell.y));
@@ -235,12 +235,12 @@ public class MatchFinder
 
         if (hasA)
         {
-            this.TransformToSpecial(grid, (from.x, from.y), protectedCells, GemSpecialType.RainBow);
+            this.TransformToSpecial(grid, (from.x, from.y), protectedCells, GemSpecialType.Cube);
         }
 
         if (hasB)
         {
-            this.TransformToSpecial(grid, (to.x, to.y), protectedCells, GemSpecialType.RainBow);
+            this.TransformToSpecial(grid, (to.x, to.y), protectedCells, GemSpecialType.Cube);
         }
     }
 

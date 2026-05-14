@@ -33,6 +33,7 @@ public class BoardManager : BaseBehaviour
     private MatchResolver matchResolver = new();
     private GravityResolver gravityResolver = new();
     private BoardValidator boardValidator = new();
+    private SpecialResolver specialResolver = new();
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -59,11 +60,6 @@ public class BoardManager : BaseBehaviour
     {
         return this.boardOrigin + new Vector3(x * this.cellSpacing, -y * this.cellSpacing);
     }
-
-    // public Vector3 GetSpawnWorldPos(int x, int stackIndex)
-    // {
-    //     return GetWorldPos(x, -1 - stackIndex);
-    // }
 
     protected void SpawnGrid()
     {
@@ -113,6 +109,44 @@ public class BoardManager : BaseBehaviour
         return false;
     }
 
+    protected bool HasAnyMatch()
+    {
+        var matches = this.matchFinder.FindMatches(this.grid);
+        return matches.Count > 0;
+    }
+
+    protected void SwapData((int x, int y) a, (int x, int y) b)
+    {
+        this.grid.Swap(a, b);
+    }
+
+    protected void ShuffleBoard()
+    {
+        this.gemSpawner.ReturnAllGemsToPool(this.grid);
+        this.SpawnGrid();
+    }
+
+    protected void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            this.ShuffleBoard();
+        }
+    }
+
+    public void ClearCells(List<(int x, int y)> cells)
+    {
+        HashSet<(int x, int y)> uniqueCells = new(cells);
+        foreach (var cell in uniqueCells)
+        {
+            var gem = this.grid.Get(cell.x, cell.y);
+
+            if (gem == null) continue;
+
+            gem.GemDespawn.DoDespawn();
+            this.grid.Set(cell.x, cell.y, null);
+        }
+    }
     IEnumerator TrySwapRoutine(GemCtrl gemA, GemCtrl gemB)
     {
         this.isBusy = true;
@@ -125,8 +159,31 @@ public class BoardManager : BaseBehaviour
         }
 
         yield return StartCoroutine(this.PerformSwapRoutine(gemA, gemB));
-        
-        
+
+        bool isCubeSwap =
+            gemA.GemModel.GemSpecialType == GemSpecialType.Cube ||
+            gemB.GemModel.GemSpecialType == GemSpecialType.Cube;
+
+
+        if (isCubeSwap)
+        {
+            yield return StartCoroutine(this.HandleCubeSwapRoutine(gemA, gemB));
+            this.isBusy = false;
+            yield break;
+        }
+
+        bool hasSpecialSwap =
+            gemA.GemModel.GemSpecialType != GemSpecialType.None ||
+            gemB.GemModel.GemSpecialType != GemSpecialType.None;
+
+        if (hasSpecialSwap)
+        {
+            yield return StartCoroutine(this.HandleSpecialSwapRoutine(gemA, gemB));
+            this.isBusy = false;
+            yield break;
+        }
+
+
         if (this.HasAnyMatch())
         {
             yield return StartCoroutine(this.ResolveBoardRoutine(gemA, gemB));
@@ -153,17 +210,10 @@ public class BoardManager : BaseBehaviour
                 yield break;
             }
 
-            this.matchResolver.ClearMatches(matches, grid, excluded);
-            // yield return new WaitForSeconds(0.15f);
-
-            var fallMoves = this.gravityResolver.ApplyGravity(grid);
-            yield return StartCoroutine(AnimateGravity(fallMoves));
-
-            var fallMovesSpawn = this.gemSpawner.FillEmptyCells(grid);
-            yield return StartCoroutine(AnimateGravity(fallMovesSpawn));
+            var cells = this.matchResolver.ResolveMatches(matches, grid, excluded);
+            yield return StartCoroutine(ResolveGravityRoutine(cells));
         }
     }
-
     protected IEnumerator PerformSwapRoutine(GemCtrl gemA, GemCtrl gemB)
     {
         Vector2Int posA = gemA.GridPos;
@@ -187,18 +237,6 @@ public class BoardManager : BaseBehaviour
             this.SwapViewRoutine(gemA, gemB, posB, posA)
         );
     }
-
-    protected bool HasAnyMatch()
-    {
-        var matches = this.matchFinder.FindMatches(this.grid);
-        return matches.Count > 0;
-    }
-
-    protected void SwapData((int x, int y) a, (int x, int y) b)
-    {
-        this.grid.Swap(a, b);
-    }
-
     protected IEnumerator SwapViewRoutine(GemCtrl gemA, GemCtrl gemB, Vector2Int posA, Vector2Int posB)
     {
         gemA.SetGridPos(posA.x, posA.y);
@@ -236,18 +274,38 @@ public class BoardManager : BaseBehaviour
             fallMove.gem.transform.position = GetWorldPos((int)fallMove.targetPos.x, (int)fallMove.targetPos.y);
         }
     }
-
-    protected void ShuffleBoard()
+    protected IEnumerator HandleCubeSwapRoutine(GemCtrl gemA, GemCtrl gemB)
     {
-        this.gemSpawner.ReturnAllGemsToPool(this.grid);
-        this.SpawnGrid();
+        GemCtrl cube = gemA.GemModel.GemSpecialType == GemSpecialType.Cube ? gemA : gemB;
+        GemCtrl target = cube == gemA ? gemB : gemA;
+
+        List<(int x, int y)> cells = specialResolver.GetCubeCells(target, grid);
+        cells.Add((cube.GridPos.x, cube.GridPos.y));
+        yield return StartCoroutine(ResolveGravityRoutine(cells));
+        yield return StartCoroutine(ResolveBoardRoutine(gemA, gemB));
+    }
+    protected IEnumerator HandleSpecialSwapRoutine(GemCtrl gemA, GemCtrl gemB)
+    {
+        List<MatchResult> fakeMatches = new();
+        MatchResult specialMatch = new();
+
+        specialMatch.Cells.Add((gemA.GridPos.x, gemA.GridPos.y));
+        specialMatch.Cells.Add((gemB.GridPos.x, gemB.GridPos.y));
+        fakeMatches.Add(specialMatch);
+
+        var cells = matchResolver.ResolveMatches(fakeMatches, grid);
+        yield return StartCoroutine(ResolveGravityRoutine(cells));
+        yield return StartCoroutine(ResolveBoardRoutine(gemA, gemB));
     }
 
-    protected void Update()
+    protected IEnumerator ResolveGravityRoutine(List<(int x, int y)> cells)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            this.ShuffleBoard();
-        }
+        this.ClearCells(cells);
+
+        var fallMoves = this.gravityResolver.ApplyGravity(grid);
+        yield return StartCoroutine(AnimateGravity(fallMoves));
+
+        var fallMovesSpawn = this.gemSpawner.FillEmptyCells(grid);
+        yield return StartCoroutine(AnimateGravity(fallMovesSpawn));
     }
 }
