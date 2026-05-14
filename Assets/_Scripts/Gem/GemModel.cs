@@ -12,6 +12,7 @@ public class GemModel : BaseBehaviour
     [SerializeField] protected GemSpecialType gemSpecialType;
     public GemSpecialType GemSpecialType => gemSpecialType;
     [SerializeField] private float hintPulseSpeed = 3f;
+    [SerializeField] protected bool isSelected = false;
     protected Vector3 defaultLocalScale;
     private Coroutine hintRoutine;
     protected override void Start()
@@ -47,9 +48,15 @@ public class GemModel : BaseBehaviour
     {
         this.gemSpecialType = gemSpecialType;
     }
+    public void SetIsSelected(bool isSelected)
+    {
+        this.isSelected = isSelected;
+    }
     public void SetVisual()
     {
-        this.sprtRdr.sprite = this.gemCtrl.GemDespawn.GemSpawner.GetGemVisual(this.gemType, this.gemSpecialType);
+        this.sprtRdr.sprite = this.isSelected
+        ? this.GetGemVisualSelected(this.gemType, this.gemSpecialType)
+        : this.GetGemVisualIdle(this.gemType, this.gemSpecialType);
     }
 
     public void ShowHintRoutine()
@@ -93,5 +100,30 @@ public class GemModel : BaseBehaviour
                 yield return null;
             }
         }
+    }
+
+    public Sprite GetGemVisualIdle(GemType gemType, GemSpecialType gemSpecialType)
+    {
+        return this.gemCtrl.GemDespawn.GemSpawner.gemVisuals.Find(
+            x =>
+            x.GemType == gemType &&
+            x.GemSpecialType == gemSpecialType
+        ).Sprite_Idle;
+    }
+
+    public Sprite GetGemVisualSelected(GemType gemType, GemSpecialType gemSpecialType)
+    {
+
+        if (gemSpecialType != GemSpecialType.Bomb)
+            return this.gemCtrl.GemDespawn.GemSpawner.gemVisuals.Find(
+                    x => x.GemType == gemType
+                ).Sprite_Selected;
+
+        else
+            return this.gemCtrl.GemDespawn.GemSpawner.gemVisuals.Find(
+                    x =>
+                    x.GemType == gemType &&
+                    x.GemSpecialType == gemSpecialType
+                ).Sprite_Selected;
     }
 }

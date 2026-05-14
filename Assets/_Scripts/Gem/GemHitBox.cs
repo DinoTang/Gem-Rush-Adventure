@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class GemHitBox : BaseBehaviour
+public class GemHitBox : BaseBehaviour,
+    IPointerDownHandler,
+    IPointerEnterHandler,
+    IPointerUpHandler
 {
-    [SerializeField] protected GemCtrl gemCtrl;
+    [SerializeField] private GemCtrl gemCtrl;
     public GemCtrl GemCtrl => gemCtrl;
 
     protected override void LoadComponent()
@@ -19,10 +21,18 @@ public class GemHitBox : BaseBehaviour
         this.gemCtrl = transform.parent.GetComponent<GemCtrl>();
         Debug.Log(transform.name + ": LoadGemCtrl");
     }
-
-    private void OnMouseDown()
+    public void OnPointerDown(PointerEventData eventData)
     {
-        BoardManager.Instance.SetSelectedGem(this.gemCtrl);
-        Debug.Log(transform.parent.name + ": Click");
+        BoardManager.Instance.InputHandler.BeginDrag(this.gemCtrl);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        BoardManager.Instance.InputHandler.DragOver(this.gemCtrl);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        BoardManager.Instance.InputHandler.EndDrag();
     }
 }
