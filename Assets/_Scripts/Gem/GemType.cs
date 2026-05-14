@@ -6,5 +6,6 @@ public enum GemType
     Green,
     Yellow,
     Purple,
-    DragonBall
+    Orange,
+    RainBow
 }
