@@ -12,6 +12,7 @@ public class BoardSwapHandler : BaseBehaviour
     private BoardValidator boardValidator = new();
 
     private SpecialResolver specialResolver = new();
+    private SpecialPatternRegistry specialPatternRegistry = new();
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -96,7 +97,11 @@ public class BoardSwapHandler : BaseBehaviour
         GemCtrl cube = gemA.GemModel.GemSpecialType == GemSpecialType.Cube ? gemA : gemB;
         GemCtrl target = cube == gemA ? gemB : gemA;
 
-        List<(int x, int y)> cells = specialResolver.GetCubeCells(target, this.boardManager.Grid);
+        List<(int x, int y)> cells =
+        this.specialPatternRegistry
+        .GetPattern(GemSpecialType.Cube)
+        .GetCells(target, this.boardManager.Grid);
+
         cells.Add((cube.GridPos.x, cube.GridPos.y));
         yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveGravityRoutine(cells));
         yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveBoardRoutine(gemA, gemB));

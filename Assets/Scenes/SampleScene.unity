@@ -1554,8 +1554,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GemVisual
   GemType: 7
   GemSpecialType: 4
-  Sprite_Idle: {fileID: 7284847802514986340, guid: 27e1feca18c9a144a8f4a6b31d0c88c8, type: 3}
-  Sprite_Selected: {fileID: 7284847802514986340, guid: 27e1feca18c9a144a8f4a6b31d0c88c8, type: 3}
+  Sprite_Idle: {fileID: -6994034265325590115, guid: c66801c0d12be2149b82eada4ccfa155, type: 3}
+  Sprite_Selected: {fileID: -6994034265325590115, guid: c66801c0d12be2149b82eada4ccfa155, type: 3}
 --- !u!1 &1513418919
 GameObject:
   m_ObjectHideFlags: 0
@@ -4269,7 +4269,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 1
-  m_Sprite: {fileID: 7284847802514986340, guid: 27e1feca18c9a144a8f4a6b31d0c88c8, type: 3}
+  m_Sprite: {fileID: -6994034265325590115, guid: c66801c0d12be2149b82eada4ccfa155, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class MatchResolver
 {
     private SpecialResolver specialResolver = new();
-
+    private SpecialPatternRegistry specialPatternRegistry = new();
     public List<(int x, int y)> ResolveMatches(
             List<MatchResult> matches,
             GridModel<GemCtrl> grid,
@@ -33,7 +33,10 @@ public class MatchResolver
         while (specialQueue.Count > 0)
         {
             GemCtrl specialGem = specialQueue.Dequeue();
-            var extraCells = specialResolver.Resolve(specialGem, grid);
+            var extraCells =
+            this.specialPatternRegistry
+            .GetPattern(specialGem.GemModel.GemSpecialType)
+            .GetCells(specialGem, grid);
 
             foreach (var cell in extraCells)
             {
