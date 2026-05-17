@@ -91,15 +91,19 @@ Assets/_Scripts/
  _Core/Pieces/
   Piece.cs
   PieceType.cs
- _Core/Special/
-  Interface/ISpecialPattern.cs
-  Patterns/
-   BombPattern.cs
-   ColumnRocketPattern.cs
-   CubePattern.cs
-   RowRocketPattern.cs
-  Registry/SpecialPatternRegistry.cs
-  SpecialResolver.cs
+ _Core/Special/Interface/
+  ISpecialComboPattern.cs
+  ISpecialPattern.cs
+ _Core/Special/Patterns/
+  BombPattern.cs
+  ColumnRocketPattern.cs
+  Combo/CubeSpecialPattern.cs
+  CubePattern.cs
+  RowRocketPattern.cs
+ _Core/Special/Registry/
+  SpecialComboRegistry.cs
+  SpecialPatternRegistry.cs
+ _Core/Special/SpecialTriggerResolver.cs
 Temp/obj/Assembly-CSharp/.NETStandard,Version=v2.1.AssemblyAttributes.cs
 
 [metadataReferences]

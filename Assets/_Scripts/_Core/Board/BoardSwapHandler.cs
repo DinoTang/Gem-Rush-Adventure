@@ -11,7 +11,7 @@ public class BoardSwapHandler : BaseBehaviour
     public bool IsBusy => isBusy;
     private BoardValidator boardValidator = new();
 
-    private SpecialResolver specialResolver = new();
+    private SpecialTriggerResolver specialTriggerResolver = new();
     private SpecialPatternRegistry specialPatternRegistry = new();
     protected override void LoadComponent()
     {
@@ -46,7 +46,6 @@ public class BoardSwapHandler : BaseBehaviour
                 selectedGem.GemModel.SetIsSelected(false);
                 selectedGem.GemModel.SetVisual();
             }
-            selectedGem = null;
             this.isBusy = false;
 
             yield break;
@@ -54,25 +53,14 @@ public class BoardSwapHandler : BaseBehaviour
 
         yield return StartCoroutine(this.PerformSwapRoutine(gemA, gemB));
 
-        bool isCubeSwap =
-            gemA.GemModel.GemSpecialType == GemSpecialType.Cube ||
-            gemB.GemModel.GemSpecialType == GemSpecialType.Cube;
+        List<(int x, int y)> cells = null;
 
+        yield return StartCoroutine(this.specialTriggerResolver
+        .Resolve(gemA, gemB, this.boardManager.Grid, result => cells = result));
 
-        if (isCubeSwap)
+        if (cells != null && cells.Count > 0)
         {
-            yield return StartCoroutine(this.HandleCubeSwapRoutine(gemA, gemB));
-            this.isBusy = false;
-            yield break;
-        }
-
-        bool hasSpecialSwap =
-            gemA.GemModel.GemSpecialType != GemSpecialType.None ||
-            gemB.GemModel.GemSpecialType != GemSpecialType.None;
-
-        if (hasSpecialSwap)
-        {
-            yield return StartCoroutine(this.HandleSpecialSwapRoutine(gemA, gemB));
+            yield return StartCoroutine(this.HandleSpecialSwapRoutine(gemA, gemB, cells));
             this.isBusy = false;
             yield break;
         }
@@ -92,31 +80,8 @@ public class BoardSwapHandler : BaseBehaviour
         this.isBusy = false;
     }
 
-    protected IEnumerator HandleCubeSwapRoutine(GemCtrl gemA, GemCtrl gemB)
+    protected IEnumerator HandleSpecialSwapRoutine(GemCtrl gemA, GemCtrl gemB, List<(int x, int y)> cells)
     {
-        GemCtrl cube = gemA.GemModel.GemSpecialType == GemSpecialType.Cube ? gemA : gemB;
-        GemCtrl target = cube == gemA ? gemB : gemA;
-
-        List<(int x, int y)> cells =
-        this.specialPatternRegistry
-        .GetPattern(GemSpecialType.Cube)
-        .GetCells(target, this.boardManager.Grid);
-
-        cells.Add((cube.GridPos.x, cube.GridPos.y));
-        yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveGravityRoutine(cells));
-        yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveBoardRoutine(gemA, gemB));
-    }
-
-    protected IEnumerator HandleSpecialSwapRoutine(GemCtrl gemA, GemCtrl gemB)
-    {
-        List<MatchResult> fakeMatches = new();
-        MatchResult specialMatch = new();
-
-        specialMatch.Cells.Add((gemA.GridPos.x, gemA.GridPos.y));
-        specialMatch.Cells.Add((gemB.GridPos.x, gemB.GridPos.y));
-        fakeMatches.Add(specialMatch);
-
-        var cells = this.boardManager.MatchResolver.ResolveMatches(fakeMatches, this.boardManager.Grid);
         yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveGravityRoutine(cells));
         yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveBoardRoutine(gemA, gemB));
     }

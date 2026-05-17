@@ -203,7 +203,7 @@ public class MatchFinder
         var gem = grid.Get(cell.x, cell.y);
         if (gem == null) return;
 
-        if (gemSpecialType == GemSpecialType.Cube) gem.GemModel.SetGemType(GemType.RainBow);
+        if (gemSpecialType == GemSpecialType.Cube) gem.GemModel.SetGemType(GemType.Cube);
         gem.GemModel.SetGemSpecialType(gemSpecialType);
         gem.GemModel.SetVisual();
         protectedCells.Add((cell.x, cell.y));

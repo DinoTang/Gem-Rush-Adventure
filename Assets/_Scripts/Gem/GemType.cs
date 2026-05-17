@@ -7,5 +7,5 @@ public enum GemType
     Yellow,
     Purple,
     Orange,
-    RainBow
+    Cube
 }

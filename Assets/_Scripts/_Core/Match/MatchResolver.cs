@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public class MatchResolver
 {
-    private SpecialResolver specialResolver = new();
+    // private SpecialResolver specialResolver = new();
     private SpecialPatternRegistry specialPatternRegistry = new();
     public List<(int x, int y)> ResolveMatches(
             List<MatchResult> matches,
