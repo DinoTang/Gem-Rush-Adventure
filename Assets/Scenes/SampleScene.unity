@@ -821,7 +821,7 @@ GameObject:
   - component: {fileID: 583783996}
   - component: {fileID: 583783995}
   m_Layer: 0
-  m_Name: back_game0 1_0
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4844,9 +4844,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1086277551}
+  - {fileID: 583783996}
   - {fileID: 1185846013}
   - {fileID: 306568959}
   - {fileID: 1584529886}
-  - {fileID: 583783996}
   - {fileID: 1892468125}
   - {fileID: 1099471245}
