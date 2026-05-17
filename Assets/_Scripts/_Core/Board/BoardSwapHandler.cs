@@ -10,7 +10,7 @@ public class BoardSwapHandler : BaseBehaviour
     [SerializeField] protected bool isBusy = false;
     public bool IsBusy => isBusy;
     private BoardValidator boardValidator = new();
-
+    private List<GemState> previousBoardState = new();
     private SpecialTriggerResolver specialTriggerResolver = new();
     private SpecialPatternRegistry specialPatternRegistry = new();
     protected override void LoadComponent()
@@ -37,6 +37,27 @@ public class BoardSwapHandler : BaseBehaviour
     }
     public IEnumerator TrySwapRoutine(GemCtrl gemA, GemCtrl gemB)
     {
+        // Lưu board 
+        for (int y = 0; y < this.boardManager.Grid.Height; y++)
+        {
+            for (int x = 0; x < this.boardManager.Grid.Width; x++)
+            {
+                GemCtrl gem = this.boardManager.Grid.Get(x, y);
+                if (gem == null) continue;
+                GemState gemState = new()
+                {
+                    x = x,
+                    y = y,
+                    gemType = gem.GemModel.GemType,
+                    specialType = gem.GemModel.GemSpecialType
+                };
+
+                this.previousBoardState.Add(gemState);
+            }
+        }
+
+
+
         this.isBusy = true;
         GemCtrl selectedGem = this.boardManager.InputHandler.SelectedGem;
         if (!this.boardValidator.CanSwap(gemA, gemB))
@@ -122,5 +143,18 @@ public class BoardSwapHandler : BaseBehaviour
         StartCoroutine(gemB.GemMove.MoveTo(worldPosB, this.boardManager.AnimationHandler.AnimGemMoveTime));
 
         yield return new WaitForSeconds(this.boardManager.AnimationHandler.AnimGemMoveTime);
+    }
+
+    public void RestorePreviousBoard()
+    {
+        foreach (var child in this.previousBoardState)
+        {
+            GemCtrl gem = this.boardManager.Grid.Get(child.x, child.y);
+            if (gem == null) continue;
+            gem.GemModel.SetGemType(child.gemType);
+            gem.GemModel.SetGemSpecialType(child.specialType);
+
+            gem.GemModel.SetVisual();
+        }
     }
 }

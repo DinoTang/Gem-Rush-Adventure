@@ -51,14 +51,26 @@ public class SpecialTriggerResolver
         {
             var pattern = this.patternRegistry.GetPattern(typeA);
 
-            cells.UnionWith(pattern.GetCells(gemA, grid));
+            if (typeA != GemSpecialType.Cube)
+                cells.UnionWith(pattern.GetCells(gemA, grid));
+            else
+            {
+                cells.UnionWith(pattern.GetCells(gemB, grid));
+                cells.Add((gemA.GridPos.x, gemA.GridPos.y));
+            }
         }
 
         if (typeB != GemSpecialType.None)
         {
             var pattern = this.patternRegistry.GetPattern(typeB);
 
-            cells.UnionWith(pattern.GetCells(gemB, grid));
+            if (typeB != GemSpecialType.Cube)
+                cells.UnionWith(pattern.GetCells(gemB, grid));
+            else
+            {
+                cells.UnionWith(pattern.GetCells(gemA, grid));
+                cells.Add((gemA.GridPos.x, gemA.GridPos.y));
+            }
         }
         onCompleted?.Invoke(
              new List<(int x, int y)>(cells)
