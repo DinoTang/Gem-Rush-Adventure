@@ -12,27 +12,39 @@ public class MatchResolver
     {
         HashSet<(int x, int y)> cellsToClear = new();
 
-        Queue<GemCtrl> specialQueue = new();
 
         foreach (var match in matches)
         {
             foreach (var cell in match.Cells)
             {
                 if (excluded != null && excluded.Contains(cell)) continue;
+
                 cellsToClear.Add(cell);
-
-                GemCtrl gem = grid.Get(cell.x, cell.y);
-
-                if (gem == null) continue;
-
-                if (gem.GemModel.GemSpecialType != GemSpecialType.None)
-                    specialQueue.Enqueue(gem);
             }
+        }
+
+        return this.ResolveSpecialChains(new List<(int x, int y)>(cellsToClear), grid);
+    }
+
+    public List<(int x, int y)> ResolveSpecialChains(List<(int x, int y)> inputCells, GridModel<GemCtrl> grid)
+    {
+        HashSet<(int x, int y)> cellsToClear = new(inputCells);
+
+        Queue<GemCtrl> specialQueue = new();
+        foreach (var cell in inputCells)
+        {
+            GemCtrl gem = grid.Get(cell.x, cell.y);
+
+            if (gem == null) continue;
+
+            if (gem.GemModel.GemSpecialType != GemSpecialType.None)
+                specialQueue.Enqueue(gem);
         }
 
         while (specialQueue.Count > 0)
         {
             GemCtrl specialGem = specialQueue.Dequeue();
+
             var extraCells =
             this.specialPatternRegistry
             .GetPattern(specialGem.GemModel.GemSpecialType)
@@ -51,10 +63,6 @@ public class MatchResolver
                     specialQueue.Enqueue(gem);
             }
         }
-
-
         return new List<(int x, int y)>(cellsToClear);
     }
-
-
 }

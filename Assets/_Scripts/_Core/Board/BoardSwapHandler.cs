@@ -37,26 +37,8 @@ public class BoardSwapHandler : BaseBehaviour
     }
     public IEnumerator TrySwapRoutine(GemCtrl gemA, GemCtrl gemB)
     {
-        // Lưu board 
-        for (int y = 0; y < this.boardManager.Grid.Height; y++)
-        {
-            for (int x = 0; x < this.boardManager.Grid.Width; x++)
-            {
-                GemCtrl gem = this.boardManager.Grid.Get(x, y);
-                if (gem == null) continue;
-                GemState gemState = new()
-                {
-                    x = x,
-                    y = y,
-                    gemType = gem.GemModel.GemType,
-                    specialType = gem.GemModel.GemSpecialType
-                };
 
-                this.previousBoardState.Add(gemState);
-            }
-        }
-
-
+        this.SavePreviousBoard();
 
         this.isBusy = true;
         GemCtrl selectedGem = this.boardManager.InputHandler.SelectedGem;
@@ -74,17 +56,7 @@ public class BoardSwapHandler : BaseBehaviour
 
         yield return StartCoroutine(this.PerformSwapRoutine(gemA, gemB));
 
-        List<(int x, int y)> cells = null;
-
-        yield return StartCoroutine(this.specialTriggerResolver
-        .Resolve(gemA, gemB, this.boardManager.Grid, result => cells = result));
-
-        if (cells != null && cells.Count > 0)
-        {
-            yield return StartCoroutine(this.HandleSpecialSwapRoutine(gemA, gemB, cells));
-            this.isBusy = false;
-            yield break;
-        }
+        yield return StartCoroutine(this.HandleResolvedSpecialSwap(gemA, gemB));
 
 
         if (this.HasAnyMatch())
@@ -144,7 +116,48 @@ public class BoardSwapHandler : BaseBehaviour
 
         yield return new WaitForSeconds(this.boardManager.AnimationHandler.AnimGemMoveTime);
     }
+    protected IEnumerator HandleResolvedSpecialSwap(GemCtrl gemA, GemCtrl gemB)
+    {
+        List<(int x, int y)> cells = null;
 
+        yield return StartCoroutine(this.specialTriggerResolver
+        .Resolve(gemA, gemB, this.boardManager.Grid, result => cells = result));
+
+        if (cells != null && cells.Count > 0)
+        {
+            var matchCells = this.boardManager.MatchResolver.ResolveSpecialChains(cells, this.boardManager.Grid);
+
+            HashSet<(int x, int y)> finalCells = new(cells);
+            finalCells.UnionWith(matchCells);
+
+            yield return StartCoroutine(this.HandleSpecialSwapRoutine(gemA, gemB, new List<(int x, int y)>(finalCells)));
+            this.isBusy = false;
+            yield break;
+        }
+    }
+
+    protected void SavePreviousBoard()
+    {
+        // Lưu board 
+        for (int y = 0; y < this.boardManager.Grid.Height; y++)
+        {
+            for (int x = 0; x < this.boardManager.Grid.Width; x++)
+            {
+                GemCtrl gem = this.boardManager.Grid.Get(x, y);
+                if (gem == null) continue;
+                GemState gemState = new()
+                {
+                    x = x,
+                    y = y,
+                    gemType = gem.GemModel.GemType,
+                    specialType = gem.GemModel.GemSpecialType
+                };
+
+                this.previousBoardState.Add(gemState);
+            }
+        }
+
+    }
     public void RestorePreviousBoard()
     {
         foreach (var child in this.previousBoardState)

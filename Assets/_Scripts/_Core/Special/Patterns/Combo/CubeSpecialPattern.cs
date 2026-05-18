@@ -7,10 +7,10 @@ using UnityEngine;
 public class CubeSpecialPattern : ISpecialComboPattern
 {
     private ISpecialPattern pattern;
-
-    public CubeSpecialPattern(ISpecialPattern rocketPattern)
+    private float timeToClearCells = 0.18f;
+    public CubeSpecialPattern(ISpecialPattern specialPattern)
     {
-        this.pattern = rocketPattern;
+        this.pattern = specialPattern;
     }
 
     public IEnumerator Execute(
@@ -39,7 +39,7 @@ public class CubeSpecialPattern : ISpecialComboPattern
             }
         }
 
-        yield return this.TransformToRocketRoutine(transformCells, grid, target.GemModel.GemSpecialType);
+        yield return this.TransformToSpecialRoutine(transformCells, grid, target.GemModel.GemSpecialType);
 
         foreach (var child in transformCells)
         {
@@ -53,7 +53,7 @@ public class CubeSpecialPattern : ISpecialComboPattern
         );
     }
 
-    protected IEnumerator TransformToRocketRoutine(
+    protected IEnumerator TransformToSpecialRoutine(
     List<(int x, int y)> cells,
     GridModel<GemCtrl> grid,
     GemSpecialType specialType
@@ -69,6 +69,6 @@ public class CubeSpecialPattern : ISpecialComboPattern
             gem.GemModel.SetVisual();
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(this.timeToClearCells);
     }
 }

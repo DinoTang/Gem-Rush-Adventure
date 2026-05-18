@@ -242,6 +242,11 @@ public class MatchFinder
         {
             this.TransformToSpecial(grid, (to.x, to.y), protectedCells, GemSpecialType.Cube);
         }
+
+        if (!hasA && !hasB)
+        {
+            this.TransformRandomMatchCell(grid, match, protectedCells, GemSpecialType.Cube);
+        }
     }
 
     protected List<(int x, int y)> GetOverlapCells(List<MatchResult> matches)
