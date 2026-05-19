@@ -56,12 +56,19 @@ public class BoardSwapHandler : BaseBehaviour
 
         yield return StartCoroutine(this.PerformSwapRoutine(gemA, gemB));
 
-        yield return StartCoroutine(this.HandleResolvedSpecialSwap(gemA, gemB));
+        bool hasResolvedSpecial = false;
+        yield return StartCoroutine(this.HandleResolvedSpecialSwap(gemA, gemB, result => hasResolvedSpecial = result));
 
 
         if (this.HasAnyMatch())
         {
             yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveBoardRoutine(gemA, gemB));
+            this.isBusy = false;
+            yield break;
+        }
+
+        if (hasResolvedSpecial)
+        {
             this.isBusy = false;
             yield break;
         }
@@ -116,7 +123,7 @@ public class BoardSwapHandler : BaseBehaviour
 
         yield return new WaitForSeconds(this.boardManager.AnimationHandler.AnimGemMoveTime);
     }
-    protected IEnumerator HandleResolvedSpecialSwap(GemCtrl gemA, GemCtrl gemB)
+    protected IEnumerator HandleResolvedSpecialSwap(GemCtrl gemA, GemCtrl gemB, Action<bool> onCompleted)
     {
         List<(int x, int y)> cells = null;
 
@@ -132,8 +139,11 @@ public class BoardSwapHandler : BaseBehaviour
 
             yield return StartCoroutine(this.HandleSpecialSwapRoutine(gemA, gemB, new List<(int x, int y)>(finalCells)));
             this.isBusy = false;
+
+            onCompleted?.Invoke(true);
             yield break;
         }
+        onCompleted?.Invoke(false);
     }
 
     protected void SavePreviousBoard()
