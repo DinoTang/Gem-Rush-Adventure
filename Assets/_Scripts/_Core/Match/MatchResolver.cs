@@ -30,7 +30,7 @@ public class MatchResolver
     {
         HashSet<(int x, int y)> cellsToClear = new(inputCells);
 
-        Queue<GemCtrl> specialQueue = new();
+        Queue<(int x, int y)> specialQueue = new();
         foreach (var cell in inputCells)
         {
             GemCtrl gem = grid.Get(cell.x, cell.y);
@@ -38,12 +38,15 @@ public class MatchResolver
             if (gem == null) continue;
 
             if (gem.GemModel.GemSpecialType != GemSpecialType.None)
-                specialQueue.Enqueue(gem);
+                specialQueue.Enqueue(cell);
         }
 
         while (specialQueue.Count > 0)
         {
-            GemCtrl specialGem = specialQueue.Dequeue();
+            var specialCell = specialQueue.Dequeue();
+
+            GemCtrl specialGem = grid.Get(specialCell.x, specialCell.y);
+            if (specialGem == null) continue;
 
             var extraCells =
             this.specialPatternRegistry
@@ -60,7 +63,7 @@ public class MatchResolver
                 if (gem == null) continue;
 
                 if (gem.GemModel.GemSpecialType != GemSpecialType.None)
-                    specialQueue.Enqueue(gem);
+                    specialQueue.Enqueue(cell);
             }
         }
         return new List<(int x, int y)>(cellsToClear);
