@@ -9,7 +9,7 @@ public class GemDespawn : Despawn<GemCtrl>
     {
         GemCtrl gem = (GemCtrl)parent;
         gem.ResetGemData();
-
+        VFXSpawner.Instance.Spawn("VFX_GemSharb", this.transform.position);
         base.DoDespawn();
     }
 }
