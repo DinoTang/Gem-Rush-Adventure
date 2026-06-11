@@ -9,6 +9,7 @@ public class GemDespawn : Despawn<GemCtrl>
     {
         GemCtrl gem = (GemCtrl)parent;
 
+        VFXSpawner.Instance.SpawnCommon(CommonVFXType.Shockwave, this.transform.position);
         VFXSpawner.Instance.SpawnCommon(CommonVFXType.Sparkle, this.transform.position);
         VFXSpawner.Instance.SpawnGemVFX(gem.GemModel.GemType, this.transform.position);
 
