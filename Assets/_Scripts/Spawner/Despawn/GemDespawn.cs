@@ -8,8 +8,11 @@ public class GemDespawn : Despawn<GemCtrl>
     public override void DoDespawn()
     {
         GemCtrl gem = (GemCtrl)parent;
+
+        VFXSpawner.Instance.SpawnCommon(CommonVFXType.Sparkle, this.transform.position);
+        VFXSpawner.Instance.SpawnGemVFX(gem.GemModel.GemType, this.transform.position);
+
         gem.ResetGemData();
-        VFXSpawner.Instance.Spawn("VFX_GemSharb", this.transform.position);
         base.DoDespawn();
     }
 }
