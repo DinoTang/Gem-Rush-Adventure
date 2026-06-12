@@ -12,7 +12,6 @@ public class BoardSwapHandler : BaseBehaviour
     private BoardValidator boardValidator = new();
     private List<GemState> previousBoardState = new();
     private SpecialTriggerResolver specialTriggerResolver = new();
-    private SpecialPatternRegistry specialPatternRegistry = new();
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -148,7 +147,6 @@ public class BoardSwapHandler : BaseBehaviour
 
     protected void SavePreviousBoard()
     {
-        // Lưu board 
         for (int y = 0; y < this.boardManager.Grid.Height; y++)
         {
             for (int x = 0; x < this.boardManager.Grid.Width; x++)

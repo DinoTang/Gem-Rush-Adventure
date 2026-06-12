@@ -26,6 +26,18 @@ public class BoardAnimationHandler : BaseBehaviour
     {
         float time = 0f;
         float duration = this.animGemMoveTime;
+        // float duration = 0f;
+
+        // foreach (var fallMove in fallMoves)
+        // {
+        //     float distance =
+        //         Mathf.Abs(fallMove.targetPos.y - fallMove.currentPos.y);
+
+        //     duration = Mathf.Max(
+        //         duration,
+        //         distance * animGemMoveTime
+        //     );
+        // }
         while (time < duration)
         {
             time += Time.deltaTime;
@@ -44,5 +56,22 @@ public class BoardAnimationHandler : BaseBehaviour
         {
             fallMove.gem.transform.position = this.boardManager.GetWorldPos((int)fallMove.targetPos.x, (int)fallMove.targetPos.y);
         }
+    }
+
+    public IEnumerator AnimateMerge(List<SpecialMergeInfo> mergeInfos)
+    {
+        foreach (var info in mergeInfos)
+        {
+            Vector3 targetPos = this.boardManager.GetWorldPos(info.SpecialCell.x, info.SpecialCell.y);
+
+            foreach (var source in info.SourceCells)
+            {
+                var gem = this.boardManager.Grid.Get(source.x, source.y);
+                if (gem == null) continue;
+                StartCoroutine(gem.GemMove.MoveTo(targetPos, this.animGemMoveTime));
+            }
+        }
+
+        yield return new WaitForSeconds(this.animGemMoveTime);
     }
 }

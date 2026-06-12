@@ -143,7 +143,7 @@ public class MatchFinder
 
         return protectedCells;
     }
-    protected void ProcessMatch4(
+    protected (int x, int y) ProcessMatch4(
         GridModel<GemCtrl> grid,
         MatchResult match,
         Vector2Int from,
@@ -173,56 +173,61 @@ public class MatchFinder
                                          : GemSpecialType.VerticalRocket;
         }
 
+        (int x, int y) specialPos = new(-1, -1);
 
         if (hasA)
         {
-            this.TransformToSpecial(grid, (from.x, from.y), protectedCells, gemSpecialType);
+            specialPos = this.TransformToSpecial(grid, (from.x, from.y), protectedCells, gemSpecialType);
         }
 
         if (hasB)
         {
-            this.TransformToSpecial(grid, (to.x, to.y), protectedCells, gemSpecialType);
+            specialPos = this.TransformToSpecial(grid, (to.x, to.y), protectedCells, gemSpecialType);
         }
 
         if (!hasA && !hasB)
         {
-            this.TransformRandomMatchCell(grid, match, protectedCells, gemSpecialType);
+            specialPos = this.TransformRandomMatchCell(grid, match, protectedCells, gemSpecialType);
         }
+
+        return specialPos;
     }
 
-    protected void TransformToSpecial(
+    protected (int x, int y) TransformToSpecial(
         GridModel<GemCtrl> grid,
         (int x, int y) cell,
         List<(int x, int y)> protectedCells,
-        // GemType type,
         GemSpecialType gemSpecialType
         )
     {
-        if (protectedCells.Contains(cell)) return;
+        if (protectedCells.Contains(cell)) return (-1, -1);
 
         var gem = grid.Get(cell.x, cell.y);
-        if (gem == null) return;
+        if (gem == null) return (-1, -1);
 
         if (gemSpecialType == GemSpecialType.Cube) gem.GemModel.SetGemType(GemType.Cube);
         gem.GemModel.SetGemSpecialType(gemSpecialType);
         gem.GemModel.SetVisual();
         protectedCells.Add((cell.x, cell.y));
+
+        return cell;
     }
 
-    protected void TransformRandomMatchCell(
+    protected (int x, int y) TransformRandomMatchCell(
         GridModel<GemCtrl> grid,
         MatchResult match,
         List<(int x, int y)> protectedCells,
-        // GemType type,
         GemSpecialType specialType)
     {
         int rand = Random.Range(0, match.Cells.Count);
         var cell = match.Cells[rand];
 
         this.TransformToSpecial(grid, cell, protectedCells, specialType);
+
+        return cell;
     }
 
-    protected void ProcessMatch5(
+    protected (int x, int y) ProcessMatch5(
        GridModel<GemCtrl> grid,
        MatchResult match,
        Vector2Int from,
@@ -232,21 +237,23 @@ public class MatchFinder
     {
         bool hasA = match.Cells.Contains((from.x, from.y));
         bool hasB = match.Cells.Contains((to.x, to.y));
-
+        (int x, int y) specialPos = new(-1, -1);
         if (hasA)
         {
-            this.TransformToSpecial(grid, (from.x, from.y), protectedCells, GemSpecialType.Cube);
+            specialPos = this.TransformToSpecial(grid, (from.x, from.y), protectedCells, GemSpecialType.Cube);
         }
 
         if (hasB)
         {
-            this.TransformToSpecial(grid, (to.x, to.y), protectedCells, GemSpecialType.Cube);
+            specialPos = this.TransformToSpecial(grid, (to.x, to.y), protectedCells, GemSpecialType.Cube);
         }
 
         if (!hasA && !hasB)
         {
-            this.TransformRandomMatchCell(grid, match, protectedCells, GemSpecialType.Cube);
+            specialPos = this.TransformRandomMatchCell(grid, match, protectedCells, GemSpecialType.Cube);
         }
+
+        return specialPos;
     }
 
     protected List<(int x, int y)> GetOverlapCells(List<MatchResult> matches)
@@ -268,10 +275,63 @@ public class MatchFinder
     protected void ProcessTLShapeBomb(List<MatchResult> matches, GridModel<GemCtrl> grid, List<(int x, int y)> protectedCells)
     {
         var overlarpCells = this.GetOverlapCells(matches);
-
+        // (int x, int y) specialPos = (-1, -1);
         foreach (var cell in overlarpCells)
         {
             this.TransformToSpecial(grid, cell, protectedCells, GemSpecialType.Bomb);
         }
+
+        // return specialPos;
+    }
+
+    public List<SpecialMergeInfo> GetSpecialMergeInfos(
+    GridModel<GemCtrl> grid,
+    List<MatchResult> matches,
+    Vector2Int selected,
+    Vector2Int target)
+    {
+        List<SpecialMergeInfo> mergeInfos = new();
+        List<(int x, int y)> protectedCells = new();
+
+        // var n = this.ProcessTLShapeBomb(matches, grid, protectedCells);
+        // if (n != (-1, -1))
+        // {
+        //     SpecialMergeInfo specialMergeInfo = new()
+        //     {
+        //         SpecialCell = n,
+        //         SourceCells = new List<(int x, int y)>()
+        //     };
+        //     mergeInfos.Add(specialMergeInfo);
+        // }
+        foreach (MatchResult match in matches)
+        {
+            if (match.Cells.Count == 5 || match.Cells.Count == 4)
+            {
+                SpecialMergeInfo specialMergeInfo = new();
+                if (match.Cells.Count == 5)
+                {
+                    var specialCell = this.ProcessMatch5(grid, match, selected, target, protectedCells);
+
+                    if (specialCell == (-1, -1)) continue;
+                    specialMergeInfo.SpecialCell = specialCell;
+                    specialMergeInfo.SourceCells = new List<(int x, int y)>(match.Cells);
+                    specialMergeInfo.SourceCells.Remove(specialCell);
+                }
+
+                if (match.Cells.Count == 4)
+                {
+                    var specialCell = this.ProcessMatch4(grid, match, selected, target, protectedCells);
+
+                    if (specialCell == (-1, -1)) continue;
+                    specialMergeInfo.SpecialCell = specialCell;
+                    specialMergeInfo.SourceCells = new List<(int x, int y)>(match.Cells);
+                    specialMergeInfo.SourceCells.Remove(specialCell);
+                }
+
+                mergeInfos.Add(specialMergeInfo);
+            }
+        }
+
+        return mergeInfos;
     }
 }

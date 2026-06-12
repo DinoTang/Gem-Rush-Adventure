@@ -25,7 +25,22 @@ public class BoardResolveHandler : BaseBehaviour
         while (true)
         {
             var matches = matchFinder.FindMatches(this.boardManager.Grid);
-            var excluded = matchFinder.GetProtectedSpecialCells(this.boardManager.Grid, matches, gemA.GridPos, gemB.GridPos);
+            var mergeInfos = matchFinder.GetSpecialMergeInfos(
+                this.boardManager.Grid,
+                matches,
+                gemA.GridPos,
+                gemB.GridPos
+            );
+
+            var excluded = new List<(int x, int y)>();
+            foreach (var info in mergeInfos)
+            {
+                excluded.Add(info.SpecialCell);
+            }
+
+            // Nếu muốn animate merge trước khi clear
+            yield return StartCoroutine(this.boardManager.AnimationHandler.AnimateMerge(mergeInfos));
+
             if (matches.Count == 0)
             {
                 HintManager.Instance.RefreshHint();
@@ -35,6 +50,7 @@ public class BoardResolveHandler : BaseBehaviour
             var cells = this.boardManager.MatchResolver.ResolveMatches(matches, this.boardManager.Grid, excluded);
             yield return StartCoroutine(ResolveGravityRoutine(cells));
         }
+
     }
     public IEnumerator ResolveGravityRoutine(List<(int x, int y)> cells)
     {
