@@ -5612,7 +5612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoardAnimationHandler
   boardManager: {fileID: 1185846012}
   swapGemMoveTime: 0.18
-  gravityGemMoveTime: 0.18
+  gravityGemMoveTime: 0.08
 --- !u!4 &493563440
 Transform:
   m_ObjectHideFlags: 0
