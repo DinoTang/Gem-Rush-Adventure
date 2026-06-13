@@ -68,7 +68,7 @@ public class BoardResolveHandler : BaseBehaviour
 
         var allFallMoves = new List<FallMove>(fallMoves);
         allFallMoves.AddRange(fallMovesSpawn);
-
+        
         yield return StartCoroutine(this.boardManager.AnimationHandler.AnimateGravity(allFallMoves));
     }
 

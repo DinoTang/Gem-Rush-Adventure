@@ -55,8 +55,10 @@ public class BoardSwapHandler : BaseBehaviour
 
         yield return StartCoroutine(this.PerformSwapRoutine(gemA, gemB));
 
+        var matches = this.boardManager.MatchFinder.FindMatches(this.boardManager.Grid);
+
         bool hasResolvedSpecial = false;
-        yield return StartCoroutine(this.HandleResolvedSpecialSwap(gemA, gemB, result => hasResolvedSpecial = result));
+        yield return StartCoroutine(this.HandleResolvedSpecialSwap(matches, gemA, gemB, result => hasResolvedSpecial = result));
 
 
         if (this.HasAnyMatch())
@@ -122,18 +124,25 @@ public class BoardSwapHandler : BaseBehaviour
 
         yield return new WaitForSeconds(this.boardManager.AnimationHandler.SwapGemMoveTime);
     }
-    protected IEnumerator HandleResolvedSpecialSwap(GemCtrl gemA, GemCtrl gemB, Action<bool> onCompleted)
+    protected IEnumerator HandleResolvedSpecialSwap(List<MatchResult> originalMatches, GemCtrl gemA, GemCtrl gemB, Action<bool> onCompleted)
     {
-        List<(int x, int y)> cells = null;
+        HashSet<(int x, int y)> originalCells = new();
+        foreach (var match in originalMatches)
+        {
+            originalCells.UnionWith(match.Cells);
+        }
+
+        List<(int x, int y)> specialCells = null;
 
         yield return StartCoroutine(this.specialTriggerResolver
-        .Resolve(gemA, gemB, this.boardManager.Grid, result => cells = result));
+        .Resolve(gemA, gemB, this.boardManager.Grid, result => specialCells = result));
 
-        if (cells != null && cells.Count > 0)
+        if (specialCells != null && specialCells.Count > 0)
         {
-            var matchCells = this.boardManager.MatchResolver.ResolveSpecialChains(cells, this.boardManager.Grid);
+            HashSet<(int x, int y)> finalCells = new(specialCells);
+            finalCells.UnionWith(originalCells);
 
-            HashSet<(int x, int y)> finalCells = new(cells);
+            var matchCells = this.boardManager.MatchResolver.ResolveSpecialChains(new List<(int x, int y)>(finalCells), this.boardManager.Grid);
             finalCells.UnionWith(matchCells);
 
             yield return StartCoroutine(this.HandleSpecialSwapRoutine(gemA, gemB, new List<(int x, int y)>(finalCells)));
