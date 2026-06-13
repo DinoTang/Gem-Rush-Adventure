@@ -5203,7 +5203,7 @@ Transform:
   m_GameObject: {fileID: 245287214}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.684, y: 2.935, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -5611,7 +5611,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoardAnimationHandler
   boardManager: {fileID: 1185846012}
-  animGemMoveTime: 0.18
+  swapGemMoveTime: 0.18
+  gravityGemMoveTime: 0.18
 --- !u!4 &493563440
 Transform:
   m_ObjectHideFlags: 0
@@ -10516,7 +10517,7 @@ Transform:
   m_GameObject: {fileID: 503721812}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.684, y: 2.935, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -11256,12 +11257,12 @@ GameObject:
   - component: {fileID: 936622503}
   - component: {fileID: 936622502}
   m_Layer: 0
-  m_Name: VFX_Shockwave_Megere
+  m_Name: VFX_Shockwave_Megre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &936622501
 Transform:
   m_ObjectHideFlags: 0
@@ -11271,8 +11272,8 @@ Transform:
   m_GameObject: {fileID: 936622500}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.344, y: 3.948, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 984594879}
@@ -11293,7 +11294,7 @@ MonoBehaviour:
   gemSharbParticel: {fileID: 936622504}
   category: 1
   type: 0
-  commonType: 1
+  commonType: 2
 --- !u!199 &936622503
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -16183,7 +16184,7 @@ Transform:
   m_GameObject: {fileID: 942813193}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.684, y: 2.935, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -21545,7 +21546,7 @@ Transform:
   m_GameObject: {fileID: 1115524668}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.684, y: 2.935, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -26457,7 +26458,7 @@ Transform:
   m_GameObject: {fileID: 1128621392}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.344, y: 3.948, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -36402,7 +36403,7 @@ Transform:
   m_GameObject: {fileID: 1328538204}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.684, y: 2.935, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -36466,7 +36467,9 @@ MonoBehaviour:
   - {fileID: 1930490666}
   - {fileID: 942813195}
   - {fileID: 1128621394}
+  - {fileID: 936622502}
   - {fileID: 1598923329}
+  - {fileID: 1115524670}
 --- !u!1 &1443882199
 GameObject:
   m_ObjectHideFlags: 0
@@ -36850,7 +36853,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1598923328
 Transform:
   m_ObjectHideFlags: 0
@@ -36860,7 +36863,7 @@ Transform:
   m_GameObject: {fileID: 1598923327}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.684, y: 2.935, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -36882,7 +36885,7 @@ MonoBehaviour:
   gemSharbParticel: {fileID: 1598923331}
   category: 1
   type: 0
-  commonType: 2
+  commonType: 3
 --- !u!199 &1598923330
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -47094,7 +47097,7 @@ Transform:
   m_GameObject: {fileID: 1930490665}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.684, y: 2.935, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -49667,8 +49670,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 1086277551}
   - {fileID: 583783996}
-  - {fileID: 1185846013}
   - {fileID: 306568959}
+  - {fileID: 1185846013}
   - {fileID: 1584529886}
   - {fileID: 1892468125}
   - {fileID: 1099471245}
