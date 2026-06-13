@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MatchFinder
 {
@@ -114,35 +116,35 @@ public class MatchFinder
         return match;
     }
 
-    public List<(int x, int y)> GetProtectedSpecialCells(
-        GridModel<GemCtrl> grid,
-        List<MatchResult> matches,
-        Vector2Int selected,
-        Vector2Int target)
-    {
-        Vector2Int from = selected;
-        Vector2Int to = target;
+    // public List<(int x, int y)> GetProtectedSpecialCells(
+    //     GridModel<GemCtrl> grid,
+    //     List<MatchResult> matches,
+    //     Vector2Int selected,
+    //     Vector2Int target)
+    // {
+    //     Vector2Int from = selected;
+    //     Vector2Int to = target;
 
-        List<(int x, int y)> protectedCells = new();
+    //     List<(int x, int y)> protectedCells = new();
 
-        this.ProcessTLShapeBomb(matches, grid, protectedCells);
+    //     this.ProcessTLShapeBomb(matches, grid, protectedCells);
 
-        foreach (MatchResult match in matches)
-        {
+    //     foreach (MatchResult match in matches)
+    //     {
 
-            if (match.Cells.Count == 5)
-            {
-                this.ProcessMatch5(grid, match, from, to, protectedCells);
-            }
+    //         if (match.Cells.Count == 5)
+    //         {
+    //             this.ProcessMatch5(grid, match, from, to, protectedCells);
+    //         }
 
-            if (match.Cells.Count == 4)
-            {
-                this.ProcessMatch4(grid, match, from, to, protectedCells);
-            }
-        }
+    //         if (match.Cells.Count == 4)
+    //         {
+    //             this.ProcessMatch4(grid, match, from, to, protectedCells);
+    //         }
+    //     }
 
-        return protectedCells;
-    }
+    //     return protectedCells;
+    // }
     protected (int x, int y) ProcessMatch4(
         GridModel<GemCtrl> grid,
         MatchResult match,
@@ -256,32 +258,33 @@ public class MatchFinder
         return specialPos;
     }
 
-    protected List<(int x, int y)> GetOverlapCells(List<MatchResult> matches)
+    protected List<SpecialMergeInfo> ProcessTLShapeBomb(
+        List<MatchResult> matches,
+        GridModel<GemCtrl> grid,
+        List<(int x, int y)> protectedCells)
     {
-        HashSet<(int x, int y)> cells = new();
+        List<SpecialMergeInfo> mergeInfos = new();
+
         for (int i = 0; i < matches.Count - 1; i++)
         {
             for (int j = i + 1; j < matches.Count; j++)
             {
                 foreach (var cell in matches[i].Cells)
                 {
-                    if (matches[j].Cells.Contains(cell)) cells.Add(cell);
+                    if (!matches[j].Cells.Contains(cell)) continue;
+
+                    SpecialMergeInfo specialMergeInfo = new()
+                    {
+                        SpecialCell = this.TransformToSpecial(grid, cell, protectedCells, GemSpecialType.Bomb),
+                        SourceCells = new List<(int x, int y)>(matches[i].Cells),
+                    };
+                    specialMergeInfo.SourceCells.AddRange(matches[j].Cells);
+                    specialMergeInfo.SourceCells.Remove(cell);
+                    mergeInfos.Add(specialMergeInfo);
                 }
             }
         }
-        return new List<(int x, int y)>(cells);
-    }
-
-    protected void ProcessTLShapeBomb(List<MatchResult> matches, GridModel<GemCtrl> grid, List<(int x, int y)> protectedCells)
-    {
-        var overlarpCells = this.GetOverlapCells(matches);
-        // (int x, int y) specialPos = (-1, -1);
-        foreach (var cell in overlarpCells)
-        {
-            this.TransformToSpecial(grid, cell, protectedCells, GemSpecialType.Bomb);
-        }
-
-        // return specialPos;
+        return mergeInfos;
     }
 
     public List<SpecialMergeInfo> GetSpecialMergeInfos(
@@ -293,16 +296,13 @@ public class MatchFinder
         List<SpecialMergeInfo> mergeInfos = new();
         List<(int x, int y)> protectedCells = new();
 
-        // var n = this.ProcessTLShapeBomb(matches, grid, protectedCells);
-        // if (n != (-1, -1))
-        // {
-        //     SpecialMergeInfo specialMergeInfo = new()
-        //     {
-        //         SpecialCell = n,
-        //         SourceCells = new List<(int x, int y)>()
-        //     };
-        //     mergeInfos.Add(specialMergeInfo);
-        // }
+        var mergeInfosTLShapeBomb = this.ProcessTLShapeBomb(matches, grid, protectedCells);
+        if (mergeInfosTLShapeBomb.Count != 0)
+        {
+            mergeInfos.AddRange(mergeInfosTLShapeBomb);
+        }
+
+
         foreach (MatchResult match in matches)
         {
             if (match.Cells.Count == 5 || match.Cells.Count == 4)
