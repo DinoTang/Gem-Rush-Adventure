@@ -26,7 +26,6 @@ public class BoardAnimationHandler : BaseBehaviour
 
     public IEnumerator AnimateGravity(List<FallMove> fallMoves)
     {
-        float time = 0f;
         float duration = this.gravityGemMoveTime;
 
         foreach (var fallMove in fallMoves)
@@ -35,24 +34,15 @@ public class BoardAnimationHandler : BaseBehaviour
             duration = Mathf.Max(duration, distance * this.gravityGemMoveTime);
         }
 
-        while (time < duration)
-        {
-            time += Time.deltaTime;
-            float t = Mathf.Clamp01(time / duration);
-
-            foreach (var fallMove in fallMoves)
-            {
-                Vector3 start = this.boardManager.GetWorldPos((int)fallMove.currentPos.x, (int)fallMove.currentPos.y);
-                Vector3 target = this.boardManager.GetWorldPos((int)fallMove.targetPos.x, (int)fallMove.targetPos.y);
-                fallMove.gem.transform.position = Vector3.Lerp(start, target, t);
-            }
-            yield return null;
-        }
-
         foreach (var fallMove in fallMoves)
         {
-            fallMove.gem.transform.position = this.boardManager.GetWorldPos((int)fallMove.targetPos.x, (int)fallMove.targetPos.y);
+            Vector3 start = this.boardManager.GetWorldPos((int)fallMove.currentPos.x, (int)fallMove.currentPos.y);
+            Vector3 target = this.boardManager.GetWorldPos((int)fallMove.targetPos.x, (int)fallMove.targetPos.y);
+            fallMove.gem.transform.position = start;
+            fallMove.gem.GemMove.MoveTo(target, duration);
         }
+
+        yield return new WaitForSeconds(duration);
     }
 
     public IEnumerator AnimateMerge(List<SpecialMergeInfo> mergeInfos)
@@ -70,7 +60,7 @@ public class BoardAnimationHandler : BaseBehaviour
             {
                 var gem = this.boardManager.Grid.Get(source.x, source.y);
                 if (gem == null) continue;
-                StartCoroutine(gem.GemMove.MoveTo(targetPos, this.swapGemMoveTime));
+                gem.GemMove.MoveTo(targetPos, this.swapGemMoveTime);
             }
         }
 

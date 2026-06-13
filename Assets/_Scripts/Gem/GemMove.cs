@@ -7,6 +7,8 @@ public class GemMove : BaseBehaviour
     [SerializeField] protected GemCtrl gemCtrl;
     public GemCtrl GemCtrl => gemCtrl;
 
+    private Coroutine moveCoroutine;
+
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -20,7 +22,24 @@ public class GemMove : BaseBehaviour
         Debug.Log(transform.name + ": LoadGemCtrl");
     }
 
-    public IEnumerator MoveTo(Vector3 target, float duration)
+    public void MoveTo(Vector3 target, float duration)
+    {
+        if (this.moveCoroutine != null)
+        {
+            StopCoroutine(this.moveCoroutine);
+            this.moveCoroutine = null;
+        }
+
+        if (duration <= 0f)
+        {
+            transform.parent.position = target;
+            return;
+        }
+
+        this.moveCoroutine = StartCoroutine(this.MoveToRoutine(target, duration));
+    }
+
+    private IEnumerator MoveToRoutine(Vector3 target, float duration)
     {
         Vector3 start = transform.parent.position;
         float time = 0f;
@@ -35,5 +54,6 @@ public class GemMove : BaseBehaviour
         }
 
         transform.parent.position = target;
+        this.moveCoroutine = null;
     }
 }
