@@ -117,10 +117,10 @@ public class BoardSwapHandler : BaseBehaviour
         Vector3 worldPosA = this.boardManager.GetWorldPos(posA.x, posA.y);
         Vector3 worldPosB = this.boardManager.GetWorldPos(posB.x, posB.y);
 
-        StartCoroutine(gemA.GemMove.MoveTo(worldPosA, this.boardManager.AnimationHandler.AnimGemMoveTime));
-        StartCoroutine(gemB.GemMove.MoveTo(worldPosB, this.boardManager.AnimationHandler.AnimGemMoveTime));
+        StartCoroutine(gemA.GemMove.MoveTo(worldPosA, this.boardManager.AnimationHandler.SwapGemMoveTime));
+        StartCoroutine(gemB.GemMove.MoveTo(worldPosB, this.boardManager.AnimationHandler.SwapGemMoveTime));
 
-        yield return new WaitForSeconds(this.boardManager.AnimationHandler.AnimGemMoveTime);
+        yield return new WaitForSeconds(this.boardManager.AnimationHandler.SwapGemMoveTime);
     }
     protected IEnumerator HandleResolvedSpecialSwap(GemCtrl gemA, GemCtrl gemB, Action<bool> onCompleted)
     {

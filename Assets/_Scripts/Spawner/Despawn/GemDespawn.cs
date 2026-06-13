@@ -5,15 +5,17 @@ using UnityEngine;
 public class GemDespawn : Despawn<GemCtrl>
 {
     public GemSpawner GemSpawner => (GemSpawner)spawner;
+    public bool SkipVFX = false;
     public override void DoDespawn()
     {
         GemCtrl gem = (GemCtrl)parent;
 
-        VFXSpawner.Instance.SpawnCommon(CommonVFXType.Shockwave, this.transform.position);
-        VFXSpawner.Instance.SpawnCommon(CommonVFXType.Sparkle, this.transform.position);
-        VFXSpawner.Instance.SpawnGemVFX(gem.GemModel.GemType, this.transform.position);
+        if (!SkipVFX) VFXSpawner.Instance.SpawnClearVFX(gem);
 
+        this.SkipVFX = false;
         gem.ResetGemData();
+
         base.DoDespawn();
     }
+
 }

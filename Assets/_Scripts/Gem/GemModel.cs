@@ -46,6 +46,10 @@ public class GemModel : BaseBehaviour
     }
     public void SetGemSpecialType(GemSpecialType gemSpecialType)
     {
+        if (gemSpecialType != GemSpecialType.None)
+            this.sprtRdr.sortingOrder = 1;
+        else this.sprtRdr.sortingOrder = 0;
+
         this.gemSpecialType = gemSpecialType;
     }
     public void SetIsSelected(bool isSelected)

@@ -2,7 +2,8 @@ using UnityEngine;
 public enum CommonVFXType
 {
     None,
-    Shockwave,
+    Shockwave_Clear,
+    Shockwave_Merge,
     Sparkle,
     Flash
 }
@@ -58,5 +59,17 @@ public class VFXSpawner : Spawner<VFXCtrl>
         }
 
         return null;
+    }
+
+    public void SpawnClearVFX(GemCtrl gem)
+    {
+        this.SpawnCommon(CommonVFXType.Shockwave_Clear, gem.transform.position);
+        this.SpawnCommon(CommonVFXType.Sparkle, gem.transform.position);
+        this.SpawnGemVFX(gem.GemModel.GemType, gem.transform.position);
+    }
+
+    public void SpawnTransformVFX(Vector2 pos)
+    {
+        this.SpawnCommon(CommonVFXType.Shockwave_Merge, pos);
     }
 }

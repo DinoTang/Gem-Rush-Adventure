@@ -8,8 +8,10 @@ public class BoardAnimationHandler : BaseBehaviour
 {
     [SerializeField] protected BoardManager boardManager;
 
-    [SerializeField] protected float animGemMoveTime = 0.18f;
-    public float AnimGemMoveTime => animGemMoveTime;
+    [SerializeField] protected float swapGemMoveTime = 0.18f;
+    [SerializeField] protected float gravityGemMoveTime = 0.18f;
+    public float SwapGemMoveTime => swapGemMoveTime;
+    public float GravityGemMoveTime => gravityGemMoveTime;
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -25,19 +27,14 @@ public class BoardAnimationHandler : BaseBehaviour
     public IEnumerator AnimateGravity(List<FallMove> fallMoves)
     {
         float time = 0f;
-        float duration = this.animGemMoveTime;
-        // float duration = 0f;
+        float duration = this.gravityGemMoveTime;
 
-        // foreach (var fallMove in fallMoves)
-        // {
-        //     float distance =
-        //         Mathf.Abs(fallMove.targetPos.y - fallMove.currentPos.y);
+        foreach (var fallMove in fallMoves)
+        {
+            float distance = Mathf.Abs(fallMove.targetPos.y - fallMove.currentPos.y);
+            duration = Mathf.Max(duration, distance * this.gravityGemMoveTime);
+        }
 
-        //     duration = Mathf.Max(
-        //         duration,
-        //         distance * animGemMoveTime
-        //     );
-        // }
         while (time < duration)
         {
             time += Time.deltaTime;
@@ -60,6 +57,11 @@ public class BoardAnimationHandler : BaseBehaviour
 
     public IEnumerator AnimateMerge(List<SpecialMergeInfo> mergeInfos)
     {
+        if (mergeInfos == null || mergeInfos.Count == 0)
+        {
+            yield break;
+        }
+
         foreach (var info in mergeInfos)
         {
             Vector3 targetPos = this.boardManager.GetWorldPos(info.SpecialCell.x, info.SpecialCell.y);
@@ -68,10 +70,10 @@ public class BoardAnimationHandler : BaseBehaviour
             {
                 var gem = this.boardManager.Grid.Get(source.x, source.y);
                 if (gem == null) continue;
-                StartCoroutine(gem.GemMove.MoveTo(targetPos, this.animGemMoveTime));
+                StartCoroutine(gem.GemMove.MoveTo(targetPos, this.swapGemMoveTime));
             }
         }
 
-        yield return new WaitForSeconds(this.animGemMoveTime);
+        yield return new WaitForSeconds(this.swapGemMoveTime);
     }
 }

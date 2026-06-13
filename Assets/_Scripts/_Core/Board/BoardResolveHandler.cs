@@ -38,6 +38,13 @@ public class BoardResolveHandler : BaseBehaviour
                 excluded.Add(info.SpecialCell);
             }
 
+            var specialMergeSourceCells = new List<(int x, int y)>();
+            foreach (var info in mergeInfos)
+            {
+                foreach (var source in info.SourceCells)
+                    specialMergeSourceCells.Add(source);
+            }
+
             // Nếu muốn animate merge trước khi clear
             yield return StartCoroutine(this.boardManager.AnimationHandler.AnimateMerge(mergeInfos));
 
@@ -48,22 +55,24 @@ public class BoardResolveHandler : BaseBehaviour
             }
 
             var cells = this.boardManager.MatchResolver.ResolveMatches(matches, this.boardManager.Grid, excluded);
-            yield return StartCoroutine(ResolveGravityRoutine(cells));
+            yield return StartCoroutine(ResolveGravityRoutine(cells, specialMergeSourceCells));
         }
 
     }
-    public IEnumerator ResolveGravityRoutine(List<(int x, int y)> cells)
+    public IEnumerator ResolveGravityRoutine(List<(int x, int y)> cells, List<(int x, int y)> specialMergeSourceCells = null)
     {
-        this.ClearCells(cells);
+        this.ClearCells(cells, specialMergeSourceCells);
 
         var fallMoves = this.gravityResolver.ApplyGravity(this.boardManager.Grid);
-        yield return StartCoroutine(this.boardManager.AnimationHandler.AnimateGravity(fallMoves));
-
         var fallMovesSpawn = this.boardManager.GemSpawner.FillEmptyCells(this.boardManager.Grid);
-        yield return StartCoroutine(this.boardManager.AnimationHandler.AnimateGravity(fallMovesSpawn));
+
+        var allFallMoves = new List<FallMove>(fallMoves);
+        allFallMoves.AddRange(fallMovesSpawn);
+
+        yield return StartCoroutine(this.boardManager.AnimationHandler.AnimateGravity(allFallMoves));
     }
 
-    public void ClearCells(List<(int x, int y)> cells)
+    public void ClearCells(List<(int x, int y)> cells, List<(int x, int y)> specialMergeSourceCells)
     {
         HashSet<(int x, int y)> uniqueCells = new(cells);
         foreach (var cell in uniqueCells)
@@ -71,6 +80,12 @@ public class BoardResolveHandler : BaseBehaviour
             var gem = this.boardManager.Grid.Get(cell.x, cell.y);
 
             if (gem == null) continue;
+
+            if (specialMergeSourceCells != null)
+            {
+                bool isSpecialSource = specialMergeSourceCells.Contains(cell);
+                gem.GemDespawn.SkipVFX = isSpecialSource;
+            }
 
             gem.GemDespawn.DoDespawn();
             this.boardManager.Grid.Set(cell.x, cell.y, null);

@@ -116,35 +116,6 @@ public class MatchFinder
         return match;
     }
 
-    // public List<(int x, int y)> GetProtectedSpecialCells(
-    //     GridModel<GemCtrl> grid,
-    //     List<MatchResult> matches,
-    //     Vector2Int selected,
-    //     Vector2Int target)
-    // {
-    //     Vector2Int from = selected;
-    //     Vector2Int to = target;
-
-    //     List<(int x, int y)> protectedCells = new();
-
-    //     this.ProcessTLShapeBomb(matches, grid, protectedCells);
-
-    //     foreach (MatchResult match in matches)
-    //     {
-
-    //         if (match.Cells.Count == 5)
-    //         {
-    //             this.ProcessMatch5(grid, match, from, to, protectedCells);
-    //         }
-
-    //         if (match.Cells.Count == 4)
-    //         {
-    //             this.ProcessMatch4(grid, match, from, to, protectedCells);
-    //         }
-    //     }
-
-    //     return protectedCells;
-    // }
     protected (int x, int y) ProcessMatch4(
         GridModel<GemCtrl> grid,
         MatchResult match,
@@ -210,6 +181,9 @@ public class MatchFinder
         if (gemSpecialType == GemSpecialType.Cube) gem.GemModel.SetGemType(GemType.Cube);
         gem.GemModel.SetGemSpecialType(gemSpecialType);
         gem.GemModel.SetVisual();
+
+        VFXSpawner.Instance.SpawnTransformVFX(gem.transform.position);
+
         protectedCells.Add((cell.x, cell.y));
 
         return cell;
