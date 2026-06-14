@@ -8,7 +8,6 @@ public enum VFXCategory
 public class VFXCtrl : PoolObj
 {
     [Header("VFXCtrl")]
-    [SerializeField] protected ParticleSystem gemSharbParticel;
 
     [SerializeField] protected VFXCategory category;
 
@@ -23,18 +22,5 @@ public class VFXCtrl : PoolObj
     public override string GetName()
     {
         return transform.name;
-    }
-
-    protected override void LoadComponent()
-    {
-        base.LoadComponent();
-        this.LoadParticelSystem();
-    }
-
-    protected void LoadParticelSystem()
-    {
-        if (this.gemSharbParticel != null) return;
-        this.gemSharbParticel = GetComponent<ParticleSystem>();
-        Debug.Log(transform.name + ": LoadParticelSystem");
     }
 }

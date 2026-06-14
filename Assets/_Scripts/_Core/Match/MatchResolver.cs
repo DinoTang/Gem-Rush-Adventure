@@ -53,6 +53,8 @@ public class MatchResolver
             .GetPattern(specialGem.GemModel.GemSpecialType)
             .GetCells(specialGem, grid);
 
+            VFXSpawner.Instance.SpawnSpecialVFX(specialGem);
+
             foreach (var cell in extraCells)
             {
                 if (cellsToClear.Contains(cell)) continue;

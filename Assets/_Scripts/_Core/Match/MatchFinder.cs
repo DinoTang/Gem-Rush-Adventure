@@ -205,12 +205,32 @@ public class MatchFinder
         List<(int x, int y)> protectedCells,
         GemSpecialType specialType)
     {
-        int rand = Random.Range(0, match.Cells.Count);
-        var cell = match.Cells[rand];
+        var cell = this.GetRandomMiddleMatchCell(match);
 
         this.TransformToSpecial(grid, cell, protectedCells, specialType);
 
         return cell;
+    }
+
+    protected (int x, int y) GetRandomMiddleMatchCell(MatchResult match)
+    {
+        if (match.Cells.Count == 4)
+        {
+            // Chỉ chọn một trong hai viên ở giữa của match4, không lấy đầu hoặc cuối.
+            int middleStart = 1;
+            int middleEnd = 2;
+            int rand = Random.Range(middleStart, middleEnd + 1);
+            return match.Cells[rand];
+        }
+
+        if (match.Cells.Count == 5)
+        {
+            // Chọn viên giữa cho match5.
+            return match.Cells[2];
+        }
+
+        int randomIndex = Random.Range(0, match.Cells.Count);
+        return match.Cells[randomIndex];
     }
 
     protected (int x, int y) ProcessMatch5(

@@ -10,7 +10,7 @@ public class GemDespawn : Despawn<GemCtrl>
     {
         GemCtrl gem = (GemCtrl)parent;
 
-        if (!SkipVFX) VFXSpawner.Instance.SpawnClearVFX(gem);
+        if (!SkipVFX) VFXSpawner.Instance.SpawnClearVFX_Normal(gem);
 
         this.SkipVFX = false;
         gem.ResetGemData();
