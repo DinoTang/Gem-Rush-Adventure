@@ -6,7 +6,8 @@ public enum CommonVFXType
     Shockwave_Merge,
     Sparkle,
     Flash,
-    Beam
+    Beam,
+    Bomb
 }
 public class VFXSpawner : Spawner<VFXCtrl>
 {
@@ -105,6 +106,9 @@ public class VFXSpawner : Spawner<VFXCtrl>
                 this.SpawnBeamVFX(gem, Vector3.up, new Vector3(0, 0, 90));
                 this.SpawnBeamVFX(gem, Vector3.down, new Vector3(0, 0, -90));
                 this.SpawnGemVFXCommon(GemType.None, CommonVFXType.Flash, gem.transform.position);
+                break;
+            case GemSpecialType.Bomb:
+                this.SpawnGemVFXCommon(GemType.None, CommonVFXType.Bomb, gem.transform.position);
                 break;
         }
     }
