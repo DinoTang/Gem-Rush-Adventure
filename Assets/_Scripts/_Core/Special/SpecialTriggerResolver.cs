@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class SpecialTriggerResolver
 {
@@ -57,6 +58,9 @@ public class SpecialTriggerResolver
             {
                 cells.UnionWith(pattern.GetCells(gemB, grid));
                 cells.Add((gemA.GridPos.x, gemA.GridPos.y));
+
+                // TODO: Animate cube pattern before clear
+                yield return new WaitForSeconds(4);
             }
         }
 

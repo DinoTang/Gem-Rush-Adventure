@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GemModel : BaseBehaviour
 {
+    [Header("GemModel")]
     [SerializeField] protected GemCtrl gemCtrl;
     [SerializeField] protected SpriteRenderer sprtRdr;
     [SerializeField] protected GemType gemType;
@@ -44,7 +46,7 @@ public class GemModel : BaseBehaviour
     {
         this.gemType = gemType;
     }
-    public void SetGemSpecialType(GemSpecialType gemSpecialType)
+    public virtual void SetGemSpecialType(GemSpecialType gemSpecialType)
     {
         if (gemSpecialType != GemSpecialType.None)
             this.sprtRdr.sortingOrder = 1;
@@ -108,26 +110,46 @@ public class GemModel : BaseBehaviour
 
     public Sprite GetGemVisualIdle(GemType gemType, GemSpecialType gemSpecialType)
     {
-        return this.gemCtrl.GemDespawn.GemSpawner.gemVisuals.Find(
+        var visuals = this.gemCtrl?.GemDespawn?.GemSpawner?.gemVisuals;
+
+        if (visuals == null || visuals.Count == 0)
+        {
+            var spawner = FindAnyObjectByType<GemSpawner>();
+            visuals = spawner?.gemVisuals;
+        }
+
+        var found = visuals?.Find(
             x =>
             x.GemType == gemType &&
             x.GemSpecialType == gemSpecialType
-        ).Sprite_Idle;
+        );
+
+        if (found == null) return null;
+        return found.Sprite_Idle;
     }
 
     public Sprite GetGemVisualSelected(GemType gemType, GemSpecialType gemSpecialType)
     {
+        // TODO: Refactor to avoid duplicate code with GetGemVisualIdle
+        var visuals = this.gemCtrl?.GemDespawn?.GemSpawner?.gemVisuals;
 
+        if (visuals == null || visuals.Count == 0)
+        {
+            var spawner = FindAnyObjectByType<GemSpawner>();
+            visuals = spawner?.gemVisuals;
+        }
+
+        GemVisual found = null;
         if (gemSpecialType != GemSpecialType.Bomb)
-            return this.gemCtrl.GemDespawn.GemSpawner.gemVisuals.Find(
-                    x => x.GemType == gemType
-                ).Sprite_Selected;
-
+        {
+            found = visuals?.Find(x => x.GemType == gemType);
+        }
         else
-            return this.gemCtrl.GemDespawn.GemSpawner.gemVisuals.Find(
-                    x =>
-                    x.GemType == gemType &&
-                    x.GemSpecialType == gemSpecialType
-                ).Sprite_Selected;
+        {
+            found = visuals?.Find(x => x.GemType == gemType && x.GemSpecialType == gemSpecialType);
+        }
+
+        if (found == null) return null;
+        return found.Sprite_Selected;
     }
 }

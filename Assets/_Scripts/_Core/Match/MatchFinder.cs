@@ -188,9 +188,29 @@ public class MatchFinder
         var gem = grid.Get(cell.x, cell.y);
         if (gem == null) return (-1, -1);
 
-        if (gemSpecialType == GemSpecialType.Cube) gem.GemModel.SetGemType(GemType.Cube);
-        gem.GemModel.SetGemSpecialType(gemSpecialType);
-        gem.GemModel.SetVisual();
+        if (gemSpecialType == GemSpecialType.Cube)
+        {
+            var spawner = gem.GemDespawn.GemSpawner;
+            Vector2 spawnPos = gem.transform.position;
+            int gx = cell.x;
+            int gy = cell.y;
+
+            gem.GemDespawn.DoDespawn();
+
+            GemCtrl cubeGem = spawner.Spawn(GemType.Cube, spawnPos);
+            cubeGem.Init(GemType.Cube, gx, gy);
+            cubeGem.GemModel.SetGemSpecialType(GemSpecialType.Cube);
+            cubeGem.GemModel.SetVisual();
+
+            grid.Set(gx, gy, cubeGem);
+
+            gem = cubeGem;
+        }
+        else
+        {
+            gem.GemModel.SetGemSpecialType(gemSpecialType);
+            gem.GemModel.SetVisual();
+        }
 
         VFXSpawner.Instance.SpawnTransformVFX(gem.transform.position);
 

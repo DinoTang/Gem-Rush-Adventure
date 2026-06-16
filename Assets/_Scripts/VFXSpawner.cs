@@ -7,7 +7,9 @@ public enum CommonVFXType
     Sparkle,
     Flash,
     Beam,
-    Bomb
+    Bomb,
+    Cube_1,
+    Cube_2,
 }
 public class VFXSpawner : Spawner<VFXCtrl>
 {
@@ -109,6 +111,9 @@ public class VFXSpawner : Spawner<VFXCtrl>
                 break;
             case GemSpecialType.Bomb:
                 this.SpawnGemVFXCommon(GemType.None, CommonVFXType.Bomb, gem.transform.position);
+                break;
+            case GemSpecialType.Cube:
+                this.SpawnGemVFXCommon(GemType.Cube, CommonVFXType.Cube_2, gem.transform.position);
                 break;
         }
     }
