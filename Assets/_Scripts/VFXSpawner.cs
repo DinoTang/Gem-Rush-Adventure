@@ -117,4 +117,9 @@ public class VFXSpawner : Spawner<VFXCtrl>
                 break;
         }
     }
+
+    public VFXCtrl SpawnSpecialVFXCubeGem(GemCtrl gem)
+    {
+        return this.SpawnGemVFXCommon(GemType.Cube, CommonVFXType.Cube_1, gem.transform.position);
+    }
 }

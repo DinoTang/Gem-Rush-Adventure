@@ -13,6 +13,11 @@ public class GemCubeModel : GemModel
         base.LoadComponent();
         this.LoadAnimator();
     }
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        this.anim.enabled = false;
+    }
     protected void LoadAnimator()
     {
         if (this.anim != null) return;
@@ -49,5 +54,11 @@ public class GemCubeModel : GemModel
 
         transform.parent.localScale = Vector3.one;
         transform.parent.localRotation = Quaternion.identity;
+    }
+
+    public VFXCtrl PlayAnimateAndEffectCubeGem()
+    {
+        this.anim.enabled = true;
+        return VFXSpawner.Instance.SpawnSpecialVFXCubeGem(this.gemCtrl);
     }
 }

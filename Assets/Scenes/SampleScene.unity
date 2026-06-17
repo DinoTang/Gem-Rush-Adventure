@@ -277,10 +277,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 1328538205}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &94071587
 GameObject:
@@ -329,6 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: 
   category: 1
   type: 0
   commonType: 2
@@ -5457,10 +5458,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 280575376}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 4
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &221927116
 GameObject:
@@ -5541,6 +5542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: VFX_GreenFragment
   category: 0
   type: 3
   commonType: 0
@@ -10465,10 +10467,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 1629009943}
   spawner: {fileID: 1387475851}
-  lifeTime: 10
-  currentTime: 10
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &253396990
 GameObject:
@@ -10514,10 +10516,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 2088105978}
   spawner: {fileID: 1387475851}
-  lifeTime: 10
-  currentTime: 10
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &280575374
 GameObject:
@@ -10571,6 +10573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: VFX_Cube_1
   category: 1
   type: 7
   commonType: 7
@@ -15786,6 +15789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: 
   category: 1
   type: 0
   commonType: 2
@@ -21011,6 +21015,148 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 366114445}
   m_CullTransparentMesh: 1
+--- !u!1 &426384191
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 426384192}
+  - component: {fileID: 426384193}
+  m_Layer: 0
+  m_Name: Line
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &426384192
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426384191}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1289981748}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!120 &426384193
+LineRenderer:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426384191}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 0.1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_UseWorldSpace: 0
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!1 &429229065
 GameObject:
   m_ObjectHideFlags: 0
@@ -26242,6 +26388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: VFX_RedFragment
   category: 0
   type: 1
   commonType: 0
@@ -26687,10 +26834,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 1346859194}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &624815545
 GameObject:
@@ -27508,10 +27655,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 1128621394}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &886132072
 GameObject:
@@ -27606,10 +27753,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 245287215}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &888336465
 GameObject:
@@ -28048,6 +28195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: 
   category: 1
   type: 0
   commonType: 2
@@ -32959,6 +33107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: VFX_Shockwave_Megre
   category: 1
   type: 0
   commonType: 2
@@ -37870,6 +38019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: VFX_PurpleFragment
   category: 0
   type: 5
   commonType: 0
@@ -42826,10 +42976,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 936622502}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &991939829
 GameObject:
@@ -42927,6 +43077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: 
   category: 1
   type: 0
   commonType: 2
@@ -47836,6 +47987,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1185846013}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1028502791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1028502792}
+  - component: {fileID: 1028502793}
+  m_Layer: 0
+  m_Name: Despawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1028502792
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028502791}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.50000006, y: 0.50000006, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: -2.41, y: 0, z: 2.45}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.49999994}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6698961579980774525}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1028502793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028502791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
+  parent: {fileID: 6698961579980774526}
+  spawner: {fileID: 1387475851}
+  lifeTime: 1
+  currentTime: 1
+  isNeedDespawn: 1
 --- !u!1 &1034392945
 GameObject:
   m_ObjectHideFlags: 0
@@ -48325,6 +48525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0acbd6bdfb85d448b4e0c3e186446e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXBeamCtrl
+  prefabName: VFX_RedBeamVertical
   category: 1
   type: 1
   commonType: 5
@@ -48376,6 +48577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: VFX_Shockwave_Clear
   category: 1
   type: 0
   commonType: 1
@@ -53322,7 +53524,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1138162179}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1185846012}
+        m_TargetAssemblyTypeName: BoardManager, Assembly-CSharp
+        m_MethodName: SpawnRandomCubeGem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1138162179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53692,10 +53906,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 1213430260}
   spawner: {fileID: 1387475851}
-  lifeTime: 10
-  currentTime: 10
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &1213430257
 GameObject:
@@ -53763,6 +53977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0acbd6bdfb85d448b4e0c3e186446e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXBeamCtrl
+  prefabName: VFX_YellowBeam
   category: 1
   type: 4
   commonType: 5
@@ -54136,10 +54351,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 1930490666}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &1289981747
 GameObject:
@@ -54173,6 +54388,7 @@ Transform:
   m_Children:
   - {fileID: 346120988}
   - {fileID: 2140675907}
+  - {fileID: 426384192}
   m_Father: {fileID: 698602778}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &1289981749
@@ -54187,7 +54403,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
-  category: 0
+  prefabName: VFX_ElectrolyticCapacitor
+  category: 1
   type: 0
   commonType: 0
 --- !u!1 &1292073105
@@ -54335,6 +54552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: VFX_BlueFragment
   category: 0
   type: 2
   commonType: 0
@@ -59262,6 +59480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: 
   category: 1
   type: 0
   commonType: 2
@@ -64157,6 +64376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: VFX_Flash
   category: 1
   type: 0
   commonType: 4
@@ -69540,10 +69760,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 503721816}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &1475144199
 GameObject:
@@ -69751,10 +69971,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 1708925631}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &1513418919
 GameObject:
@@ -70023,6 +70243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: VFX_Sparkle
   category: 1
   type: 0
   commonType: 3
@@ -74933,10 +75154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 1980263734}
   spawner: {fileID: 1387475851}
-  lifeTime: 10
-  currentTime: 10
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &1625396033
 GameObject:
@@ -75118,6 +75339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0acbd6bdfb85d448b4e0c3e186446e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXBeamCtrl
+  prefabName: VFX_GreenBeam
   category: 1
   type: 3
   commonType: 5
@@ -75374,10 +75596,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 1598923329}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &1697054523
 GameObject:
@@ -75472,7 +75694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
-  category: 0
+  prefabName: VFX_Cube_2
+  category: 1
   type: 7
   commonType: 8
 --- !u!199 &1708925632
@@ -80494,10 +80717,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 942813195}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &1736601677
 GameObject:
@@ -80546,6 +80769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: 
   category: 1
   type: 0
   commonType: 2
@@ -85709,6 +85933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: 
   category: 1
   type: 0
   commonType: 2
@@ -90913,10 +91138,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 1115524672}
   spawner: {fileID: 1387475851}
-  lifeTime: 10
-  currentTime: 10
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &1909562599
 GameObject:
@@ -91063,6 +91288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: VFX_YellowFragment
   category: 0
   type: 4
   commonType: 0
@@ -96100,6 +96326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0acbd6bdfb85d448b4e0c3e186446e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXBeamCtrl
+  prefabName: VFX_BlueBeam
   category: 1
   type: 2
   commonType: 5
@@ -96170,6 +96397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0acbd6bdfb85d448b4e0c3e186446e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXBeamCtrl
+  prefabName: VFX_PurpleBeam
   category: 1
   type: 5
   commonType: 5
@@ -96428,10 +96656,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
+  parent: {fileID: 1289981749}
   spawner: {fileID: 1387475851}
-  lifeTime: 2
-  currentTime: 2
+  lifeTime: 1
+  currentTime: 1
   isNeedDespawn: 1
 --- !u!1 &121206256602579047
 GameObject:
@@ -96943,6 +97171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01470dfead028cf4aa767dcbef802ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GemCtrl
+  prefabName: RedGem
   gemModel: {fileID: 765642524548083105}
   gemMove: {fileID: 3553200374776787933}
   gemDespawn: {fileID: 3418442400203674903}
@@ -97128,6 +97357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01470dfead028cf4aa767dcbef802ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GemCtrl
+  prefabName: PurpleGem
   gemModel: {fileID: 7070223863331634838}
   gemMove: {fileID: 1652005841520909753}
   gemDespawn: {fileID: 3915015972408016904}
@@ -97361,6 +97591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01470dfead028cf4aa767dcbef802ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GemCtrl
+  prefabName: CubeGem
   gemModel: {fileID: 8839503655365376121}
   gemMove: {fileID: 4725715652908829360}
   gemDespawn: {fileID: 8883287663387853465}
@@ -97635,6 +97866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01470dfead028cf4aa767dcbef802ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GemCtrl
+  prefabName: GreenGem
   gemModel: {fileID: 8666638996575042332}
   gemMove: {fileID: 5593428105382816887}
   gemDespawn: {fileID: 4000597641054435790}
@@ -97810,6 +98042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01470dfead028cf4aa767dcbef802ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GemCtrl
+  prefabName: BlueGem
   gemModel: {fileID: 4491950156083771751}
   gemMove: {fileID: 605438675039453046}
   gemDespawn: {fileID: 1868555938435868629}
@@ -117294,6 +117527,7 @@ Transform:
   - {fileID: 6698961578105906495}
   - {fileID: 6698961579389826253}
   - {fileID: 6698961579282617966}
+  - {fileID: 1028502792}
   m_Father: {fileID: 698602778}
   m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 0}
 --- !u!114 &6698961579980774526
@@ -117308,6 +117542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef7eae98dd5b5141b1464f721be4cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXCtrl
+  prefabName: VFX_Bomb
   category: 1
   type: 0
   commonType: 6
@@ -117645,6 +117880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01470dfead028cf4aa767dcbef802ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GemCtrl
+  prefabName: YellowGem
   gemModel: {fileID: 8991461779600658294}
   gemMove: {fileID: 6289778184151745460}
   gemDespawn: {fileID: 3469656468858652582}

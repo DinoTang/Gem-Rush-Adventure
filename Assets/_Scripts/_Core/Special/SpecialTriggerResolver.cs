@@ -60,6 +60,8 @@ public class SpecialTriggerResolver
                 cells.Add((gemA.GridPos.x, gemA.GridPos.y));
 
                 // TODO: Animate cube pattern before clear
+                GemCubeModel cubeModel = gemA.GemModel as GemCubeModel;
+                cubeModel.PlayAnimateAndEffectCubeGem();
                 yield return new WaitForSeconds(4);
             }
         }

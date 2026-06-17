@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GemCtrl : PoolObj
 {
+    [SerializeField] private string prefabName;
     [SerializeField] protected GemModel gemModel;
     public GemModel GemModel => gemModel;
     [SerializeField] protected GemMove gemMove;
@@ -20,7 +21,7 @@ public class GemCtrl : PoolObj
     }
     public override string GetName()
     {
-        return "";
+        return prefabName;
     }
     public void ResetGemData()
     {
@@ -41,9 +42,16 @@ public class GemCtrl : PoolObj
     protected override void LoadComponent()
     {
         base.LoadComponent();
+        this.LoadPrefabName();
         this.LoadGemModel();
         this.LoadGemMove();
         this.LoadGemDespawn();
+    }
+
+    protected void LoadPrefabName()
+    {
+        if (!string.IsNullOrEmpty(this.prefabName)) return;
+        this.prefabName = this.transform.name;
     }
 
     protected void LoadGemModel()

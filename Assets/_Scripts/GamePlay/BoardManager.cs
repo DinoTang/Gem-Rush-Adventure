@@ -120,6 +120,34 @@ public class BoardManager : BaseBehaviour
         this.SpawnGrid();
     }
 
+    public void SpawnRandomCubeGem()
+    {
+        if (this.grid == null || this.gemSpawner == null)
+        {
+            Debug.LogWarning("Board is not ready for spawning a cube gem.", this);
+            return;
+        }
+
+        int x = UnityEngine.Random.Range(0, this.grid.Width);
+        int y = UnityEngine.Random.Range(0, this.grid.Height);
+
+        GemCtrl oldGem = this.grid.Get(x, y);
+        if (oldGem != null)
+        {
+            oldGem.GemDespawn.DoDespawn();
+            this.grid.Set(x, y, null);
+        }
+
+        Vector2 spawnPos = this.GetWorldPos(x, y);
+        GemCtrl cubeGem = this.gemSpawner.Spawn(GemType.Cube, spawnPos);
+        cubeGem.Init(GemType.Cube, x, y);
+        cubeGem.GemModel.SetGemSpecialType(GemSpecialType.Cube);
+        cubeGem.GemModel.SetVisual();
+
+        this.grid.Set(x, y, cubeGem);
+        HintManager.Instance.RefreshHint();
+    }
+
     protected void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
