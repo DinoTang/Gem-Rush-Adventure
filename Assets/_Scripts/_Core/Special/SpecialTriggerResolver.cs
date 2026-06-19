@@ -11,11 +11,11 @@ public class SpecialTriggerResolver
         GemCtrl gemA,
         GemCtrl gemB,
         GridModel<GemCtrl> grid,
-        System.Action<List<(int x, int y)>> onCompleted
+        System.Action<List<Vector2Int>> onCompleted
     )
     {
-        GemSpecialType typeA = gemA.GemModel.GemSpecialType;
-        GemSpecialType typeB = gemB.GemModel.GemSpecialType;
+        GemSpecialType typeA = gemA.GemData.GemSpecialType;
+        GemSpecialType typeB = gemB.GemData.GemSpecialType;
 
         bool hasSpecial = typeA != GemSpecialType.None || typeB != GemSpecialType.None;
 
@@ -32,7 +32,7 @@ public class SpecialTriggerResolver
             var comboPattern = this.comboRegistry.GetPattern(typeA, typeB);
             if (comboPattern != null)
             {
-                List<(int x, int y)> comboCells = null;
+                List<Vector2Int> comboCells = null;
 
                 yield return comboPattern.Execute(
                     gemA,
@@ -46,7 +46,7 @@ public class SpecialTriggerResolver
             }
         }
 
-        HashSet<(int x, int y)> cells = new();
+        HashSet<Vector2Int> cells = new();
 
         if (typeA != GemSpecialType.None)
         {
@@ -57,12 +57,7 @@ public class SpecialTriggerResolver
             else
             {
                 cells.UnionWith(pattern.GetCells(gemB, grid));
-                cells.Add((gemA.GridPos.x, gemA.GridPos.y));
-
-                // TODO: Animate cube pattern before clear
-                GemCubeModel cubeModel = gemA.GemModel as GemCubeModel;
-                cubeModel.PlayAnimateAndEffectCubeGem();
-                yield return new WaitForSeconds(4);
+                cells.Add(gemA.GemData.GridPos);
             }
         }
 
@@ -75,11 +70,11 @@ public class SpecialTriggerResolver
             else
             {
                 cells.UnionWith(pattern.GetCells(gemA, grid));
-                cells.Add((gemA.GridPos.x, gemA.GridPos.y));
+                cells.Add(gemB.GemData.GridPos);
             }
         }
         onCompleted?.Invoke(
-             new List<(int x, int y)>(cells)
+             new List<Vector2Int>(cells)
          );
     }
 }

@@ -4,25 +4,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BoardAnimationHandler : BaseBehaviour
+public class BoardAnimationHandler : BoardAbstract
 {
-    [SerializeField] protected BoardManager boardManager;
-
     [SerializeField] protected float swapGemMoveTime = 0.18f;
     [SerializeField] protected float gravityGemMoveTime = 0.18f;
     public float SwapGemMoveTime => swapGemMoveTime;
     public float GravityGemMoveTime => gravityGemMoveTime;
-    protected override void LoadComponent()
-    {
-        base.LoadComponent();
-        this.LoadBoardManager();
-    }
-    protected void LoadBoardManager()
-    {
-        if (this.boardManager != null) return;
-        this.boardManager = transform.parent.GetComponent<BoardManager>();
-        Debug.Log(transform.name + ": LoadBoardManager");
-    }
 
     public IEnumerator AnimateGravity(List<FallMove> fallMoves)
     {
@@ -30,16 +17,16 @@ public class BoardAnimationHandler : BaseBehaviour
 
         foreach (var fallMove in fallMoves)
         {
-            float distance = Mathf.Abs(fallMove.targetPos.y - fallMove.currentPos.y);
+            float distance = Mathf.Abs(fallMove.TargetPos.y - fallMove.CurrentPos.y);
             duration = Mathf.Max(duration, distance * this.gravityGemMoveTime);
         }
 
         foreach (var fallMove in fallMoves)
         {
-            Vector3 start = this.boardManager.GetWorldPos((int)fallMove.currentPos.x, (int)fallMove.currentPos.y);
-            Vector3 target = this.boardManager.GetWorldPos((int)fallMove.targetPos.x, (int)fallMove.targetPos.y);
-            fallMove.gem.transform.position = start;
-            fallMove.gem.GemMove.MoveTo(target, duration);
+            Vector3 start = this.boardManager.GetWorldPos((int)fallMove.CurrentPos.x, (int)fallMove.CurrentPos.y);
+            Vector3 target = this.boardManager.GetWorldPos((int)fallMove.TargetPos.x, (int)fallMove.TargetPos.y);
+            fallMove.Gem.transform.position = start;
+            fallMove.Gem.GemMove.MoveTo(target, duration);
         }
 
         yield return new WaitForSeconds(duration);

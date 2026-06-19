@@ -1,13 +1,14 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class BombPattern : ISpecialPattern
 {
-    public List<(int x, int y)> GetCells(GemCtrl gem, GridModel<GemCtrl> grid)
+    public List<Vector2Int> GetCells(GemCtrl gem, GridModel<GemCtrl> grid)
     {
-        List<(int x, int y)> cells = new();
+        List<Vector2Int> cells = new();
 
-        int centerX = gem.GridPos.x;
-        int centerY = gem.GridPos.y;
+        int centerX = gem.GemData.GridPos.x;
+        int centerY = gem.GemData.GridPos.y;
 
         for (int y = -1; y <= 1; y++)
         {
@@ -21,7 +22,7 @@ public class BombPattern : ISpecialPattern
                 GemCtrl target = grid.Get(targetX, targetY);
                 if (target == null) continue;
 
-                cells.Add((targetX, targetY));
+                cells.Add(new Vector2Int(targetX, targetY));
             }
         }
         return cells;

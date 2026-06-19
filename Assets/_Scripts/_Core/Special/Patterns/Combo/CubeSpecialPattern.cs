@@ -17,13 +17,13 @@ public class CubeSpecialPattern : ISpecialComboPattern
         GemCtrl gemA,
         GemCtrl gemB,
         GridModel<GemCtrl> grid,
-        Action<List<(int x, int y)>> onCompleted
+        Action<List<Vector2Int>> onCompleted
     )
     {
-        HashSet<(int x, int y)> clearCells = new();
-        List<(int x, int y)> transformCells = new();
+        HashSet<Vector2Int> clearCells = new();
+        List<Vector2Int> transformCells = new();
 
-        GemCtrl cube = gemA.GemModel.GemSpecialType == GemSpecialType.Cube ? gemA : gemB;
+        GemCtrl cube = gemA.GemData.GemSpecialType == GemSpecialType.Cube ? gemA : gemB;
         GemCtrl target = cube == gemA ? gemB : gemA;
 
         for (int x = 0; x < grid.Width; x++)
@@ -32,14 +32,14 @@ public class CubeSpecialPattern : ISpecialComboPattern
             {
                 GemCtrl curr = grid.Get(x, y);
                 if (curr == null) continue;
-                if (curr.GemModel.GemType != target.GemModel.GemType) continue;
+                if (curr.GemData.GemType != target.GemData.GemType) continue;
 
-                transformCells.Add((x, y));
+                transformCells.Add(new Vector2Int(x, y));
 
             }
         }
 
-        yield return this.TransformToSpecialRoutine(transformCells, grid, target.GemModel.GemSpecialType);
+        yield return this.TransformToSpecialRoutine(transformCells, grid, target.GemData.GemSpecialType);
 
         foreach (var child in transformCells)
         {
@@ -49,12 +49,12 @@ public class CubeSpecialPattern : ISpecialComboPattern
         }
 
         onCompleted?.Invoke(
-            new List<(int x, int y)>(clearCells)
+            new List<Vector2Int>(clearCells)
         );
     }
 
     protected IEnumerator TransformToSpecialRoutine(
-    List<(int x, int y)> cells,
+    List<Vector2Int> cells,
     GridModel<GemCtrl> grid,
     GemSpecialType specialType
 )
@@ -65,8 +65,8 @@ public class CubeSpecialPattern : ISpecialComboPattern
 
             if (gem == null) continue;
 
-            gem.GemModel.SetGemSpecialType(specialType);
-            gem.GemModel.SetVisual();
+            gem.GemData.SetGemSpecialType(specialType);
+            gem.GemModel.RefreshVisual();
         }
 
         yield return new WaitForSeconds(this.timeToClearCells);

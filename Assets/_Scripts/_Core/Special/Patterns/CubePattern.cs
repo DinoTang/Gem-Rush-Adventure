@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CubePattern : ISpecialPattern
 {
-    public List<(int x, int y)> GetCells(GemCtrl target, GridModel<GemCtrl> grid)
+    public List<Vector2Int> GetCells(GemCtrl target, GridModel<GemCtrl> grid)
     {
-        List<(int x, int y)> cells = new();
+        List<Vector2Int> cells = new();
 
         for (int y = 0; y < grid.Height; y++)
         {
@@ -12,9 +13,9 @@ public class CubePattern : ISpecialPattern
             {
                 GemCtrl sameTarget = grid.Get(x, y);
                 if (sameTarget == null) continue;
-                if (sameTarget.GemModel.GemType != target.GemModel.GemType) continue;
+                if (sameTarget.GemData.GemType != target.GemData.GemType) continue;
 
-                cells.Add((x, y));
+                cells.Add(new Vector2Int(x, y));
             }
         }
         return cells;

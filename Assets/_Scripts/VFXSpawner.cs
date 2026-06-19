@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 public enum CommonVFXType
 {
@@ -8,8 +9,10 @@ public enum CommonVFXType
     Flash,
     Beam,
     Bomb,
+    ElectrolyticCapacitor,
     Cube_1,
     Cube_2,
+    Cube_3,
 }
 public class VFXSpawner : Spawner<VFXCtrl>
 {
@@ -79,7 +82,7 @@ public class VFXSpawner : Spawner<VFXCtrl>
     {
         this.SpawnGemVFXCommon(GemType.None, CommonVFXType.Shockwave_Clear, gem.transform.position);
         this.SpawnGemVFXCommon(GemType.None, CommonVFXType.Sparkle, gem.transform.position);
-        this.SpawnGemVFX(gem.GemModel.GemType, gem.transform.position);
+        this.SpawnGemVFX(gem.GemData.GemType, gem.transform.position);
     }
 
     public void SpawnTransformVFX(Vector2 pos)
@@ -89,7 +92,7 @@ public class VFXSpawner : Spawner<VFXCtrl>
 
     public void SpawnBeamVFX(GemCtrl gem, Vector3 direction, Vector3 rotation)
     {
-        VFXCtrl vfx = this.SpawnGemVFXCommon(gem.GemModel.GemType, CommonVFXType.Beam, gem.transform.position);
+        VFXCtrl vfx = this.SpawnGemVFXCommon(gem.GemData.GemType, CommonVFXType.Beam, gem.transform.position);
         VFXBeamCtrl vfXBeamCtrl = vfx.GetComponent<VFXBeamCtrl>();
         vfXBeamCtrl.VfxMove.SetDirection(direction);
         vfXBeamCtrl.VfxMove.SetRotation(rotation);
@@ -97,7 +100,7 @@ public class VFXSpawner : Spawner<VFXCtrl>
 
     public void SpawnSpecialVFX(GemCtrl gem)
     {
-        switch (gem.GemModel.GemSpecialType)
+        switch (gem.GemData.GemSpecialType)
         {
             case GemSpecialType.HorizontalRocket:
                 this.SpawnBeamVFX(gem, Vector3.right, Vector3.zero);
@@ -121,5 +124,15 @@ public class VFXSpawner : Spawner<VFXCtrl>
     public VFXCtrl SpawnSpecialVFXCubeGem(GemCtrl gem)
     {
         return this.SpawnGemVFXCommon(GemType.Cube, CommonVFXType.Cube_1, gem.transform.position);
+    }
+
+    public void SpawnGemWasActiveByCubeVFX(GemCtrl cubeGem, List<Vector2Int> finalCells)
+    {
+        finalCells.RemoveAll(cell => cell.x == cubeGem.GemData.GridPos.x && cell.y == cubeGem.GemData.GridPos.y);
+        foreach (var cell in finalCells)
+        {
+            Vector3 worldPos = BoardManager.Instance.GetWorldPos(cell.x, cell.y);
+            this.SpawnGemVFXCommon(GemType.None, CommonVFXType.ElectrolyticCapacitor, new Vector2(worldPos.x, worldPos.y));
+        }
     }
 }

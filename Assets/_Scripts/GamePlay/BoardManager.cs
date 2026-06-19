@@ -20,10 +20,12 @@ public class BoardManager : BaseBehaviour
     [Header("BoardHandler")]
     [SerializeField] protected BoardInputHandler inputHandler;
     [SerializeField] protected BoardSwapHandler swapHandler;
+    [SerializeField] protected BoardSpecialSwapHandler specialSwapHandler;
     [SerializeField] protected BoardResolveHandler resolveHandler;
     [SerializeField] protected BoardAnimationHandler animationHandler;
     public BoardInputHandler InputHandler => inputHandler;
     public BoardSwapHandler SwapHandler => swapHandler;
+    public BoardSpecialSwapHandler SpecialSwapHandler => specialSwapHandler;
     public BoardResolveHandler ResolveHandler => resolveHandler;
     public BoardAnimationHandler AnimationHandler => animationHandler;
     public GemSpawner GemSpawner => gemSpawner;
@@ -46,6 +48,7 @@ public class BoardManager : BaseBehaviour
         this.LoadGemSpawner();
         this.LoadBoardInputHandler();
         this.LoadBoardSwapHandler();
+        this.LoadBoardSpecialSwapHandler();
         this.LoadBoardResolveHandler();
         this.LoadBoardAnimationHandler();
     }
@@ -72,6 +75,12 @@ public class BoardManager : BaseBehaviour
         if (this.swapHandler != null) return;
         this.swapHandler = GetComponentInChildren<BoardSwapHandler>();
         Debug.Log(transform.name + ": LoadBoardSwapHandler");
+    }
+    protected void LoadBoardSpecialSwapHandler()
+    {
+        if (this.specialSwapHandler != null) return;
+        this.specialSwapHandler = GetComponentInChildren<BoardSpecialSwapHandler>();
+        Debug.Log(transform.name + ": LoadBoardSpecialSwapHandler");
     }
     protected void LoadBoardResolveHandler()
     {
@@ -141,8 +150,8 @@ public class BoardManager : BaseBehaviour
         Vector2 spawnPos = this.GetWorldPos(x, y);
         GemCtrl cubeGem = this.gemSpawner.Spawn(GemType.Cube, spawnPos);
         cubeGem.Init(GemType.Cube, x, y);
-        cubeGem.GemModel.SetGemSpecialType(GemSpecialType.Cube);
-        cubeGem.GemModel.SetVisual();
+        cubeGem.GemData.SetGemSpecialType(GemSpecialType.Cube);
+        cubeGem.GemModel.RefreshVisual();
 
         this.grid.Set(x, y, cubeGem);
         HintManager.Instance.RefreshHint();

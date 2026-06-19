@@ -21,6 +21,9 @@ public abstract class BaseBehaviour : MonoBehaviour
     {
 
     }
+    protected virtual void OnDisable()
+    {
+    }
     protected virtual void LoadComponent()
     {
 

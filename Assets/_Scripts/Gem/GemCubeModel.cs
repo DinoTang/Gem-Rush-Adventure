@@ -1,64 +1,80 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class GemCubeModel : GemModel
 {
     [Header("GemCubeModel")]
     [SerializeField] protected Animator anim;
+
     protected override void LoadComponent()
     {
         base.LoadComponent();
-        this.LoadAnimator();
+        LoadAnimator();
     }
+
     protected override void OnEnable()
     {
         base.OnEnable();
-        this.anim.enabled = false;
+
+        if (anim != null)
+            anim.enabled = false;
     }
+
     protected void LoadAnimator()
     {
-        if (this.anim != null) return;
-        this.anim = transform.GetComponent<Animator>();
+        if (anim != null) return;
+
+        anim = GetComponent<Animator>();
+
         Debug.Log(transform.name + ": LoadAnimator");
     }
 
-    public override void SetGemSpecialType(GemSpecialType gemSpecialType)
+    public override void RefreshVisual()
     {
-        base.SetGemSpecialType(gemSpecialType);
-        if (gemSpecialType == GemSpecialType.Cube)
+        base.RefreshVisual();
+
+        if (this.gemCtrl == null)
+            return;
+
+        if (this.gemCtrl.GemData.GemSpecialType == GemSpecialType.Cube)
             PlayCubeIdleAnimation();
         else
             StopCubeIdleAnimation();
     }
+
     protected void PlayCubeIdleAnimation()
     {
-        if (this.gemSpecialType != GemSpecialType.Cube) return;
+        Transform target = transform.parent;
 
-        transform.parent.DOScale(1.08f, 0.8f)
+        target.DOKill();
+
+        target.DOScale(1.08f, 0.8f)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo);
 
-        transform.parent.DOLocalRotate(
+        target.DOLocalRotate(
                 new Vector3(0, 0, 4f),
                 1.2f)
             .From(new Vector3(0, 0, -4f))
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo);
     }
+
     protected void StopCubeIdleAnimation()
     {
-        transform.parent.DOKill();
+        Transform target = transform.parent;
 
-        transform.parent.localScale = Vector3.one;
-        transform.parent.localRotation = Quaternion.identity;
+        target.DOKill();
+
+        target.localScale = Vector3.one;
+        target.localRotation = Quaternion.identity;
     }
 
     public VFXCtrl PlayAnimateAndEffectCubeGem()
     {
-        this.anim.enabled = true;
-        return VFXSpawner.Instance.SpawnSpecialVFXCubeGem(this.gemCtrl);
+        anim.enabled = true;
+
+        return VFXSpawner.Instance
+            .SpawnSpecialVFXCubeGem(this.gemCtrl);
     }
 }

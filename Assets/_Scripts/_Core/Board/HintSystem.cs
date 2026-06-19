@@ -47,8 +47,8 @@ public class HintSystem
     {
         if (gemA == null || gemB == null) return false;
 
-        var posA = gemA.GridPos;
-        var posB = gemB.GridPos;
+        var posA = gemA.GemData.GridPos;
+        var posB = gemB.GemData.GridPos;
 
         grid.Swap((posA.x, posA.y), (posB.x, posB.y));
 
@@ -56,7 +56,7 @@ public class HintSystem
 
         if (hasMatch)
         {
-            GemPair gemPair = new GemPair(gemA.GridPos, gemB.GridPos);
+            GemPair gemPair = new GemPair(gemA.GemData.GridPos, gemB.GemData.GridPos);
             this.HintPairs.Add(gemPair);
         }
 

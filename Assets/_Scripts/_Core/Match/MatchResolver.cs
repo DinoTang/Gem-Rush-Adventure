@@ -1,16 +1,17 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class MatchResolver
 {
     // private SpecialResolver specialResolver = new();
     private SpecialPatternRegistry specialPatternRegistry = new();
-    public List<(int x, int y)> ResolveMatches(
+    public List<Vector2Int> ResolveMatches(
             List<MatchResult> matches,
             GridModel<GemCtrl> grid,
-            List<(int x, int y)> excluded = null
+            HashSet<Vector2Int> excluded = null
         )
     {
-        HashSet<(int x, int y)> cellsToClear = new();
+        HashSet<Vector2Int> cellsToClear = new();
 
 
         foreach (var match in matches)
@@ -23,21 +24,21 @@ public class MatchResolver
             }
         }
 
-        return this.ResolveSpecialChains(new List<(int x, int y)>(cellsToClear), grid);
+        return this.ResolveSpecialChains(new List<Vector2Int>(cellsToClear), grid);
     }
 
-    public List<(int x, int y)> ResolveSpecialChains(List<(int x, int y)> inputCells, GridModel<GemCtrl> grid)
+    public List<Vector2Int> ResolveSpecialChains(List<Vector2Int> inputCells, GridModel<GemCtrl> grid)
     {
-        HashSet<(int x, int y)> cellsToClear = new(inputCells);
+        HashSet<Vector2Int> cellsToClear = new(inputCells);
 
-        Queue<(int x, int y)> specialQueue = new();
+        Queue<Vector2Int> specialQueue = new();
         foreach (var cell in inputCells)
         {
             GemCtrl gem = grid.Get(cell.x, cell.y);
 
             if (gem == null) continue;
 
-            if (gem.GemModel.GemSpecialType != GemSpecialType.None)
+            if (gem.GemData.GemSpecialType != GemSpecialType.None)
                 specialQueue.Enqueue(cell);
         }
 
@@ -50,7 +51,7 @@ public class MatchResolver
 
             var extraCells =
             this.specialPatternRegistry
-            .GetPattern(specialGem.GemModel.GemSpecialType)
+            .GetPattern(specialGem.GemData.GemSpecialType)
             .GetCells(specialGem, grid);
 
             VFXSpawner.Instance.SpawnSpecialVFX(specialGem);
@@ -64,10 +65,10 @@ public class MatchResolver
                 GemCtrl gem = grid.Get(cell.x, cell.y);
                 if (gem == null) continue;
 
-                if (gem.GemModel.GemSpecialType != GemSpecialType.None)
+                if (gem.GemData.GemSpecialType != GemSpecialType.None)
                     specialQueue.Enqueue(cell);
             }
         }
-        return new List<(int x, int y)>(cellsToClear);
+        return new List<Vector2Int>(cellsToClear);
     }
 }

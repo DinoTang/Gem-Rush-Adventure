@@ -53,7 +53,7 @@ public class GemSpawner : Spawner<GemCtrl>
         foreach (var child in this.prefabs)
         {
             GemCtrl gem = child.GetComponent<GemCtrl>();
-            if (gem.GemModel.GemType != gemType) continue;
+            if (gem.GemData.GemType != gemType) continue;
             return gem;
         }
         return null;
@@ -72,8 +72,8 @@ public class GemSpawner : Spawner<GemCtrl>
         if (x < 2)
             return;
 
-        GemType left1 = grid.Get(x - 1, y).GemModel.GemType;
-        GemType left2 = grid.Get(x - 2, y).GemModel.GemType;
+        GemType left1 = grid.Get(x - 1, y).GemData.GemType;
+        GemType left2 = grid.Get(x - 2, y).GemData.GemType;
 
         if (left1 == left2 && left1 != GemType.None)
             availableTypes.Remove(left1);
@@ -84,8 +84,8 @@ public class GemSpawner : Spawner<GemCtrl>
         if (y < 2)
             return;
 
-        GemType up1 = grid.Get(x, y - 1).GemModel.GemType;
-        GemType up2 = grid.Get(x, y - 2).GemModel.GemType;
+        GemType up1 = grid.Get(x, y - 1).GemData.GemType;
+        GemType up2 = grid.Get(x, y - 2).GemData.GemType;
 
         if (up1 == up2 && up1 != GemType.None)
             availableTypes.Remove(up1);
@@ -104,8 +104,8 @@ public class GemSpawner : Spawner<GemCtrl>
 
                 GemType type = GetRandomPieceType();
 
-                Vector2 spawnPointPos = new Vector3(x, -1 - stackIndex);
-                Vector2 targetPointPos = new Vector3(x, y);
+                Vector2Int spawnPointPos = new Vector2Int(x, -1 - stackIndex);
+                Vector2Int targetPointPos = new Vector2Int(x, y);
                 GemCtrl gem = Spawn(type, spawnPointPos);
 
                 gem.Init(type, x, y);
@@ -114,9 +114,9 @@ public class GemSpawner : Spawner<GemCtrl>
 
                 FallMove fallMove = new()
                 {
-                    gem = gem,
-                    currentPos = spawnPointPos,
-                    targetPos = targetPointPos
+                    Gem = gem,
+                    CurrentPos = spawnPointPos,
+                    TargetPos = targetPointPos
                 };
                 fallMoves.Add(fallMove);
                 stackIndex++;

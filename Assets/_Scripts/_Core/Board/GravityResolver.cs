@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class FallMove
 {
-    public GemCtrl gem;
-    public Vector3 currentPos;
-    public Vector3 targetPos;
+    public GemCtrl Gem;
+    public Vector2Int CurrentPos;
+    public Vector2Int TargetPos;
 }
 
 public class GravityResolver
@@ -29,15 +29,15 @@ public class GravityResolver
 
                     FallMove fallMove = new FallMove()
                     {
-                        gem = fallingGem,
-                        currentPos = new Vector3(x, sourceY),
-                        targetPos = new Vector3(x, y),
+                        Gem = fallingGem,
+                        CurrentPos = new Vector2Int(x, sourceY),
+                        TargetPos = new Vector2Int(x, y),
                     };
 
                     grid.Set(x, y, fallingGem);
                     grid.Set(x, sourceY, null);
 
-                    fallingGem.SetGridPos(x, y);
+                    fallingGem.GemData.SetGridPos(x, y);
 
                     fallMoves.Add(fallMove);
                     break;

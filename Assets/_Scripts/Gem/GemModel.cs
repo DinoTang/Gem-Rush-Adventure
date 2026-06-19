@@ -3,17 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GemModel : BaseBehaviour
+public class GemModel : GemAbstract
 {
     [Header("GemModel")]
-    [SerializeField] protected GemCtrl gemCtrl;
     [SerializeField] protected SpriteRenderer sprtRdr;
-    [SerializeField] protected GemType gemType;
-    public GemType GemType => gemType;
-    [SerializeField] protected GemSpecialType gemSpecialType;
-    public GemSpecialType GemSpecialType => gemSpecialType;
     [SerializeField] private float hintPulseSpeed = 3f;
-    [SerializeField] protected bool isSelected = false;
     protected Vector3 defaultLocalScale;
     private Coroutine hintRoutine;
     protected override void Start()
@@ -24,16 +18,9 @@ public class GemModel : BaseBehaviour
     protected override void LoadComponent()
     {
         base.LoadComponent();
-        this.LoadGemCtrl();
         this.LoadSpriteRenderer();
     }
 
-    protected void LoadGemCtrl()
-    {
-        if (this.gemCtrl != null) return;
-        this.gemCtrl = transform.parent.GetComponent<GemCtrl>();
-        Debug.Log(transform.name + ": LoadGemCtrl");
-    }
     protected void LoadSpriteRenderer()
     {
         if (this.sprtRdr != null) return;
@@ -41,27 +28,30 @@ public class GemModel : BaseBehaviour
         Debug.Log(transform.name + ": LoadSpriteRenderer");
     }
 
-    public void SetGemType(GemType gemType)
-    {
-        this.gemType = gemType;
-    }
-    public virtual void SetGemSpecialType(GemSpecialType gemSpecialType)
+    public virtual void SetSortingOrder(GemSpecialType gemSpecialType)
     {
         if (gemSpecialType != GemSpecialType.None)
             this.sprtRdr.sortingOrder = 1;
         else this.sprtRdr.sortingOrder = 0;
 
-        this.gemSpecialType = gemSpecialType;
     }
-    public void SetIsSelected(bool isSelected)
+
+    public virtual void RefreshVisual()
     {
-        this.isSelected = isSelected;
-    }
-    public void SetVisual()
-    {
-        this.sprtRdr.sprite = this.isSelected
-        ? this.GetGemVisualSelected(this.gemType, this.gemSpecialType)
-        : this.GetGemVisualIdle(this.gemType, this.gemSpecialType);
+        var data = this.gemCtrl.GemData;
+
+        Sprite sprite =
+            data.IsSelected
+            ? GetGemVisualSelected(
+                data.GemType,
+                data.GemSpecialType)
+            : GetGemVisualIdle(
+                data.GemType,
+                data.GemSpecialType);
+
+        this.sprtRdr.sprite = sprite;
+
+        this.SetSortingOrder(data.GemSpecialType);
     }
 
     public void ShowHintRoutine()

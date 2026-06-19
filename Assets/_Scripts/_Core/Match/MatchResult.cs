@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 public enum MatchDirection
 {
     Horizontal,
@@ -6,6 +7,6 @@ public enum MatchDirection
 }
 public class MatchResult
 {
-    public List<(int x, int y)> Cells = new();
+    public List<Vector2Int> Cells = new();
     public MatchDirection MatchDirection;
 }

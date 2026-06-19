@@ -4,26 +4,18 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BoardSwapHandler : BaseBehaviour
+public class BoardSwapHandler : BoardAbstract
 {
-    [SerializeField] protected BoardManager boardManager;
     [SerializeField] protected bool isBusy = false;
     public bool IsBusy => isBusy;
     private BoardValidator boardValidator = new();
     private List<GemState> previousBoardState = new();
-    private SpecialTriggerResolver specialTriggerResolver = new();
-    protected override void LoadComponent()
+
+    private void SetBusy(bool value)
     {
-        base.LoadComponent();
-        this.LoadBoardManager();
+        this.isBusy = value;
     }
 
-    protected void LoadBoardManager()
-    {
-        if (this.boardManager != null) return;
-        this.boardManager = transform.parent.GetComponent<BoardManager>();
-        Debug.Log(transform.name + ": LoadBoardManager");
-    }
     protected bool HasAnyMatch()
     {
         var matches = this.boardManager.MatchFinder.FindMatches(this.boardManager.Grid);
@@ -39,16 +31,17 @@ public class BoardSwapHandler : BaseBehaviour
 
         this.SavePreviousBoard();
 
-        this.isBusy = true;
+        this.SetBusy(true);
+
         GemCtrl selectedGem = this.boardManager.InputHandler.SelectedGem;
         if (!this.boardValidator.CanSwap(gemA, gemB))
         {
             if (selectedGem != null)
             {
-                selectedGem.GemModel.SetIsSelected(false);
-                selectedGem.GemModel.SetVisual();
+                selectedGem.GemData.SetIsSelected(false);
+                selectedGem.GemModel.RefreshVisual();
             }
-            this.isBusy = false;
+            this.SetBusy(false);
 
             yield break;
         }
@@ -58,19 +51,19 @@ public class BoardSwapHandler : BaseBehaviour
         var matches = this.boardManager.MatchFinder.FindMatches(this.boardManager.Grid);
 
         bool hasResolvedSpecial = false;
-        yield return StartCoroutine(this.HandleResolvedSpecialSwap(matches, gemA, gemB, result => hasResolvedSpecial = result));
+        yield return StartCoroutine(this.boardManager.SpecialSwapHandler.Resolve(matches, gemA, gemB, result => hasResolvedSpecial = result));
 
 
         if (this.HasAnyMatch())
         {
             yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveBoardRoutine(gemA, gemB));
-            this.isBusy = false;
+            this.SetBusy(false);
             yield break;
         }
 
         if (hasResolvedSpecial)
         {
-            this.isBusy = false;
+            this.SetBusy(false);
             yield break;
         }
 
@@ -78,19 +71,15 @@ public class BoardSwapHandler : BaseBehaviour
 
         Debug.Log("Swap khong tao match -> revert!");
 
-        this.isBusy = false;
+        this.SetBusy(false);
     }
 
-    protected IEnumerator HandleSpecialSwapRoutine(GemCtrl gemA, GemCtrl gemB, List<(int x, int y)> cells)
-    {
-        yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveGravityRoutine(cells));
-        yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveBoardRoutine(gemA, gemB));
-    }
+
 
     protected IEnumerator RevertSwapRoutine(GemCtrl gemA, GemCtrl gemB)
     {
-        Vector2Int posA = gemA.GridPos;
-        Vector2Int posB = gemB.GridPos;
+        Vector2Int posA = gemA.GemData.GridPos;
+        Vector2Int posB = gemB.GemData.GridPos;
 
         this.SwapData((posA.x, posA.y), (posB.x, posB.y));
 
@@ -99,11 +88,10 @@ public class BoardSwapHandler : BaseBehaviour
         );
     }
 
-
     protected IEnumerator PerformSwapRoutine(GemCtrl gemA, GemCtrl gemB)
     {
-        Vector2Int posA = gemA.GridPos;
-        Vector2Int posB = gemB.GridPos;
+        Vector2Int posA = gemA.GemData.GridPos;
+        Vector2Int posB = gemB.GemData.GridPos;
 
         this.SwapData((posA.x, posA.y), (posB.x, posB.y));
 
@@ -113,8 +101,8 @@ public class BoardSwapHandler : BaseBehaviour
     }
     protected IEnumerator SwapViewRoutine(GemCtrl gemA, GemCtrl gemB, Vector2Int posA, Vector2Int posB)
     {
-        gemA.SetGridPos(posA.x, posA.y);
-        gemB.SetGridPos(posB.x, posB.y);
+        gemA.GemData.SetGridPos(posA.x, posA.y);
+        gemB.GemData.SetGridPos(posB.x, posB.y);
 
         Vector3 worldPosA = this.boardManager.GetWorldPos(posA.x, posA.y);
         Vector3 worldPosB = this.boardManager.GetWorldPos(posB.x, posB.y);
@@ -124,38 +112,11 @@ public class BoardSwapHandler : BaseBehaviour
 
         yield return new WaitForSeconds(this.boardManager.AnimationHandler.SwapGemMoveTime);
     }
-    protected IEnumerator HandleResolvedSpecialSwap(List<MatchResult> originalMatches, GemCtrl gemA, GemCtrl gemB, Action<bool> onCompleted)
-    {
-        HashSet<(int x, int y)> originalCells = new();
-        foreach (var match in originalMatches)
-        {
-            originalCells.UnionWith(match.Cells);
-        }
 
-        List<(int x, int y)> specialCells = null;
-
-        yield return StartCoroutine(this.specialTriggerResolver
-        .Resolve(gemA, gemB, this.boardManager.Grid, result => specialCells = result));
-
-        if (specialCells != null && specialCells.Count > 0)
-        {
-            HashSet<(int x, int y)> finalCells = new(specialCells);
-            finalCells.UnionWith(originalCells);
-
-            var matchCells = this.boardManager.MatchResolver.ResolveSpecialChains(new List<(int x, int y)>(finalCells), this.boardManager.Grid);
-            finalCells.UnionWith(matchCells);
-
-            yield return StartCoroutine(this.HandleSpecialSwapRoutine(gemA, gemB, new List<(int x, int y)>(finalCells)));
-            this.isBusy = false;
-
-            onCompleted?.Invoke(true);
-            yield break;
-        }
-        onCompleted?.Invoke(false);
-    }
 
     protected void SavePreviousBoard()
     {
+        this.previousBoardState.Clear();
         for (int y = 0; y < this.boardManager.Grid.Height; y++)
         {
             for (int x = 0; x < this.boardManager.Grid.Width; x++)
@@ -166,8 +127,8 @@ public class BoardSwapHandler : BaseBehaviour
                 {
                     x = x,
                     y = y,
-                    gemType = gem.GemModel.GemType,
-                    specialType = gem.GemModel.GemSpecialType
+                    gemType = gem.GemData.GemType,
+                    specialType = gem.GemData.GemSpecialType
                 };
 
                 this.previousBoardState.Add(gemState);
@@ -181,10 +142,10 @@ public class BoardSwapHandler : BaseBehaviour
         {
             GemCtrl gem = this.boardManager.Grid.Get(child.x, child.y);
             if (gem == null) continue;
-            gem.GemModel.SetGemType(child.gemType);
-            gem.GemModel.SetGemSpecialType(child.specialType);
+            gem.GemData.SetGemType(child.gemType);
+            gem.GemData.SetGemSpecialType(child.specialType);
 
-            gem.GemModel.SetVisual();
+            gem.GemModel.RefreshVisual();
         }
     }
 }

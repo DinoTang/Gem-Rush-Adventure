@@ -89,7 +89,7 @@ public class MatchFinder
 
     protected GemType GetGemType(GemCtrl gem)
     {
-        return gem == null ? GemType.None : gem.GemModel.GemType;
+        return gem == null ? GemType.None : gem.GemData.GemType;
     }
 
     protected MatchResult CreateHorizontal(int endX, int y, int count)
@@ -98,7 +98,7 @@ public class MatchFinder
 
         for (int i = 0; i < count; i++)
         {
-            match.Cells.Add((endX - i, y));
+            match.Cells.Add(new Vector2Int(endX - i, y));
         }
         match.MatchDirection = MatchDirection.Horizontal;
         return match;
@@ -110,25 +110,25 @@ public class MatchFinder
 
         for (int i = 0; i < count; i++)
         {
-            match.Cells.Add((x, endY - i));
+            match.Cells.Add(new Vector2Int(x, endY - i));
         }
         match.MatchDirection = MatchDirection.Vertical;
         return match;
     }
 
-    protected (int x, int y) ProcessMatch4(
+    protected Vector2Int ProcessMatch4(
         GridModel<GemCtrl> grid,
         MatchResult match,
         Vector2Int from,
         Vector2Int to,
-        List<(int x, int y)> protectedCells
+        List<Vector2Int> protectedCells
     )
     {
         if (this.MatchHasExistingSpecialGem(grid, match, protectedCells))
-            return (-1, -1);
+            return new Vector2Int(-1, -1);
 
-        bool hasA = match.Cells.Contains((from.x, from.y));
-        bool hasB = match.Cells.Contains((to.x, to.y));
+        bool hasA = match.Cells.Contains(from);
+        bool hasB = match.Cells.Contains(to);
         bool isPlayerMatch = hasA || hasB;
         bool swapHorizontal = Mathf.Abs(from.y - to.y) > 0;
 
@@ -137,18 +137,18 @@ public class MatchFinder
             : (match.MatchDirection == MatchDirection.Horizontal ? GemSpecialType.HorizontalRocket : GemSpecialType.VerticalRocket);
 
         if (hasA)
-            return this.TransformToSpecial(grid, (from.x, from.y), protectedCells, gemSpecialType);
+            return this.TransformToSpecial(grid, from, protectedCells, gemSpecialType);
 
         if (hasB)
-            return this.TransformToSpecial(grid, (to.x, to.y), protectedCells, gemSpecialType);
+            return this.TransformToSpecial(grid, to, protectedCells, gemSpecialType);
 
         return this.TransformRandomMatchCell(grid, match, protectedCells, gemSpecialType);
     }
 
-    protected (int x, int y) GetExistingSpecialMatchCell(
+    protected Vector2Int GetExistingSpecialMatchCell(
         GridModel<GemCtrl> grid,
         MatchResult match,
-        List<(int x, int y)> protectedCells
+        List<Vector2Int> protectedCells
     )
     {
         foreach (var cell in match.Cells)
@@ -160,33 +160,33 @@ public class MatchFinder
             if (gem == null)
                 continue;
 
-            if (gem.GemModel.GemSpecialType != GemSpecialType.None)
+            if (gem.GemData.GemSpecialType != GemSpecialType.None)
                 return cell;
         }
 
-        return (-1, -1);
+        return new Vector2Int(-1, -1);
     }
 
     protected bool MatchHasExistingSpecialGem(
         GridModel<GemCtrl> grid,
         MatchResult match,
-        List<(int x, int y)> protectedCells
+        List<Vector2Int> protectedCells
     )
     {
-        return this.GetExistingSpecialMatchCell(grid, match, protectedCells) != (-1, -1);
+        return this.GetExistingSpecialMatchCell(grid, match, protectedCells) != new Vector2Int(-1, -1);
     }
 
-    protected (int x, int y) TransformToSpecial(
+    protected Vector2Int TransformToSpecial(
         GridModel<GemCtrl> grid,
-        (int x, int y) cell,
-        List<(int x, int y)> protectedCells,
+        Vector2Int cell,
+        List<Vector2Int> protectedCells,
         GemSpecialType gemSpecialType
         )
     {
-        if (protectedCells.Contains(cell)) return (-1, -1);
+        if (protectedCells.Contains(cell)) return new Vector2Int(-1, -1);
 
         var gem = grid.Get(cell.x, cell.y);
-        if (gem == null) return (-1, -1);
+        if (gem == null) return new Vector2Int(-1, -1);
 
         if (gemSpecialType == GemSpecialType.Cube)
         {
@@ -199,8 +199,8 @@ public class MatchFinder
 
             GemCtrl cubeGem = spawner.Spawn(GemType.Cube, spawnPos);
             cubeGem.Init(GemType.Cube, gx, gy);
-            cubeGem.GemModel.SetGemSpecialType(GemSpecialType.Cube);
-            cubeGem.GemModel.SetVisual();
+            cubeGem.GemData.SetGemSpecialType(GemSpecialType.Cube);
+            cubeGem.GemModel.RefreshVisual();
 
             grid.Set(gx, gy, cubeGem);
 
@@ -208,21 +208,21 @@ public class MatchFinder
         }
         else
         {
-            gem.GemModel.SetGemSpecialType(gemSpecialType);
-            gem.GemModel.SetVisual();
+            gem.GemData.SetGemSpecialType(gemSpecialType);
+            gem.GemModel.RefreshVisual();
         }
 
         VFXSpawner.Instance.SpawnTransformVFX(gem.transform.position);
 
-        protectedCells.Add((cell.x, cell.y));
+        protectedCells.Add(new Vector2Int(cell.x, cell.y));
 
         return cell;
     }
 
-    protected (int x, int y) TransformRandomMatchCell(
+    protected Vector2Int TransformRandomMatchCell(
         GridModel<GemCtrl> grid,
         MatchResult match,
-        List<(int x, int y)> protectedCells,
+        List<Vector2Int> protectedCells,
         GemSpecialType specialType)
     {
         var cell = this.GetRandomMiddleMatchCell(match);
@@ -232,7 +232,7 @@ public class MatchFinder
         return cell;
     }
 
-    protected (int x, int y) GetRandomMiddleMatchCell(MatchResult match)
+    protected Vector2Int GetRandomMiddleMatchCell(MatchResult match)
     {
         if (match.Cells.Count == 4)
         {
@@ -253,25 +253,25 @@ public class MatchFinder
         return match.Cells[randomIndex];
     }
 
-    protected (int x, int y) ProcessMatch5(
+    protected Vector2Int ProcessMatch5(
        GridModel<GemCtrl> grid,
        MatchResult match,
        Vector2Int from,
        Vector2Int to,
-       List<(int x, int y)> protectedCells
+       List<Vector2Int> protectedCells
    )
     {
         if (this.MatchHasExistingSpecialGem(grid, match, protectedCells))
-            return (-1, -1);
+            return new Vector2Int(-1, -1);
 
-        bool hasA = match.Cells.Contains((from.x, from.y));
-        bool hasB = match.Cells.Contains((to.x, to.y));
+        bool hasA = match.Cells.Contains(from);
+        bool hasB = match.Cells.Contains(to);
 
         if (hasA)
-            return this.TransformToSpecial(grid, (from.x, from.y), protectedCells, GemSpecialType.Cube);
+            return this.TransformToSpecial(grid, from, protectedCells, GemSpecialType.Cube);
 
         if (hasB)
-            return this.TransformToSpecial(grid, (to.x, to.y), protectedCells, GemSpecialType.Cube);
+            return this.TransformToSpecial(grid, to, protectedCells, GemSpecialType.Cube);
 
         return this.TransformRandomMatchCell(grid, match, protectedCells, GemSpecialType.Cube);
     }
@@ -279,7 +279,7 @@ public class MatchFinder
     protected List<SpecialMergeInfo> ProcessTLShapeBomb(
         List<MatchResult> matches,
         GridModel<GemCtrl> grid,
-        List<(int x, int y)> protectedCells)
+        List<Vector2Int> protectedCells)
     {
         List<SpecialMergeInfo> mergeInfos = new();
 
@@ -294,7 +294,7 @@ public class MatchFinder
                     SpecialMergeInfo specialMergeInfo = new()
                     {
                         SpecialCell = this.TransformToSpecial(grid, cell, protectedCells, GemSpecialType.Bomb),
-                        SourceCells = new List<(int x, int y)>(matches[i].Cells),
+                        SourceCells = new List<Vector2Int>(matches[i].Cells),
                     };
                     specialMergeInfo.SourceCells.AddRange(matches[j].Cells);
                     specialMergeInfo.SourceCells.Remove(cell);
@@ -312,7 +312,7 @@ public class MatchFinder
     Vector2Int target)
     {
         List<SpecialMergeInfo> mergeInfos = new();
-        List<(int x, int y)> protectedCells = new();
+        List<Vector2Int> protectedCells = new();
 
         var mergeInfosTLShapeBomb = this.ProcessTLShapeBomb(matches, grid, protectedCells);
         if (mergeInfosTLShapeBomb.Count != 0)
@@ -332,18 +332,18 @@ public class MatchFinder
                 if (match.Cells.Count == 5)
                 {
                     var specialCell = this.ProcessMatch5(grid, match, selected, target, protectedCells);
-                    if (specialCell == (-1, -1)) continue;
+                    if (specialCell == new Vector2Int(-1, -1)) continue;
                     specialMergeInfo.SpecialCell = specialCell;
-                    specialMergeInfo.SourceCells = new List<(int x, int y)>(match.Cells);
+                    specialMergeInfo.SourceCells = new List<Vector2Int>(match.Cells);
                     specialMergeInfo.SourceCells.Remove(specialCell);
                 }
 
                 if (match.Cells.Count == 4)
                 {
                     var specialCell = this.ProcessMatch4(grid, match, selected, target, protectedCells);
-                    if (specialCell == (-1, -1)) continue;
+                    if (specialCell == new Vector2Int(-1, -1)) continue;
                     specialMergeInfo.SpecialCell = specialCell;
-                    specialMergeInfo.SourceCells = new List<(int x, int y)>(match.Cells);
+                    specialMergeInfo.SourceCells = new List<Vector2Int>(match.Cells);
                     specialMergeInfo.SourceCells.Remove(specialCell);
                 }
 

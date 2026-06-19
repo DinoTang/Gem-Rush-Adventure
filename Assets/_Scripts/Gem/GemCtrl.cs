@@ -7,43 +7,32 @@ public class GemCtrl : PoolObj
     [SerializeField] private string prefabName;
     [SerializeField] protected GemModel gemModel;
     public GemModel GemModel => gemModel;
+    [SerializeField] protected GemData gemData;
+    public GemData GemData => gemData;
     [SerializeField] protected GemMove gemMove;
     public GemMove GemMove => gemMove;
     [SerializeField] protected GemDespawn gemDespawn;
     public GemDespawn GemDespawn => gemDespawn;
 
-    [SerializeField] private Vector2Int gridPos;
-    public Vector2Int GridPos => gridPos;
-
-    public void SetGridPos(int x, int y)
-    {
-        gridPos = new Vector2Int(x, y);
-    }
     public override string GetName()
     {
         return prefabName;
     }
-    public void ResetGemData()
-    {
-        this.transform.name = "GemNone";
-        this.gemModel.SetGemType(GemType.None);
-        this.gemModel.SetGemSpecialType(GemSpecialType.None);
-        this.SetGridPos(-1, -1);
-    }
+
     public void Init(GemType type, int x, int y)
     {
-        this.gemModel.SetGemType(type);
-        this.SetGridPos(x, y);
+        this.gemData.SetData(type, x, y);
 
-        this.transform.name = $"Gem{type}_{x}_{y}";
+        this.transform.name = $"Gem{type}_[{x}][{y}]";
 
-        this.gemModel.SetVisual();
+        this.gemModel.RefreshVisual();
     }
     protected override void LoadComponent()
     {
         base.LoadComponent();
         this.LoadPrefabName();
         this.LoadGemModel();
+        this.LoadGemData();
         this.LoadGemMove();
         this.LoadGemDespawn();
     }
@@ -59,6 +48,12 @@ public class GemCtrl : PoolObj
         if (this.gemModel != null) return;
         this.gemModel = transform.GetComponentInChildren<GemModel>();
         Debug.Log(transform.name + ": LoadGemModel");
+    }
+    protected void LoadGemData()
+    {
+        if (this.gemData != null) return;
+        this.gemData = transform.GetComponentInChildren<GemData>();
+        Debug.Log(transform.name + ": LoadGemData");
     }
     protected void LoadGemMove()
     {

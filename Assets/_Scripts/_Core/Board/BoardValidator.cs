@@ -6,8 +6,8 @@ public class BoardValidator
 
     public bool CanSwap(GemCtrl gemA, GemCtrl gemB)
     {
-        Vector2Int posA = gemA.GridPos;
-        Vector2Int posB = gemB.GridPos;
+        Vector2Int posA = gemA.GemData.GridPos;
+        Vector2Int posB = gemB.GemData.GridPos;
 
         if (this.IsAdjacent(posA, posB))
             return true;
