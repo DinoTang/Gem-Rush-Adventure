@@ -41704,6 +41704,51 @@ MonoBehaviour:
   GemSpecialType: 2
   Sprite_Idle: {fileID: -1899398570, guid: 8bbb4b8f1f3d4df4f9343856c9e98f3d, type: 3}
   Sprite_Selected: {fileID: 570035205, guid: 96472426c7ea50543994a7374d7000e1, type: 3}
+--- !u!1 &563529537
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 563529538}
+  - component: {fileID: 563529539}
+  m_Layer: 0
+  m_Name: BoardSpecialSwapHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &563529538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563529537}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1185846013}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &563529539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563529537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab1fa932302861b4cac60aebe59fc739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardSpecialSwapHandler
+  boardManager: {fileID: 1185846012}
 --- !u!1 &573563216
 GameObject:
   m_ObjectHideFlags: 0
@@ -41714,6 +41759,7 @@ GameObject:
   m_Component:
   - component: {fileID: 573563217}
   - component: {fileID: 573563218}
+  - component: {fileID: 573563220}
   - component: {fileID: 573563219}
   m_Layer: 0
   m_Name: Model
@@ -41796,7 +41842,29 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &573563219
+--- !u!95 &573563219
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573563216}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 441fd97c4c17b5e49830f1f38809de22, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &573563220
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41805,12 +41873,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 573563216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60addd43294663b46896e81112f0931e, type: 3}
+  m_Script: {fileID: 11500000, guid: 40fddda571fe6b64a9e92ca694dab9e2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GemModel
+  m_EditorClassIdentifier: Assembly-CSharp::GemCubeModel
   gemCtrl: {fileID: 1303919456}
   sprtRdr: {fileID: 573563218}
   hintPulseSpeed: 3
+  anim: {fileID: 573563219}
 --- !u!1 &575149925
 GameObject:
   m_ObjectHideFlags: 0
@@ -69847,6 +69916,7 @@ MonoBehaviour:
   height: 8
   inputHandler: {fileID: 791784094}
   swapHandler: {fileID: 1637351240}
+  specialSwapHandler: {fileID: 563529539}
   resolveHandler: {fileID: 1024964447}
   animationHandler: {fileID: 493563439}
 --- !u!4 &1185846013
@@ -69866,6 +69936,7 @@ Transform:
   - {fileID: 288135789}
   - {fileID: 791784095}
   - {fileID: 1637351241}
+  - {fileID: 563529538}
   - {fileID: 1024964448}
   - {fileID: 493563440}
   m_Father: {fileID: 0}
@@ -70797,7 +70868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GemCtrl
   prefabName: CubeGem
-  gemModel: {fileID: 573563219}
+  gemModel: {fileID: 0}
   gemData: {fileID: 676921914}
   gemMove: {fileID: 1184161486}
   gemDespawn: {fileID: 304007223}
