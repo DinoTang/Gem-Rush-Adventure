@@ -10,6 +10,7 @@ public enum CommonVFXType
     Beam,
     Bomb,
     ElectrolyticCapacitor,
+    Electronic,
     Cube_1,
     Cube_2,
     Cube_3,
@@ -134,5 +135,29 @@ public class VFXSpawner : Spawner<VFXCtrl>
             Vector3 worldPos = BoardManager.Instance.GetWorldPos(cell.x, cell.y);
             this.SpawnGemVFXCommon(GemType.None, CommonVFXType.ElectrolyticCapacitor, new Vector2(worldPos.x, worldPos.y));
         }
+    }
+
+    public void SpawnCubeClearVFX(GemCtrl gem)
+    {
+        this.SpawnGemVFXCommon(GemType.Cube, CommonVFXType.Cube_3, gem.transform.position);
+    }
+
+    public void SpawnCubeLightningVFX(GemCtrl cubeGem, List<Vector2Int> targetCells)
+    {
+        List<Vector3> targets = new();
+
+        foreach (var cell in targetCells)
+        {
+            Vector3 worldPos = BoardManager.Instance.GetWorldPos(cell.x, cell.y);
+            targets.Add(worldPos);
+        }
+
+        this.SpawnCubeLightningVFX(cubeGem.transform.position, targets);
+    }
+
+    public void SpawnCubeLightningVFX(Vector3 from, List<Vector3> targets)
+    {
+        CubeLightningCtrl vfx = this.SpawnGemVFXCommon(GemType.None, CommonVFXType.Electronic, from).GetComponent<CubeLightningCtrl>();
+        vfx.Play(from, targets);
     }
 }

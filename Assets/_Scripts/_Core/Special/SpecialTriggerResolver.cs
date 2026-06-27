@@ -11,25 +11,29 @@ public class SpecialTriggerResolver
         GemCtrl gemA,
         GemCtrl gemB,
         GridModel<GemCtrl> grid,
-        System.Action<List<Vector2Int>> onCompleted
-    )
+        System.Action<List<Vector2Int>> onCompleted)
     {
         GemSpecialType typeA = gemA.GemData.GemSpecialType;
         GemSpecialType typeB = gemB.GemData.GemSpecialType;
 
-        bool hasSpecial = typeA != GemSpecialType.None || typeB != GemSpecialType.None;
+        bool hasSpecial =
+            typeA != GemSpecialType.None ||
+            typeB != GemSpecialType.None;
 
         if (!hasSpecial)
         {
-            onCompleted?.Invoke(new());
+            onCompleted?.Invoke(new List<Vector2Int>());
             yield break;
         }
 
-        bool isCombo = typeA != GemSpecialType.None && typeB != GemSpecialType.None;
+        bool isCombo =
+            typeA != GemSpecialType.None &&
+            typeB != GemSpecialType.None;
 
         if (isCombo)
         {
             var comboPattern = this.comboRegistry.GetPattern(typeA, typeB);
+
             if (comboPattern != null)
             {
                 List<Vector2Int> comboCells = null;
@@ -41,40 +45,40 @@ public class SpecialTriggerResolver
                     result => comboCells = result
                 );
 
-                onCompleted?.Invoke(comboCells);
+                onCompleted?.Invoke(comboCells ?? new List<Vector2Int>());
                 yield break;
             }
         }
 
         HashSet<Vector2Int> cells = new();
 
-        if (typeA != GemSpecialType.None)
-        {
-            var pattern = this.patternRegistry.GetPattern(typeA);
+        AddSingleSpecialCells(gemA, gemB, typeA, grid, cells);
+        AddSingleSpecialCells(gemB, gemA, typeB, grid, cells);
 
-            if (typeA != GemSpecialType.Cube)
-                cells.UnionWith(pattern.GetCells(gemA, grid));
-            else
-            {
-                cells.UnionWith(pattern.GetCells(gemB, grid));
-                cells.Add(gemA.GemData.GridPos);
-            }
+        onCompleted?.Invoke(new List<Vector2Int>(cells));
+    }
+
+    private void AddSingleSpecialCells(
+        GemCtrl specialGem,
+        GemCtrl otherGem,
+        GemSpecialType type,
+        GridModel<GemCtrl> grid,
+        HashSet<Vector2Int> cells)
+    {
+        if (type == GemSpecialType.None)
+            return;
+
+        var pattern = this.patternRegistry.GetPattern(type);
+        if (pattern == null)
+            return;
+
+        if (type == GemSpecialType.Cube)
+        {
+            cells.UnionWith(pattern.GetCells(otherGem, grid));
+            cells.Add(specialGem.GemData.GridPos);
+            return;
         }
 
-        if (typeB != GemSpecialType.None)
-        {
-            var pattern = this.patternRegistry.GetPattern(typeB);
-
-            if (typeB != GemSpecialType.Cube)
-                cells.UnionWith(pattern.GetCells(gemB, grid));
-            else
-            {
-                cells.UnionWith(pattern.GetCells(gemA, grid));
-                cells.Add(gemB.GemData.GridPos);
-            }
-        }
-        onCompleted?.Invoke(
-             new List<Vector2Int>(cells)
-         );
+        cells.UnionWith(pattern.GetCells(specialGem, grid));
     }
 }
