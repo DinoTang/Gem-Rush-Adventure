@@ -120,7 +120,7 @@ public class BoardManager : BaseBehaviour
 
             }
         }
-        HintManager.Instance.RefreshHint();
+        // HintManager.Instance.RefreshHint();
     }
 
     protected void ShuffleBoard()
@@ -154,7 +154,7 @@ public class BoardManager : BaseBehaviour
         cubeGem.GemModel.RefreshVisual();
 
         this.grid.Set(x, y, cubeGem);
-        HintManager.Instance.RefreshHint();
+        // HintManager.Instance.RefreshHint();
     }
 
     protected void Update()

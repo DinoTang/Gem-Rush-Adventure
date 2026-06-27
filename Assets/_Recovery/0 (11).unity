@@ -70868,7 +70868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GemCtrl
   prefabName: CubeGem
-  gemModel: {fileID: 573563220}
+  gemModel: {fileID: 0}
   gemData: {fileID: 676921914}
   gemMove: {fileID: 1184161486}
   gemDespawn: {fileID: 304007223}

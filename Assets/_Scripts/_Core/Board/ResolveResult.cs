@@ -8,7 +8,7 @@ public class ResolveResult
 
     public List<SpecialMergeInfo> MergeInfos = new();
 
-    public List<Vector2Int> CellsToClear = new();
+    public List<CellClearInfo> CellsToClear = new();
 
     public HashSet<Vector2Int> ExcludedCells = new();
 

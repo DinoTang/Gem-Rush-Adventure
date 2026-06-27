@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class GemClearInfo
+public enum ClearReason
 {
-    public GemCtrl GemCtrl;
+    Match,
+    Rocket,
+    Bomb,
+    Cube
+}
 
+public class CellClearInfo
+{
     public Vector2Int GridPos;
-    public GemSpecialType SpecialType;
     public ClearReason ClearReason;
-
-    public bool SkipVFX;
 }
