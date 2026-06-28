@@ -63,11 +63,12 @@ public class MatchResolver
     }
 
     public List<CellClearInfo> ResolveSpecialChains(
-        List<CellClearInfo> inputCells,
-        GridModel<GemCtrl> grid)
+     List<CellClearInfo> inputCells,
+     GridModel<GemCtrl> grid)
     {
         List<CellClearInfo> result = new();
         HashSet<Vector2Int> visited = new();
+        HashSet<Vector2Int> processedSpecials = new();
         Queue<Vector2Int> specialQueue = new();
 
         foreach (var input in inputCells)
@@ -86,6 +87,9 @@ public class MatchResolver
         {
             Vector2Int specialCell = specialQueue.Dequeue();
 
+            if (!processedSpecials.Add(specialCell))
+                continue;
+
             GemCtrl specialGem = grid.Get(specialCell.x, specialCell.y);
             if (specialGem == null)
                 continue;
@@ -103,7 +107,7 @@ public class MatchResolver
 
             foreach (var cell in extraCells)
             {
-                bool wasNew = AddOrUpgradeCell(result, visited, cell, reason);
+                AddOrUpgradeCell(result, visited, cell, reason);
 
                 GemCtrl gem = grid.Get(cell.x, cell.y);
                 if (gem == null)
@@ -112,7 +116,7 @@ public class MatchResolver
                 if (gem.GemData.GemSpecialType == GemSpecialType.None)
                     continue;
 
-                if (wasNew || gem.GemData.GemSpecialType != specialType)
+                if (!processedSpecials.Contains(cell))
                     specialQueue.Enqueue(cell);
             }
         }
