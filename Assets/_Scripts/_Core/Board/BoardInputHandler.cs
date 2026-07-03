@@ -10,7 +10,7 @@ public class BoardInputHandler : BoardAbstract
     [SerializeField] protected bool isDragging = false;
     public GemCtrl SelectedGem => selectedGem;
     public bool IsDragging => isDragging;
-   
+
     public void BeginDrag(GemCtrl gem)
     {
         if (this.boardManager.SwapHandler.IsBusy) return;

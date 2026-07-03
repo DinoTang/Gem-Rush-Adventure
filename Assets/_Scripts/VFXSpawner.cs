@@ -13,6 +13,7 @@ public enum CommonVFXType
     Cube_1,
     Cube_2,
     Cube_3,
+    Cube_Lightning,
 }
 public class VFXSpawner : Spawner<VFXCtrl>
 {
@@ -124,6 +125,46 @@ public class VFXSpawner : Spawner<VFXCtrl>
     public VFXCtrl SpawnSpecialVFXCubeGem(GemCtrl gem)
     {
         return this.SpawnGemVFXCommon(GemType.Cube, CommonVFXType.Cube_1, gem.transform.position);
+    }
+
+    public void SpawnCubeLightningVFX(GemCtrl cubeGem, List<Vector2Int> targetCells, GridModel<GemCtrl> grid)
+    {
+        if (cubeGem == null || targetCells == null || targetCells.Count == 0)
+            return;
+        Debug.LogWarning(targetCells.Count + " target cells for cube lightning VFX at " + cubeGem.GemData.GridPos);
+        targetCells.RemoveAll(cell => cell.x == cubeGem.GemData.GridPos.x && cell.y == cubeGem.GemData.GridPos.y);
+
+        if (targetCells.Count == 0)
+            return;
+
+        List<Vector3> targets = new();
+        foreach (var cell in targetCells)
+        {
+            GemCtrl targetGem = grid.Get(cell.x, cell.y);
+            if (targetGem != null)
+                targets.Add(targetGem.transform.position);
+        }
+
+        if (targets.Count == 0)
+            return;
+
+        VFXCtrl spawnedVfx = this.SpawnGemVFXCommon(GemType.Cube, CommonVFXType.Cube_Lightning, cubeGem.transform.position);
+        if (spawnedVfx == null)
+            spawnedVfx = this.SpawnGemVFXCommon(GemType.None, CommonVFXType.Cube_Lightning, cubeGem.transform.position);
+
+        if (spawnedVfx == null)
+        {
+            Debug.LogWarning("Cube lightning VFX prefab was not found for type Cube or None.");
+            return;
+        }
+
+        if (spawnedVfx is not VFXCubeLightningCtrl lightningVfx)
+        {
+            Debug.LogWarning("Spawned VFX is not VFXCubeLightningCtrl: " + spawnedVfx.GetType().Name);
+            return;
+        }
+
+        lightningVfx.Play(cubeGem.transform.position, targets);
     }
 
     public void SpawnGemWasActiveByCubeVFX(GemCtrl cubeGem, List<Vector2Int> finalCells)

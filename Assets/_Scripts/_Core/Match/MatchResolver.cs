@@ -53,8 +53,15 @@ public class MatchResolver
             this.specialPatternRegistry
             .GetPattern(specialGem.GemData.GemSpecialType)
             .GetCells(specialGem, grid);
-
+            
+            Debug.LogWarning("So luong gem bi clear boi cube gem: " + extraCells.Count);
             VFXSpawner.Instance.SpawnSpecialVFX(specialGem);
+
+            if (specialGem.GemData.GemSpecialType == GemSpecialType.Cube)
+            {
+                VFXSpawner.Instance.SpawnCubeLightningVFX(specialGem, extraCells, grid);
+                Debug.LogWarning($"Cube lightning VFX spawned for cube gem at {specialCell}");
+            }
 
             foreach (var cell in extraCells)
             {
