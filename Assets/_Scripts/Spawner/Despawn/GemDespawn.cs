@@ -6,34 +6,18 @@ public class GemDespawn : Despawn<GemCtrl>
 {
     public GemSpawner GemSpawner => (GemSpawner)spawner;
     public bool SkipVFX = false;
-    // public override void DoDespawn()
-    // {
-    //     GemCtrl gem = (GemCtrl)parent;
-
-    //     if (!SkipVFX) VFXSpawner.Instance.SpawnClearVFX_Normal(gem);
-
-    //     this.SkipVFX = false;
-    //     gem.GemData.ResetData();
-
-    //     base.DoDespawn();
-    // }
-
-    public void DoDespawn(GemClearInfo gemClearInfo)
+    public override void DoDespawn()
     {
-        if (!SkipVFX) VFXSpawner.Instance.SpawnClearVFX_Normal(gemClearInfo.GemCtrl);
+        GemCtrl gem = (GemCtrl)parent;
 
-        if (gemClearInfo.SpecialType != GemSpecialType.None) VFXSpawner.Instance.SpawnSpecialVFX(gemClearInfo.GemCtrl);
+        if (!SkipVFX) VFXSpawner.Instance.SpawnClearVFX_Normal(gem);
 
-        if (gemClearInfo.ClearReason == ClearReason.Cube &&
-            gemClearInfo.SpecialType != GemSpecialType.Cube)
-        {
-            VFXSpawner.Instance.SpawnCubeClearVFX(gemClearInfo.GemCtrl);
-        }
-        
+        if (gem.GemData.ClearReason == ClearReason.Cube) VFXSpawner.Instance.SpawnCubeClearVFX(gem);
+
         this.SkipVFX = false;
-        gemClearInfo.GemCtrl.GemData.ResetData();
+        gem.GemData.ResetData();
 
         base.DoDespawn();
     }
-}
 
+}

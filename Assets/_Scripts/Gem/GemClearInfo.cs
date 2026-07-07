@@ -7,8 +7,10 @@ public class GemClearInfo
     public GemCtrl GemCtrl;
 
     public Vector2Int GridPos;
+
+    public GemType GemType;
+
     public GemSpecialType SpecialType;
-    public ClearReason ClearReason;
 
     public bool SkipVFX;
 }

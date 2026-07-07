@@ -14,98 +14,66 @@ public class BoardResolveHandler : BoardAbstract
         while (true)
         {
             var matches = matchFinder.FindMatches(this.boardManager.Grid);
+            // Debug
+            BoardValidator.ValidateBoard(this.boardManager, "AfterFindMatches");
 
             if (matches.Count == 0)
             {
-                // HintManager.Instance.RefreshHint();
+                HintManager.Instance.RefreshHint();
                 yield break;
             }
 
             var resolveResult = this.BuildResolveResult(matches, gemA.GemData.GridPos, gemB.GemData.GridPos);
+            // Debug
+            BoardValidator.ValidateBoard(this.boardManager, "AfterBuildResolveResult");
 
             // Nếu muốn animate merge trước khi clear
             yield return this.boardManager.AnimationHandler.AnimateMerge(resolveResult.MergeInfos);
+            // Debug
+            BoardValidator.ValidateBoard(this.boardManager, "AfterAnimateMerge");
 
             yield return StartCoroutine(ResolveGravityRoutine(resolveResult.CellsToClear, resolveResult.SpecialMergeSourceCells));
         }
 
     }
-    public IEnumerator ResolveGravityRoutine(List<CellClearInfo> cells, HashSet<Vector2Int> specialMergeSourceCells = null)
+    public IEnumerator ResolveGravityRoutine(List<Vector2Int> cells, HashSet<Vector2Int> specialMergeSourceCells = null)
     {
-        var clearInfos = BuildClearInfos(cells, specialMergeSourceCells);
-
-        this.ClearCells(clearInfos);
+        this.ClearCells(cells, specialMergeSourceCells);
+        //Debug
+        BoardValidator.ValidateBoard(this.boardManager, "AfterClearCells");
 
         var fallMoves = this.gravityResolver.ApplyGravity(this.boardManager.Grid);
+        //Debug
+        BoardValidator.ValidateBoard(this.boardManager, "AfterApplyGravity");
+
         var fallMovesSpawn = this.boardManager.GemSpawner.FillEmptyCells(this.boardManager.Grid);
+        //Debug
+        BoardValidator.ValidateBoard(this.boardManager, "AfterFillEmptyCells");
 
         var allFallMoves = new List<FallMove>(fallMoves);
         allFallMoves.AddRange(fallMovesSpawn);
 
         yield return StartCoroutine(this.boardManager.AnimationHandler.AnimateGravity(allFallMoves));
+        //Debug
+        BoardValidator.ValidateBoard(this.boardManager, "AfterAnimateGravity");
     }
 
-    public void ClearCells(List<GemClearInfo> gemClearInfos)
+    public void ClearCells(List<Vector2Int> cells, HashSet<Vector2Int> specialMergeSourceCells = null)
     {
-        // foreach (var info in gemClearInfos)
-        // {
-        //     info.GemCtrl.GemDespawn.SkipVFX = info.SkipVFX;
-
-        //     info.GemCtrl.GemDespawn.DoDespawn(info);
-        //     info.GemCtrl.GemData.ResetData();
-
-        //     this.boardManager.Grid.Set(info.GridPos.x, info.GridPos.y, null);
-        // }
-
-        HashSet<GemCtrl> clearedGems = new();
-
-        foreach (var info in gemClearInfos)
-        {
-            if (info.GemCtrl == null) continue;
-
-            if (!clearedGems.Add(info.GemCtrl))
-            {
-                Debug.LogError($"Duplicate clear gem: {info.GemCtrl.name}");
-                continue;
-            }
-
-            this.boardManager.Grid.Set(info.GridPos.x, info.GridPos.y, null);
-
-            info.GemCtrl.GemDespawn.SkipVFX = info.SkipVFX;
-            info.GemCtrl.GemDespawn.DoDespawn(info);
-        }
-    }
-
-    public List<GemClearInfo> BuildClearInfos(
-    List<CellClearInfo> cells,
-    HashSet<Vector2Int> specialMergeSourceCells
-)
-    {
-        List<GemClearInfo> infos = new();
-
         foreach (var cell in cells)
         {
-            GemCtrl gemCtrl = boardManager.Grid.Get(cell.GridPos.x, cell.GridPos.y);
+            GemCtrl gemCtrl = this.boardManager.Grid.Get(cell.x, cell.y);
 
             if (gemCtrl == null)
                 continue;
 
-            infos.Add(new GemClearInfo
-            {
-                GemCtrl = gemCtrl,
+            gemCtrl.GemDespawn.SkipVFX = specialMergeSourceCells != null
+                && specialMergeSourceCells.Contains(cell);
 
-                GridPos = gemCtrl.GemData.GridPos,
+            gemCtrl.GemDespawn.DoDespawn();
 
-                SpecialType = gemCtrl.GemData.GemSpecialType,
-
-                ClearReason = cell.ClearReason,
-
-                SkipVFX = specialMergeSourceCells != null
-                       && specialMergeSourceCells.Contains(cell.GridPos)
-            });
+            this.boardManager.Grid.Set(cell.x, cell.y, null);
         }
-
-        return infos;
     }
 
     private ResolveResult BuildResolveResult(
@@ -123,6 +91,8 @@ public class BoardResolveHandler : BoardAbstract
                 matches,
                 posA,
                 posB);
+        // Debug
+        BoardValidator.ValidateMergeInfos(result);
 
         foreach (var info in result.MergeInfos)
         {
@@ -140,4 +110,5 @@ public class BoardResolveHandler : BoardAbstract
 
         return result;
     }
+
 }

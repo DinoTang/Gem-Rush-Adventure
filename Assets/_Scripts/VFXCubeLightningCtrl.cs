@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeLightningCtrl : VFXCtrl
+public class VFXCubeLightningCtrl : VFXCtrl
 {
     [Header("Line")]
     [SerializeField] private Material[] lightningMaterials;
@@ -16,14 +16,15 @@ public class CubeLightningCtrl : VFXCtrl
 
     private readonly List<LineRenderer> lines = new();
 
-    public float Duration => duration;
-
     public void Play(Vector3 from, List<Vector3> targets)
     {
         StopAllCoroutines();
         ClearLines();
 
-        foreach (var target in targets)
+        if (targets == null || targets.Count <= 0)
+            return;
+
+        for (int i = 0; i < targets.Count; i++)
         {
             LineRenderer line = CreateLine();
             lines.Add(line);
@@ -38,6 +39,8 @@ public class CubeLightningCtrl : VFXCtrl
         float refreshTimer = 0f;
         int materialIndex = 0;
 
+        DrawAllLines(from, targets, materialIndex);
+
         while (timer < duration)
         {
             timer += Time.deltaTime;
@@ -48,21 +51,10 @@ public class CubeLightningCtrl : VFXCtrl
                 refreshTimer = 0f;
                 materialIndex++;
 
-                for (int i = 0; i < lines.Count; i++)
-                {
-                    UpdateMaterial(lines[i], materialIndex);
-                    DrawLightning(lines[i], from, targets[i]);
-                }
+                DrawAllLines(from, targets, materialIndex);
             }
 
-            float fade = 1f - (timer / duration);
-            // float currentWidth = width * fade;
-
-            foreach (var line in lines)
-            {
-                line.startWidth = width;
-                line.endWidth = width * 0.6f;
-            }
+            ApplyConstantWidth();
 
             yield return null;
         }
@@ -80,19 +72,43 @@ public class CubeLightningCtrl : VFXCtrl
 
         line.useWorldSpace = true;
         line.positionCount = segmentCount + 1;
+
         line.startWidth = width;
-        line.endWidth = width * 0.6f;
+        line.endWidth = width;
+
         line.numCapVertices = 2;
         line.numCornerVertices = 2;
 
         if (lightningMaterials != null && lightningMaterials.Length > 0)
+        {
             line.material = lightningMaterials[0];
+            ForceMaterialAlpha(line);
+        }
 
         return line;
     }
 
+    private void DrawAllLines(Vector3 from, List<Vector3> targets, int materialIndex)
+    {
+        int count = Mathf.Min(lines.Count, targets.Count);
+
+        for (int i = 0; i < count; i++)
+        {
+            if (lines[i] == null)
+                continue;
+
+            UpdateMaterial(lines[i], materialIndex);
+            DrawLightning(lines[i], from, targets[i]);
+        }
+    }
+
     private void DrawLightning(LineRenderer line, Vector3 from, Vector3 to)
     {
+        if (line == null)
+            return;
+
+        line.positionCount = segmentCount + 1;
+
         for (int i = 0; i <= segmentCount; i++)
         {
             float t = i / (float)segmentCount;
@@ -108,13 +124,43 @@ public class CubeLightningCtrl : VFXCtrl
         }
     }
 
+    private void ApplyConstantWidth()
+    {
+        foreach (var line in lines)
+        {
+            if (line == null)
+                continue;
+
+            line.startWidth = width;
+            line.endWidth = width;
+        }
+    }
+
     private void UpdateMaterial(LineRenderer line, int index)
     {
+        if (line == null)
+            return;
+
         if (lightningMaterials == null || lightningMaterials.Length == 0)
             return;
 
         int materialIndex = index % lightningMaterials.Length;
         line.material = lightningMaterials[materialIndex];
+
+        ForceMaterialAlpha(line);
+    }
+
+    private void ForceMaterialAlpha(LineRenderer line)
+    {
+        if (line == null || line.material == null)
+            return;
+
+        if (!line.material.HasProperty("_Color"))
+            return;
+
+        Color color = line.material.color;
+        color.a = 1f;
+        line.material.color = color;
     }
 
     private void ClearLines()

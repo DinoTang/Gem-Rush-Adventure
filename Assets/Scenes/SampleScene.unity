@@ -5565,6 +5565,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 2
   gemSpecialType: 0
+  clearReason: 0
   isSelected: 0
 --- !u!1 &221927116
 GameObject:
@@ -10679,7 +10680,7 @@ MonoBehaviour:
   prefabName: VFX_Cube_1
   category: 1
   type: 7
-  commonType: 9
+  commonType: 8
 --- !u!199 &280575377
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -15703,6 +15704,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 5
   gemSpecialType: 0
+  clearReason: 0
   isSelected: 0
 --- !u!1 &286835108
 GameObject:
@@ -16040,7 +16042,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &306568958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31733,6 +31735,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 1
   gemSpecialType: 0
+  clearReason: 0
   isSelected: 0
 --- !u!1 &503721812
 GameObject:
@@ -36698,7 +36701,7 @@ MonoBehaviour:
   prefabName: VFX_Cube_3
   category: 1
   type: 7
-  commonType: 11
+  commonType: 10
 --- !u!199 &517837179
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -47143,55 +47146,6 @@ MonoBehaviour:
   lifeTime: 2
   currentTime: 2
   isNeedDespawn: 0
---- !u!1 &668456580
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 668456581}
-  - component: {fileID: 668456582}
-  m_Layer: 0
-  m_Name: Despawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &668456581
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668456580}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 845750573}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &668456582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668456580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
-  parent: {fileID: 0}
-  spawner: {fileID: 1387475851}
-  lifeTime: 5
-  currentTime: 5
-  isNeedDespawn: 1
 --- !u!1 &675469067
 GameObject:
   m_ObjectHideFlags: 0
@@ -47288,6 +47242,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 7
   gemSpecialType: 4
+  clearReason: 0
   isSelected: 0
 --- !u!1 &698602777
 GameObject:
@@ -47337,7 +47292,7 @@ Transform:
   - {fileID: 280575375}
   - {fileID: 1708925630}
   - {fileID: 517837177}
-  - {fileID: 845750573}
+  - {fileID: 1426893599}
   m_Father: {fileID: 1387475850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &703000648
@@ -52988,65 +52943,6 @@ MonoBehaviour:
   GemSpecialType: 0
   Sprite_Idle: {fileID: 4541948731660651070, guid: 8bbb4b8f1f3d4df4f9343856c9e98f3d, type: 3}
   Sprite_Selected: {fileID: -5557125108753529601, guid: 96472426c7ea50543994a7374d7000e1, type: 3}
---- !u!1 &845750572
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 845750573}
-  - component: {fileID: 845750574}
-  m_Layer: 0
-  m_Name: VFX_CubeLightning
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &845750573
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 845750572}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 668456581}
-  m_Father: {fileID: 698602778}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &845750574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 845750572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce3b582b95a3fed4e8246a2ef3915869, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CubeLightningCtrl
-  prefabName: VFX_CubeLightning
-  category: 1
-  type: 0
-  commonType: 8
-  lightningMaterials:
-  - {fileID: 2100000, guid: fc5ee54f33df3224bb5d0fd6bcd33cc1, type: 2}
-  - {fileID: 2100000, guid: ecb54c768b704a54e8e4d5ce7f65d26f, type: 2}
-  - {fileID: 2100000, guid: b55d266d6ded79c429a59d106fbb42e5, type: 2}
-  - {fileID: 2100000, guid: a64c8f6be5c72554db9f08ed7e0311fd, type: 2}
-  duration: 4
-  width: 0.15
-  segmentCount: 15
-  noiseStrength: 0.18
-  refreshRate: 0.04
 --- !u!1 &856112719
 GameObject:
   m_ObjectHideFlags: 0
@@ -53642,6 +53538,55 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &928923265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 928923266}
+  - component: {fileID: 928923267}
+  m_Layer: 0
+  m_Name: Despawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &928923266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928923265}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.291, y: 0.272, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1426893599}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &928923267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928923265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18387b647b9f41943ab9f1439408719b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXDespawn
+  parent: {fileID: 1426893600}
+  spawner: {fileID: 1387475851}
+  lifeTime: 5
+  currentTime: 5
+  isNeedDespawn: 1
 --- !u!1 &936622500
 GameObject:
   m_ObjectHideFlags: 0
@@ -69646,6 +69591,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 4
   gemSpecialType: 0
+  clearReason: 0
   isSelected: 0
 --- !u!1 &1170448012
 GameObject:
@@ -70977,7 +70923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GemCtrl
   prefabName: CubeGem
-  gemModel: {fileID: 573563220}
+  gemModel: {fileID: 0}
   gemData: {fileID: 676921914}
   gemMove: {fileID: 1184161486}
   gemDespawn: {fileID: 304007223}
@@ -81053,7 +80999,7 @@ MonoBehaviour:
   - {fileID: 280575376}
   - {fileID: 1708925631}
   - {fileID: 517837178}
-  - {fileID: 845750574}
+  - {fileID: 1426893600}
 --- !u!1 &1399788398
 GameObject:
   m_ObjectHideFlags: 0
@@ -81168,6 +81114,65 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1426893598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1426893599}
+  - component: {fileID: 1426893600}
+  m_Layer: 0
+  m_Name: VFX_CubeLightning
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1426893599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426893598}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 928923266}
+  m_Father: {fileID: 698602778}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1426893600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426893598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fb72aa7c792683478e8d77e10a0c80b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXCubeLightningCtrl
+  prefabName: VFX_CubeLightning
+  category: 1
+  type: 0
+  commonType: 11
+  lightningMaterials:
+  - {fileID: 2100000, guid: aaa5b62f7181081409d2dfa35ac340a3, type: 2}
+  - {fileID: 2100000, guid: 07229944ce1adde47b0029a3fc3878e0, type: 2}
+  - {fileID: 2100000, guid: 15a7c579180921c4590dfdc116d1498b, type: 2}
+  - {fileID: 2100000, guid: 35cdbb9ed74cfab439fea3aade9cefcd, type: 2}
+  duration: 4
+  width: 0.3
+  segmentCount: 8
+  noiseStrength: 0.18
+  refreshRate: 0.04
 --- !u!1 &1443882199
 GameObject:
   m_ObjectHideFlags: 0
@@ -81839,6 +81844,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 3
   gemSpecialType: 0
+  clearReason: 0
   isSelected: 0
 --- !u!1 &1583829123
 GameObject:
@@ -87557,7 +87563,7 @@ MonoBehaviour:
   prefabName: VFX_Cube_2
   category: 1
   type: 7
-  commonType: 10
+  commonType: 9
 --- !u!199 &1708925632
 ParticleSystemRenderer:
   serializedVersion: 7

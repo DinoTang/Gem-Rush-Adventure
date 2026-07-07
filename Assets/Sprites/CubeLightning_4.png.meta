@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: da9054d4445c8f74e97c9cff640e1884
+guid: 9c2e0490fed612f4191f0c6424be299d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7554708853517437133
-    second: E4_0
+      213: 2615613890078490685
+    second: CubeLightning_4_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: E4_0
+      name: CubeLightning_4_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dc8c76bfca7b7d860800000000000000
-      internalID: 7554708853517437133
+      spriteID: d30c4b399f68c4420800000000000000
+      internalID: 2615613890078490685
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      E4_0: 7554708853517437133
+      CubeLightning_4_0: 2615613890078490685
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

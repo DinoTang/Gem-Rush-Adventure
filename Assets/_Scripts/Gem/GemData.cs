@@ -10,6 +10,8 @@ public class GemData : GemAbstract
     public GemType GemType => gemType;
     [SerializeField] protected GemSpecialType gemSpecialType;
     public GemSpecialType GemSpecialType => gemSpecialType;
+    [SerializeField] protected ClearReason clearReason;
+    public ClearReason ClearReason => clearReason;
     [SerializeField] protected bool isSelected = false;
     public bool IsSelected => isSelected;
     public void SetGridPos(int x, int y)
@@ -23,6 +25,10 @@ public class GemData : GemAbstract
     public virtual void SetGemSpecialType(GemSpecialType gemSpecialType)
     {
         this.gemSpecialType = gemSpecialType;
+    }
+    public void SetClearReason(ClearReason clearReason)
+    {
+        this.clearReason = clearReason;
     }
     public void SetIsSelected(bool isSelected)
     {
@@ -39,5 +45,6 @@ public class GemData : GemAbstract
     {
         this.SetData(GemType.None, -1, -1);
         this.isSelected = false;
+        this.clearReason = ClearReason.None;
     }
 }

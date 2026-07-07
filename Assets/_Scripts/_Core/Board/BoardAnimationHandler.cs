@@ -13,23 +13,23 @@ public class BoardAnimationHandler : BoardAbstract
 
     public IEnumerator AnimateGravity(List<FallMove> fallMoves)
     {
-        float duration = this.gravityGemMoveTime;
+        float maxDuration = this.gravityGemMoveTime;
 
         foreach (var fallMove in fallMoves)
         {
             float distance = Mathf.Abs(fallMove.TargetPos.y - fallMove.CurrentPos.y);
-            duration = Mathf.Max(duration, distance * this.gravityGemMoveTime);
-        }
+            float moveDuration = Mathf.Max(this.gravityGemMoveTime, distance * this.gravityGemMoveTime);
 
-        foreach (var fallMove in fallMoves)
-        {
+            maxDuration = Mathf.Max(maxDuration, moveDuration);
+
             Vector3 start = this.boardManager.GetWorldPos((int)fallMove.CurrentPos.x, (int)fallMove.CurrentPos.y);
             Vector3 target = this.boardManager.GetWorldPos((int)fallMove.TargetPos.x, (int)fallMove.TargetPos.y);
+
             fallMove.Gem.transform.position = start;
-            fallMove.Gem.GemMove.MoveTo(target, duration);
+            fallMove.Gem.GemMove.MoveTo(target, moveDuration);
         }
 
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(maxDuration);
     }
 
     public IEnumerator AnimateMerge(List<SpecialMergeInfo> mergeInfos)
@@ -43,9 +43,9 @@ public class BoardAnimationHandler : BoardAbstract
         {
             Vector3 targetPos = this.boardManager.GetWorldPos(info.SpecialCell.x, info.SpecialCell.y);
 
-            foreach (var source in info.SourceCells)
+            foreach (var sourceCell in info.SourceCells)
             {
-                var gem = this.boardManager.Grid.Get(source.x, source.y);
+                var gem = this.boardManager.Grid.Get(sourceCell.x, sourceCell.y);
                 if (gem == null) continue;
                 gem.GemMove.MoveTo(targetPos, this.swapGemMoveTime);
             }

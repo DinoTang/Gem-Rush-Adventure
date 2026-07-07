@@ -23,6 +23,7 @@ public class BombPattern : ISpecialPattern
                 if (target == null) continue;
 
                 cells.Add(new Vector2Int(targetX, targetY));
+                target.GemData.SetClearReason(ClearReason.Bomb);
             }
         }
         return cells;

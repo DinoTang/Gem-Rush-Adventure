@@ -7,138 +7,64 @@ public class BoardSpecialSwapHandler : BoardAbstract
 {
     private SpecialTriggerResolver specialTriggerResolver = new();
 
-    public IEnumerator Resolve(
-        List<MatchResult> originalMatches,
-        GemCtrl gemA,
-        GemCtrl gemB,
-        Action<bool> onCompleted)
+    public IEnumerator Resolve(List<MatchResult> originalMatches, GemCtrl gemA, GemCtrl gemB, Action<bool> onCompleted)
     {
-        List<Vector2Int> startCells = null;
-
-        yield return StartCoroutine(this.specialTriggerResolver.Resolve(
-            gemA,
-            gemB,
-            this.boardManager.Grid,
-            result => startCells = result
-        ));
-
-        if (startCells == null || startCells.Count == 0)
+        HashSet<Vector2Int> originalCells = new();
+        foreach (var match in originalMatches)
         {
-            onCompleted?.Invoke(false);
+            originalCells.UnionWith(match.Cells);
+        }
+
+        List<Vector2Int> specialCells = null;
+
+        yield return StartCoroutine(this.specialTriggerResolver
+        .Resolve(gemA, gemB, this.boardManager.Grid, result => specialCells = result));
+
+        if (specialCells != null && specialCells.Count > 0)
+        {
+            HashSet<Vector2Int> finalCells = new(specialCells);
+            finalCells.UnionWith(originalCells);
+
+            var matchCells = this.boardManager.MatchResolver.ResolveSpecialChains(new List<Vector2Int>(finalCells), this.boardManager.Grid);
+            finalCells.UnionWith(matchCells);
+
+            if (gemA.GemData.GemSpecialType == GemSpecialType.Cube || gemB.GemData.GemSpecialType == GemSpecialType.Cube)
+            {
+                GemCtrl cubeGem = gemA.GemData.GemSpecialType == GemSpecialType.Cube ? gemA : gemB;
+                GemCubeModel cubeModel = cubeGem.GemModel as GemCubeModel;
+
+                cubeModel?.PlayAnimateAndEffectCubeGem();
+
+                List<Vector2Int> cubeTargets = new(finalCells);
+                cubeTargets.RemoveAll(cell =>
+                {
+                    GemCtrl targetGem = this.boardManager.Grid.Get(cell.x, cell.y);
+                    return targetGem == null
+                        || targetGem.GemData.ClearReason != ClearReason.Cube
+                        || (cell.x == cubeGem.GemData.GridPos.x && cell.y == cubeGem.GemData.GridPos.y);
+                });
+
+                if (cubeTargets.Count > 0)
+                {
+                    VFXSpawner.Instance.SpawnCubeLightningVFX(cubeGem, cubeTargets, this.boardManager.Grid);
+                }
+
+                VFXSpawner.Instance.SpawnGemWasActiveByCubeVFX(cubeGem, new List<Vector2Int>(finalCells));
+
+                yield return new WaitForSeconds(4);
+            }
+
+            yield return StartCoroutine(this.HandleSpecialSwapRoutine(gemA, gemB, new List<Vector2Int>(finalCells)));
+
+            onCompleted?.Invoke(true);
             yield break;
         }
-
-        List<CellClearInfo> finalCells =
-            this.boardManager.MatchResolver.ResolveSpecialSwapCells(
-                startCells,
-                this.boardManager.Grid,
-                gemA,
-                gemB
-            );
-
-        yield return StartCoroutine(this.PlayCubeEffectIfNeeded(gemA, gemB, finalCells));
-
-        yield return StartCoroutine(this.HandleSpecialSwapRoutine(gemA, gemB, finalCells));
-
-        onCompleted?.Invoke(true);
+        onCompleted?.Invoke(false);
     }
 
-    private IEnumerator PlayCubeEffectIfNeeded(
-        GemCtrl gemA,
-        GemCtrl gemB,
-        List<CellClearInfo> finalCells)
+    protected IEnumerator HandleSpecialSwapRoutine(GemCtrl gemA, GemCtrl gemB, List<Vector2Int> cells)
     {
-        if (!IsCubeSwap(gemA, gemB))
-            yield break;
-
-        GemCtrl cubeGem = GetCubeGem(gemA, gemB);
-
-        GemCubeModel cubeModel = cubeGem.GemModel as GemCubeModel;
-        cubeModel?.PlayAnimateAndEffectCubeGem();
-
-        VFXSpawner.Instance.SpawnSpecialVFXCubeGem(cubeGem);
-
-        VFXSpawner.Instance.SpawnGemWasActiveByCubeVFX(
-            cubeGem,
-            ExtractCubeAffectedCells(cubeGem, finalCells)
-        );
-
-        VFXSpawner.Instance.SpawnCubeLightningVFX(
-            cubeGem.transform.position,
-             GetCubeTargetWorldPositions(cubeGem, finalCells)
-        );
-
-        yield return new WaitForSeconds(4f);
-    }
-    private List<Vector2Int> ExtractCubeAffectedCells(
-        GemCtrl cubeGem,
-        List<CellClearInfo> finalCells
-        )
-    {
-        List<Vector2Int> result = new();
-
-        foreach (var cell in finalCells)
-        {
-            if (cell.GridPos == cubeGem.GemData.GridPos)
-                continue;
-
-            if (cell.ClearReason != ClearReason.Cube)
-                continue;
-
-            result.Add(cell.GridPos);
-        }
-
-        return result;
-    }
-    private List<Vector3> GetCubeTargetWorldPositions(
-            GemCtrl cubeGem,
-            List<CellClearInfo> finalCells)
-    {
-        List<Vector3> targets = new();
-
-        Vector2Int cubePos = cubeGem.GemData.GridPos;
-
-        foreach (var cell in finalCells)
-        {
-            if (cell.GridPos == cubePos)
-                continue;
-
-            if (cell.ClearReason != ClearReason.Cube)
-                continue;
-
-            Vector3 worldPos = this.boardManager.GetWorldPos(
-                cell.GridPos.x,
-                cell.GridPos.y
-            );
-
-            targets.Add(worldPos);
-        }
-
-        return targets;
-    }
-
-    private bool IsCubeSwap(GemCtrl gemA, GemCtrl gemB)
-    {
-        return gemA.GemData.GemSpecialType == GemSpecialType.Cube ||
-               gemB.GemData.GemSpecialType == GemSpecialType.Cube;
-    }
-
-    private GemCtrl GetCubeGem(GemCtrl gemA, GemCtrl gemB)
-    {
-        return gemA.GemData.GemSpecialType == GemSpecialType.Cube ? gemA : gemB;
-    }
-
-    protected IEnumerator HandleSpecialSwapRoutine(
-        GemCtrl gemA,
-        GemCtrl gemB,
-        List<CellClearInfo> cells)
-    {
-        yield return StartCoroutine(
-            this.boardManager.ResolveHandler.ResolveGravityRoutine(cells)
-        );
-
-        yield return StartCoroutine(
-            this.boardManager.ResolveHandler.ResolveBoardRoutine(gemA, gemB)
-        );
+        yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveGravityRoutine(cells));
+        yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveBoardRoutine(gemA, gemB));
     }
 }

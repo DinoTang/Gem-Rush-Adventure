@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+using System.Linq;
 public class MatchFinder
 {
     public List<MatchResult> FindMatches(GridModel<GemCtrl> grid)
@@ -276,10 +276,38 @@ public class MatchFinder
         return this.TransformRandomMatchCell(grid, match, protectedCells, GemSpecialType.Cube);
     }
 
+    // protected List<SpecialMergeInfo> ProcessTLShapeBomb(
+    //     List<MatchResult> matches,
+    //     GridModel<GemCtrl> grid,
+    //     List<Vector2Int> protectedCells)
+    // {
+    //     List<SpecialMergeInfo> mergeInfos = new();
+
+    //     for (int i = 0; i < matches.Count - 1; i++)
+    //     {
+    //         for (int j = i + 1; j < matches.Count; j++)
+    //         {
+    //             foreach (var cell in matches[i].Cells)
+    //             {
+    //                 if (!matches[j].Cells.Contains(cell)) continue;
+
+    //                 SpecialMergeInfo specialMergeInfo = new()
+    //                 {
+    //                     SpecialCell = this.TransformToSpecial(grid, cell, protectedCells, GemSpecialType.Bomb),
+    //                     SourceCells = new List<Vector2Int>(matches[i].Cells),
+    //                 };
+    //                 specialMergeInfo.SourceCells.AddRange(matches[j].Cells);
+    //                 specialMergeInfo.SourceCells.Remove(cell);
+    //                 mergeInfos.Add(specialMergeInfo);
+    //             }
+    //         }
+    //     }
+    //     return mergeInfos;
+    // }
     protected List<SpecialMergeInfo> ProcessTLShapeBomb(
-        List<MatchResult> matches,
-        GridModel<GemCtrl> grid,
-        List<Vector2Int> protectedCells)
+    List<MatchResult> matches,
+    GridModel<GemCtrl> grid,
+    List<Vector2Int> protectedCells)
     {
         List<SpecialMergeInfo> mergeInfos = new();
 
@@ -291,20 +319,42 @@ public class MatchFinder
                 {
                     if (!matches[j].Cells.Contains(cell)) continue;
 
+                    List<Vector2Int> sourceCells = new List<Vector2Int>(matches[i].Cells);
+                    sourceCells.AddRange(matches[j].Cells);
+
+                    sourceCells = sourceCells.Distinct().ToList();
+
+                    Vector2Int specialCell = this.TransformToSpecial(
+                        grid,
+                        cell,
+                        protectedCells,
+                        GemSpecialType.Bomb
+                    );
+
+                    if (specialCell == new Vector2Int(-1, -1))
+                        continue;
+
+                    sourceCells.Remove(specialCell);
+
+                    foreach (var source in sourceCells)
+                    {
+                        if (!protectedCells.Contains(source))
+                            protectedCells.Add(source);
+                    }
+
                     SpecialMergeInfo specialMergeInfo = new()
                     {
-                        SpecialCell = this.TransformToSpecial(grid, cell, protectedCells, GemSpecialType.Bomb),
-                        SourceCells = new List<Vector2Int>(matches[i].Cells),
+                        SpecialCell = specialCell,
+                        SourceCells = sourceCells,
                     };
-                    specialMergeInfo.SourceCells.AddRange(matches[j].Cells);
-                    specialMergeInfo.SourceCells.Remove(cell);
+
                     mergeInfos.Add(specialMergeInfo);
                 }
             }
         }
+
         return mergeInfos;
     }
-
     public List<SpecialMergeInfo> GetSpecialMergeInfos(
     GridModel<GemCtrl> grid,
     List<MatchResult> matches,

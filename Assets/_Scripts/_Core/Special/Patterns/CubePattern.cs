@@ -16,6 +16,7 @@ public class CubePattern : ISpecialPattern
                 if (sameTarget.GemData.GemType != target.GemData.GemType) continue;
 
                 cells.Add(new Vector2Int(x, y));
+                sameTarget.GemData.SetClearReason(ClearReason.Cube);
             }
         }
         return cells;
