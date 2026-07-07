@@ -5565,6 +5565,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 2
   gemSpecialType: 0
+  clearReason: 0
   isSelected: 0
 --- !u!1 &221927116
 GameObject:
@@ -15703,6 +15704,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 5
   gemSpecialType: 0
+  clearReason: 0
   isSelected: 0
 --- !u!1 &286835108
 GameObject:
@@ -31733,6 +31735,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 1
   gemSpecialType: 0
+  clearReason: 0
   isSelected: 0
 --- !u!1 &503721812
 GameObject:
@@ -47239,6 +47242,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 7
   gemSpecialType: 4
+  clearReason: 0
   isSelected: 0
 --- !u!1 &698602777
 GameObject:
@@ -69587,6 +69591,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 4
   gemSpecialType: 0
+  clearReason: 0
   isSelected: 0
 --- !u!1 &1170448012
 GameObject:
@@ -81164,7 +81169,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 15a7c579180921c4590dfdc116d1498b, type: 2}
   - {fileID: 2100000, guid: 35cdbb9ed74cfab439fea3aade9cefcd, type: 2}
   duration: 4
-  width: 5
+  width: 0.3
   segmentCount: 8
   noiseStrength: 0.18
   refreshRate: 0.04
@@ -81839,6 +81844,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   gemType: 3
   gemSpecialType: 0
+  clearReason: 0
   isSelected: 0
 --- !u!1 &1583829123
 GameObject:
