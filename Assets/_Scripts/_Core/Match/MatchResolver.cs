@@ -20,6 +20,12 @@ public class MatchResolver
             {
                 if (excluded != null && excluded.Contains(cell)) continue;
 
+                GemCtrl gem = grid.Get(cell.x, cell.y);
+                if (gem != null)
+                {
+                    gem.GemData.SetClearReason(ClearReason.Match);
+                }
+
                 cellsToClear.Add(cell);
             }
         }

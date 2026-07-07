@@ -176,4 +176,9 @@ public class VFXSpawner : Spawner<VFXCtrl>
             this.SpawnGemVFXCommon(GemType.None, CommonVFXType.ElectrolyticCapacitor, new Vector2(worldPos.x, worldPos.y));
         }
     }
+
+    public void SpawnCubeClearVFX(GemCtrl cubeGem)
+    {
+        this.SpawnGemVFXCommon(GemType.Cube, CommonVFXType.Cube_3, cubeGem.transform.position);
+    }
 }

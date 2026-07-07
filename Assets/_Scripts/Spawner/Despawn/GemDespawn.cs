@@ -12,6 +12,8 @@ public class GemDespawn : Despawn<GemCtrl>
 
         if (!SkipVFX) VFXSpawner.Instance.SpawnClearVFX_Normal(gem);
 
+        if (gem.GemData.ClearReason == ClearReason.Cube) VFXSpawner.Instance.SpawnCubeClearVFX(gem);
+
         this.SkipVFX = false;
         gem.GemData.ResetData();
 

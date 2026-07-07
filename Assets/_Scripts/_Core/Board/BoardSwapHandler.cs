@@ -28,7 +28,6 @@ public class BoardSwapHandler : BoardAbstract
     }
     public IEnumerator TrySwapRoutine(GemCtrl gemA, GemCtrl gemB)
     {
-
         this.SavePreviousBoard();
 
         this.SetBusy(true);

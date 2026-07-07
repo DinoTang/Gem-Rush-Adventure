@@ -14,6 +14,7 @@ public class RowRocketPattern : ISpecialPattern
             if (target == null) continue;
 
             cells.Add(new Vector2Int(x, row));
+            target.GemData.SetClearReason(ClearReason.Rocket);
         }
         return cells;
     }
