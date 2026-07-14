@@ -10,21 +10,21 @@ public class LevelGoalProgress
     public int CurrentAmount => currentAmount;
 
     public bool IsCompleted =>
-        CurrentAmount >= Data.targetAmount;
+        CurrentAmount <= 0;
 
     public LevelGoalProgress(LevelGoalData data)
     {
         this.data = data;
-        this.currentAmount = 0;
+        this.currentAmount = data.targetAmount;
     }
 
-    public void AddProgress(int amount = 1)
+    public void DeductProgress(int amount = 1)
     {
-        this.currentAmount += amount;
+        this.currentAmount -= amount;
 
-        if (this.currentAmount > Data.targetAmount)
+        if (this.currentAmount < 0)
         {
-            this.currentAmount = Data.targetAmount;
+            this.currentAmount = 0;
         }
     }
 }

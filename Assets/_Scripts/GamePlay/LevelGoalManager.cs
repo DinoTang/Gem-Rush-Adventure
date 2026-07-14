@@ -1,24 +1,26 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelGoalManager : BaseBehaviour
 {
+    public event Action<LevelGoalProgress> OnGoalProgressChanged;
+
     protected static LevelGoalManager instance;
     public static LevelGoalManager Instance => instance;
     [SerializeField] private LevelData levelData;
 
     [SerializeField] private List<LevelGoalProgress> goalProgresses = new();
+    public List<LevelGoalProgress> GoalProgresses => goalProgresses;
     protected override void Awake()
     {
         base.Awake();
         if (instance != null) Debug.LogWarning("Only 1 LevelGoalManager allows to exist");
         instance = this;
+
+        this.InitGoals();
     }
 
-    protected override void Start()
-    {
-        InitGoals();
-    }
 
     private void InitGoals()
     {
@@ -33,19 +35,23 @@ public class LevelGoalManager : BaseBehaviour
         );
         }
     }
-    public void AddGemProgress(GemType gemType)
+    public void AddGemProgress(GemCtrl gemCtrl)
     {
-        foreach (LevelGoalProgress progress in goalProgresses)
+        foreach (LevelGoalProgress progress in this.goalProgresses)
         {
             LevelGoalData data = progress.Data;
 
             if (data.type != LevelGoalType.CollectGem)
                 continue;
 
-            if (data.gemType != gemType)
+            if (data.gemType != gemCtrl.GemData.GemType)
                 continue;
 
-            progress.AddProgress();
+            if (data.gemSpecialType != gemCtrl.GemData.GemSpecialType)
+                continue;
+
+            progress.DeductProgress();
+            OnGoalProgressChanged?.Invoke(progress);
         }
 
         if (this.AreAllGoalsCompleted())

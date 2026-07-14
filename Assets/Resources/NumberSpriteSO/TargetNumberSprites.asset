@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32f673443e4c4e499d9e645b02b343d, type: 3}
+  m_Name: TargetNumberSprites
+  m_EditorClassIdentifier: Assembly-CSharp::NumberSpriteSO
+  digitSprites:
+  - {fileID: 603365292072775987, guid: 9b51f058a2e6b2846a633b485b7258c4, type: 3}
+  - {fileID: -8513553590439958598, guid: 9b51f058a2e6b2846a633b485b7258c4, type: 3}
+  - {fileID: 5387491290582506935, guid: 9b51f058a2e6b2846a633b485b7258c4, type: 3}
+  - {fileID: 2569119202013533155, guid: 9b51f058a2e6b2846a633b485b7258c4, type: 3}
+  - {fileID: -7508005835798706768, guid: 9b51f058a2e6b2846a633b485b7258c4, type: 3}
+  - {fileID: 7073280179453532016, guid: 9b51f058a2e6b2846a633b485b7258c4, type: 3}
+  - {fileID: 1012944077923224261, guid: 9b51f058a2e6b2846a633b485b7258c4, type: 3}
+  - {fileID: 923766158514758820, guid: 9b51f058a2e6b2846a633b485b7258c4, type: 3}
+  - {fileID: 3655357198238352574, guid: 9b51f058a2e6b2846a633b485b7258c4, type: 3}
+  - {fileID: -2851422425907409439, guid: 9b51f058a2e6b2846a633b485b7258c4, type: 3}

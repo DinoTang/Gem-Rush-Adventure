@@ -70,8 +70,8 @@ public class BoardResolveHandler : BoardAbstract
             gemCtrl.GemDespawn.SkipVFX = specialMergeSourceCells != null
                 && specialMergeSourceCells.Contains(cell);
 
-            LevelGoalManager.Instance.AddGemProgress(gemCtrl.GemData.GemType);
-            
+            LevelGoalManager.Instance.AddGemProgress(gemCtrl);
+
             gemCtrl.GemDespawn.DoDespawn();
 
             this.boardManager.Grid.Set(cell.x, cell.y, null);
