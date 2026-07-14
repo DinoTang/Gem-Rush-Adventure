@@ -65,6 +65,7 @@ public class GoalContainerUI : BaseBehaviour
 
             item.transform.name = this.MakeGoalItemName(progress);
             item.Init(progress);
+            item.gameObject.SetActive(true);
             this.goalItems.Add(item);
         }
     }
