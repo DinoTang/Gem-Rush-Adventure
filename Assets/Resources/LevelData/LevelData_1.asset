@@ -16,9 +16,9 @@ MonoBehaviour:
   goals:
   - type: 0
     gemType: 1
-    gemSpecialType: 1
+    gemSpecialType: 0
     targetAmount: 20
   - type: 0
     gemType: 2
-    gemSpecialType: 3
+    gemSpecialType: 0
     targetAmount: 15
