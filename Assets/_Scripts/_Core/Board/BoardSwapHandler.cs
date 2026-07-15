@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardSwapHandler : BoardAbstract
@@ -55,6 +54,9 @@ public class BoardSwapHandler : BoardAbstract
 
         if (this.HasAnyMatch())
         {
+            if (LevelGoalManager.Instance != null)
+                LevelGoalManager.Instance.UseMove();
+
             yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveBoardRoutine(gemA, gemB));
             this.SetBusy(false);
             yield break;
@@ -62,6 +64,9 @@ public class BoardSwapHandler : BoardAbstract
 
         if (hasResolvedSpecial)
         {
+            if (LevelGoalManager.Instance != null)
+                LevelGoalManager.Instance.UseMove();
+
             this.SetBusy(false);
             yield break;
         }

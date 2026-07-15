@@ -4,15 +4,15 @@ using UnityEngine.UI;
 
 public class NumberSpriteUI : BaseBehaviour
 {
-    [SerializeField] private Image digitPrefab;
-    [SerializeField] private NumberSpriteSO targetNumberSprites;
+    [SerializeField] protected Image digitPrefab;
+    [SerializeField] protected NumberSpriteSO numberSpriteSO;
 
-    [SerializeField] private readonly List<Image> digitImages = new();
+    [SerializeField] protected readonly List<Image> digitImages = new();
     protected override void LoadComponent()
     {
         base.LoadComponent();
         this.LoadDigitPrefab();
-        this.LoadTargetNumberSprites();
+        this.LoadNumberSprites();
         this.digitPrefab.gameObject.SetActive(false);
     }
     protected virtual void LoadDigitPrefab()
@@ -23,12 +23,9 @@ public class NumberSpriteUI : BaseBehaviour
         Debug.Log(transform.name + ": Load Digit Prefab", gameObject);
     }
 
-    protected virtual void LoadTargetNumberSprites()
+    protected virtual void LoadNumberSprites()
     {
-        if (this.targetNumberSprites != null) return;
 
-        this.targetNumberSprites = Resources.Load<NumberSpriteSO>("NumberSpriteSO/TargetNumberSprites");
-        Debug.Log(transform.name + ": Load Target Number Sprites", gameObject);
     }
 
     public void SetNumber(int value)
@@ -48,7 +45,7 @@ public class NumberSpriteUI : BaseBehaviour
                 continue;
 
             int digitValue = numberText[i] - '0';
-            this.digitImages[i].sprite = this.targetNumberSprites.digitSprites[digitValue];
+            this.digitImages[i].sprite = this.numberSpriteSO.digitSprites[digitValue];
         }
     }
 
@@ -65,10 +62,10 @@ public class NumberSpriteUI : BaseBehaviour
 
     private void OnValidate()
     {
-        if (this.targetNumberSprites == null || this.targetNumberSprites.digitSprites.Length != 10)
+        if (this.numberSpriteSO == null || this.numberSpriteSO.digitSprites.Length != 10)
         {
             Debug.LogWarning(
-                $"{name}: Target Number Sprites phải có đúng 10 sprite từ 0 đến 9.",
+                $"{name}: Number Sprites phải có đúng 10 sprite từ 0 đến 9.",
                 this
             );
         }

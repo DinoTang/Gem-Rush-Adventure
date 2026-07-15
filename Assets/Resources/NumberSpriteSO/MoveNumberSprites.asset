@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32f673443e4c4e499d9e645b02b343d, type: 3}
+  m_Name: MoveNumberSprites
+  m_EditorClassIdentifier: Assembly-CSharp::NumberSpriteSO
+  digitSprites:
+  - {fileID: 457938944998768138, guid: 2d08eed670a375d43a928f83000ea10f, type: 3}
+  - {fileID: -8983931527244152111, guid: 2d08eed670a375d43a928f83000ea10f, type: 3}
+  - {fileID: -2429348880090113368, guid: 2d08eed670a375d43a928f83000ea10f, type: 3}
+  - {fileID: 6801117769837753628, guid: 2d08eed670a375d43a928f83000ea10f, type: 3}
+  - {fileID: 6395982891808452416, guid: 2d08eed670a375d43a928f83000ea10f, type: 3}
+  - {fileID: -5568043155195571043, guid: 2d08eed670a375d43a928f83000ea10f, type: 3}
+  - {fileID: -483450568114411039, guid: 2d08eed670a375d43a928f83000ea10f, type: 3}
+  - {fileID: -8870078144631873893, guid: 2d08eed670a375d43a928f83000ea10f, type: 3}
+  - {fileID: 6069954959963284239, guid: 2d08eed670a375d43a928f83000ea10f, type: 3}
+  - {fileID: 7782253071975415944, guid: 2d08eed670a375d43a928f83000ea10f, type: 3}

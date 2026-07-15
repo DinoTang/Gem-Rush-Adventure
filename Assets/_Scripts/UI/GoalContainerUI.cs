@@ -18,16 +18,20 @@ public class GoalContainerUI : BaseBehaviour
         Instance = this;
     }
 
-    protected override void OnEnable()
+    protected override void Start()
     {
-        base.OnEnable();
+        base.Start();
+
         LevelGoalManager.Instance.OnGoalProgressChanged += this.OnGoalProgressChanged;
+
+        this.SpawnGoalItems();
+        this.goalItemPrefab.gameObject.SetActive(false);
     }
 
-    protected override void OnDisable()
+    protected override void OnDestroy()
     {
-        base.OnDisable();
         LevelGoalManager.Instance.OnGoalProgressChanged -= this.OnGoalProgressChanged;
+        base.OnDestroy();
     }
 
     protected override void LoadComponent()
@@ -41,12 +45,6 @@ public class GoalContainerUI : BaseBehaviour
 
         this.goalItemPrefab = GetComponentInChildren<GoalItemUI>();
         Debug.Log(transform.name + ": LoadGoalItemPrefab", gameObject);
-    }
-    protected override void Start()
-    {
-        base.Start();
-        this.SpawnGoalItems();
-        this.goalItemPrefab.gameObject.SetActive(false);
     }
 
     private void SpawnGoalItems()

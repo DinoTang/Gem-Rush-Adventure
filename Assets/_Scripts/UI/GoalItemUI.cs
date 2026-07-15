@@ -30,8 +30,8 @@ public class GoalItemUI : BaseBehaviour
     {
         base.Awake();
 
-        originalScale = icon.rectTransform.localScale;
-        originalRotation = icon.rectTransform.localEulerAngles;
+        originalScale = this.icon.rectTransform.localScale;
+        originalRotation = this.icon.rectTransform.localEulerAngles;
     }
 
     protected override void LoadComponent()
@@ -46,37 +46,37 @@ public class GoalItemUI : BaseBehaviour
 
     protected void LoadIcon()
     {
-        if (icon != null)
+        if (this.icon != null)
             return;
 
-        icon = GetComponentInChildren<Image>();
+        this.icon = GetComponentInChildren<Image>();
         Debug.Log(transform.name + ": LoadIcon", gameObject);
     }
 
     protected void LoadAmountUI()
     {
-        if (amountUI != null)
+        if (this.amountUI != null)
             return;
 
-        amountUI = GetComponentInChildren<NumberSpriteUI>();
+        this.amountUI = GetComponentInChildren<NumberSpriteUI>();
         Debug.Log(transform.name + ": LoadAmountUI", gameObject);
     }
 
     protected void LoadCompleteTickUI()
     {
-        if (completeTickUI != null)
+        if (this.completeTickUI != null)
             return;
 
-        completeTickUI = GetComponentInChildren<CompleteTickUI>(true);
+        this.completeTickUI = GetComponentInChildren<CompleteTickUI>(true);
         Debug.Log(transform.name + ": LoadCompleteTickUI", gameObject);
     }
 
     protected void LoadGemSpriteSO()
     {
-        if (gemSpriteDatabase != null)
+        if (this.gemSpriteDatabase != null)
             return;
 
-        gemSpriteDatabase = Resources.Load<GemSpriteSO>("GemSpriteSO");
+        this.gemSpriteDatabase = Resources.Load<GemSpriteSO>("GemSpriteSO");
         Debug.Log(transform.name + ": LoadGemSpriteSO", gameObject);
     }
 
@@ -84,11 +84,11 @@ public class GoalItemUI : BaseBehaviour
     {
         progress = goalProgress;
 
-        ResetVisual();
+        this.ResetVisual();
 
-        icon.sprite = gemSpriteDatabase.GetSprite(
-            progress.Data.gemType,
-            progress.Data.gemSpecialType
+        this.icon.sprite = this.gemSpriteDatabase.GetSprite(
+            this.progress.Data.gemType,
+            this.progress.Data.gemSpecialType
         );
 
         Refresh();
@@ -96,38 +96,38 @@ public class GoalItemUI : BaseBehaviour
 
     public void Refresh()
     {
-        if (progress == null)
+        if (this.progress == null)
             return;
 
-        if (progress.IsCompleted)
+        if (this.progress.IsCompleted)
         {
-            PlayCompleteEffect();
+            this.PlayCompleteEffect();
             return;
         }
 
-        amountUI.SetNumber(progress.CurrentAmount);
+        this.amountUI.SetNumber(this.progress.CurrentAmount);
     }
 
     private void PlayCompleteEffect()
     {
-        if (hasCompletedEffectPlayed)
+        if (this.hasCompletedEffectPlayed)
             return;
 
-        hasCompletedEffectPlayed = true;
+        this.hasCompletedEffectPlayed = true;
 
-        completeSequence?.Kill();
+        this.completeSequence?.Kill();
 
-        RectTransform iconRect = icon.rectTransform;
+        RectTransform iconRect = this.icon.rectTransform;
 
-        completeSequence = DOTween.Sequence();
+        this.completeSequence = DOTween.Sequence();
 
-        completeSequence.Append(
-            iconRect
-                .DOScale(originalScale * scaleUp, scaleDuration)
-                .SetEase(Ease.OutQuad)
-        );
+        this.completeSequence.Append(
+           iconRect
+               .DOScale(originalScale * scaleUp, scaleDuration)
+               .SetEase(Ease.OutQuad)
+       );
 
-        completeSequence.Append(
+        this.completeSequence.Append(
             iconRect
                 .DOLocalRotate(
                     originalRotation + new Vector3(0f, 0f, -rotateAngle),
@@ -136,7 +136,7 @@ public class GoalItemUI : BaseBehaviour
                 .SetEase(Ease.InOutSine)
         );
 
-        completeSequence.Append(
+        this.completeSequence.Append(
             iconRect
                 .DOLocalRotate(
                     originalRotation + new Vector3(0f, 0f, rotateAngle),
@@ -145,43 +145,43 @@ public class GoalItemUI : BaseBehaviour
                 .SetEase(Ease.InOutSine)
         );
 
-        completeSequence.Append(
+        this.completeSequence.Append(
             iconRect
                 .DOLocalRotate(originalRotation, rotateDuration)
                 .SetEase(Ease.InOutSine)
         );
 
-        completeSequence.Append(
+        this.completeSequence.Append(
             iconRect
                 .DOScale(originalScale, scaleDuration)
                 .SetEase(Ease.InQuad)
         );
 
-        completeSequence.OnComplete(() =>
+        this.completeSequence.OnComplete(() =>
         {
-            amountUI.gameObject.SetActive(false);
-            completeTickUI.Show();
+            this.amountUI.gameObject.SetActive(false);
+            this.completeTickUI.Show();
         });
     }
 
     private void ResetVisual()
     {
-        completeSequence?.Kill();
+        this.completeSequence?.Kill();
 
-        hasCompletedEffectPlayed = false;
+        this.hasCompletedEffectPlayed = false;
 
-        icon.rectTransform.localScale = originalScale;
-        icon.rectTransform.localEulerAngles = originalRotation;
+        this.icon.rectTransform.localScale = this.originalScale;
+        this.icon.rectTransform.localEulerAngles = this.originalRotation;
 
-        amountUI.gameObject.SetActive(true);
-        completeTickUI.Hide();
+        this.amountUI.gameObject.SetActive(true);
+        this.completeTickUI.Hide();
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
 
-        completeSequence?.Kill();
-        icon.rectTransform.DOKill();
+        this.completeSequence?.Kill();
+        this.icon.rectTransform.DOKill();
     }
 }

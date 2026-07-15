@@ -5,13 +5,19 @@ using UnityEngine;
 public class LevelGoalManager : BaseBehaviour
 {
     public event Action<LevelGoalProgress> OnGoalProgressChanged;
+    public event Action<int> OnMoveCountChanged;
 
     protected static LevelGoalManager instance;
     public static LevelGoalManager Instance => instance;
     [SerializeField] private LevelData levelData;
+    public LevelData LevelData => levelData;
 
     [SerializeField] private List<LevelGoalProgress> goalProgresses = new();
     public List<LevelGoalProgress> GoalProgresses => goalProgresses;
+
+    [SerializeField] private int remainingMoves;
+    public int RemainingMoves => this.remainingMoves;
+
     protected override void Awake()
     {
         base.Awake();
@@ -25,6 +31,7 @@ public class LevelGoalManager : BaseBehaviour
     private void InitGoals()
     {
         goalProgresses.Clear();
+        this.remainingMoves = this.levelData != null ? this.levelData.moveLimit : 0;
 
         foreach (LevelGoalData goalData in levelData.goals)
         {
@@ -35,6 +42,15 @@ public class LevelGoalManager : BaseBehaviour
         );
         }
     }
+    public void UseMove()
+    {
+        if (this.remainingMoves <= 0)
+            return;
+
+        this.remainingMoves--;
+        this.OnMoveCountChanged?.Invoke(this.remainingMoves);
+    }
+
     public void AddGemProgress(GemCtrl gemCtrl)
     {
         foreach (LevelGoalProgress progress in this.goalProgresses)

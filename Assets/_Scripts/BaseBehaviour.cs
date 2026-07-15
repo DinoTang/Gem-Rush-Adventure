@@ -33,4 +33,8 @@ public abstract class BaseBehaviour : MonoBehaviour
     {
 
     }
+    protected virtual void OnDestroy()
+    {
+
+    }
 }
