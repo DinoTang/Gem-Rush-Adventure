@@ -277,9 +277,9 @@ public class MatchFinder
     }
 
     // protected List<SpecialMergeInfo> ProcessTLShapeBomb(
-    //     List<MatchResult> matches,
-    //     GridModel<GemCtrl> grid,
-    //     List<Vector2Int> protectedCells)
+    // List<MatchResult> matches,
+    // GridModel<GemCtrl> grid,
+    // List<Vector2Int> protectedCells)
     // {
     //     List<SpecialMergeInfo> mergeInfos = new();
 
@@ -291,42 +291,75 @@ public class MatchFinder
     //             {
     //                 if (!matches[j].Cells.Contains(cell)) continue;
 
+    //                 List<Vector2Int> sourceCells = new List<Vector2Int>(matches[i].Cells);
+    //                 sourceCells.AddRange(matches[j].Cells);
+
+    //                 sourceCells = sourceCells.Distinct().ToList();
+
+    //                 Vector2Int specialCell = this.TransformToSpecial(
+    //                     grid,
+    //                     cell,
+    //                     protectedCells,
+    //                     GemSpecialType.Bomb
+    //                 );
+
+    //                 if (specialCell == new Vector2Int(-1, -1))
+    //                     continue;
+
+    //                 sourceCells.Remove(specialCell);
+
+    //                 foreach (var source in sourceCells)
+    //                 {
+    //                     if (!protectedCells.Contains(source))
+    //                         protectedCells.Add(source);
+    //                 }
+
     //                 SpecialMergeInfo specialMergeInfo = new()
     //                 {
-    //                     SpecialCell = this.TransformToSpecial(grid, cell, protectedCells, GemSpecialType.Bomb),
-    //                     SourceCells = new List<Vector2Int>(matches[i].Cells),
+    //                     SpecialCell = specialCell,
+    //                     SourceCells = sourceCells,
     //                 };
-    //                 specialMergeInfo.SourceCells.AddRange(matches[j].Cells);
-    //                 specialMergeInfo.SourceCells.Remove(cell);
+
     //                 mergeInfos.Add(specialMergeInfo);
     //             }
     //         }
     //     }
+
     //     return mergeInfos;
     // }
+
     protected List<SpecialMergeInfo> ProcessTLShapeBomb(
     List<MatchResult> matches,
     GridModel<GemCtrl> grid,
     List<Vector2Int> protectedCells)
     {
         List<SpecialMergeInfo> mergeInfos = new();
+        HashSet<Vector2Int> claimedCells = new();
 
         for (int i = 0; i < matches.Count - 1; i++)
         {
             for (int j = i + 1; j < matches.Count; j++)
             {
-                foreach (var cell in matches[i].Cells)
+                // T/L phải là một match ngang và một match dọc.
+                if (matches[i].MatchDirection == matches[j].MatchDirection)
+                    continue;
+
+                foreach (Vector2Int intersection in matches[i].Cells)
                 {
-                    if (!matches[j].Cells.Contains(cell)) continue;
+                    if (!matches[j].Cells.Contains(intersection))
+                        continue;
 
-                    List<Vector2Int> sourceCells = new List<Vector2Int>(matches[i].Cells);
-                    sourceCells.AddRange(matches[j].Cells);
+                    List<Vector2Int> allCells = new(matches[i].Cells);
+                    allCells.AddRange(matches[j].Cells);
+                    allCells = allCells.Distinct().ToList();
 
-                    sourceCells = sourceCells.Distinct().ToList();
+                    // Cụm này đã thuộc về một MergeInfo khác.
+                    if (allCells.Any(cell => claimedCells.Contains(cell)))
+                        continue;
 
-                    Vector2Int specialCell = this.TransformToSpecial(
+                    Vector2Int specialCell = TransformToSpecial(
                         grid,
-                        cell,
+                        intersection,
                         protectedCells,
                         GemSpecialType.Bomb
                     );
@@ -334,21 +367,25 @@ public class MatchFinder
                     if (specialCell == new Vector2Int(-1, -1))
                         continue;
 
+                    List<Vector2Int> sourceCells = new(allCells);
                     sourceCells.Remove(specialCell);
 
-                    foreach (var source in sourceCells)
+                    foreach (Vector2Int cell in allCells)
                     {
-                        if (!protectedCells.Contains(source))
-                            protectedCells.Add(source);
+                        claimedCells.Add(cell);
+
+                        if (!protectedCells.Contains(cell))
+                            protectedCells.Add(cell);
                     }
 
-                    SpecialMergeInfo specialMergeInfo = new()
+                    mergeInfos.Add(new SpecialMergeInfo
                     {
                         SpecialCell = specialCell,
-                        SourceCells = sourceCells,
-                    };
+                        SourceCells = sourceCells
+                    });
 
-                    mergeInfos.Add(specialMergeInfo);
+                    // Một cặp match chỉ nên tạo một bomb.
+                    break;
                 }
             }
         }

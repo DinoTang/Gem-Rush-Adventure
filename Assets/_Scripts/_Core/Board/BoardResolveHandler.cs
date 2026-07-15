@@ -71,6 +71,7 @@ public class BoardResolveHandler : BoardAbstract
                 && specialMergeSourceCells.Contains(cell);
 
             LevelGoalManager.Instance.AddGemProgress(gemCtrl);
+            LevelGoalManager.Instance.AddScore(100);
 
             gemCtrl.GemDespawn.DoDespawn();
 

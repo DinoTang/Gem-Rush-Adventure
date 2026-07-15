@@ -6,6 +6,7 @@ public class LevelGoalManager : BaseBehaviour
 {
     public event Action<LevelGoalProgress> OnGoalProgressChanged;
     public event Action<int> OnMoveCountChanged;
+    public event Action<int> OnScoreChanged;
 
     protected static LevelGoalManager instance;
     public static LevelGoalManager Instance => instance;
@@ -17,6 +18,9 @@ public class LevelGoalManager : BaseBehaviour
 
     [SerializeField] private int remainingMoves;
     public int RemainingMoves => this.remainingMoves;
+
+    [SerializeField] private int currentScore;
+    public int CurrentScore => currentScore;
 
     protected override void Awake()
     {
@@ -85,5 +89,14 @@ public class LevelGoalManager : BaseBehaviour
         }
 
         return true;
+    }
+
+    public void AddScore(int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        currentScore += amount;
+        OnScoreChanged?.Invoke(currentScore);
     }
 }
