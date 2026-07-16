@@ -1,13 +1,21 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+public enum LevelState
+{
+    Playing,
+    Completing,
+    WaitingForContinue,
+    Win,
+    Lose
+}
 
 public class LevelGoalManager : BaseBehaviour
 {
     public event Action<LevelGoalProgress> OnGoalProgressChanged;
     public event Action<int> OnMoveCountChanged;
     public event Action<int> OnScoreChanged;
-
+    public event Action OnLevelCompleted;
     protected static LevelGoalManager instance;
     public static LevelGoalManager Instance => instance;
     [SerializeField] private LevelData levelData;
@@ -21,7 +29,7 @@ public class LevelGoalManager : BaseBehaviour
 
     [SerializeField] private int currentScore;
     public int CurrentScore => currentScore;
-
+    public LevelState CurrentLevelState { get; private set; } = LevelState.Playing;
     protected override void Awake()
     {
         base.Awake();
@@ -31,6 +39,10 @@ public class LevelGoalManager : BaseBehaviour
         this.InitGoals();
     }
 
+    public void SetLevelState(LevelState state)
+    {
+        this.CurrentLevelState = state;
+    }
 
     private void InitGoals()
     {
@@ -76,6 +88,7 @@ public class LevelGoalManager : BaseBehaviour
 
         if (this.AreAllGoalsCompleted())
         {
+            OnLevelCompleted?.Invoke();
             Debug.LogWarning("LEVEL COMPLETE");
         }
     }
