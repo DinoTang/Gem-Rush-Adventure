@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853bbdf5abcd0bd4bb978bb7d17a86df, type: 3}
+  m_Name: MusicBtnSpriteSO
+  m_EditorClassIdentifier: Assembly-CSharp::ToggleButtonSpriteSO
+  Normal: {fileID: -6249128531596378887, guid: 503a78c5d544df14f9abd3980091f6ef, type: 3}
+  Pressed: {fileID: 4189183078174243140, guid: 883683f5d6b50894a85469d3e48af453, type: 3}
+  NormalOff: {fileID: -3123909090088267878, guid: 1f95369b3170f504ea1cdc9e09fa23e7, type: 3}
+  PressedOff: {fileID: -125742745763793305, guid: f764349970284f44dba89cdc66e1280b, type: 3}

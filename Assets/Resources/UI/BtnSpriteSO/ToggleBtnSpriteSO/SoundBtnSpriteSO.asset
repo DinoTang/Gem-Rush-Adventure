@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853bbdf5abcd0bd4bb978bb7d17a86df, type: 3}
+  m_Name: SoundBtnSpriteSO
+  m_EditorClassIdentifier: Assembly-CSharp::ToggleButtonSpriteSO
+  Normal: {fileID: 7860614814077454779, guid: ea763cc0f2c472147b57b6a2816c956c, type: 3}
+  Pressed: {fileID: 613203916665477348, guid: a1dee7a8e3d29d448af69c6500c1152f, type: 3}
+  NormalOff: {fileID: 2120030811945422048, guid: 837f8509e3dfcca448f94660bdd67821, type: 3}
+  PressedOff: {fileID: 5032469543363469584, guid: feb72f33b1bb28f4aaa683d26312fe5f, type: 3}

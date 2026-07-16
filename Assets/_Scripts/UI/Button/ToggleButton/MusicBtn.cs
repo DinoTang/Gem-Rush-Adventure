@@ -1,0 +1,18 @@
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class MusicBtn : ToggleBtn
+{
+    protected override void LoadBtnSpriteSO()
+    {
+        if (this.btnSpriteSO != null) return;
+        this.btnSpriteSO = Resources.Load<ButtonSpriteSO>("UI/BtnSpriteSO/ToggleBtnSpriteSO/MusicBtnSpriteSO");
+        Debug.Log(transform.name + ": LoadBtnSpriteSO", gameObject);
+    }
+
+    protected override void OnToggleChanged()
+    {
+        // throw new System.NotImplementedException();
+    }
+}

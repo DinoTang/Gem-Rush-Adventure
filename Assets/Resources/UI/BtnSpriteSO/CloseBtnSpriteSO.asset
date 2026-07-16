@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d842b2ae94539641ab8cff2c8e423d9, type: 3}
+  m_Name: CloseBtnSpriteSO
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSpriteSO
+  Normal: {fileID: -815139346563392110, guid: 629979b8a33e0a9488cbea5b7a4243e6, type: 3}
+  Pressed: {fileID: -1217283810902186963, guid: ac9e558dbc15b10409860d5c6029aef1, type: 3}
