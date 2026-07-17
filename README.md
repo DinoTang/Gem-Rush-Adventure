@@ -30,4 +30,6 @@ Assets/
 3. Press Play
 
 ## 📸 Demo
-(Coming soon)
+## Gameplay
+
+![Gameplay](docs/images/gameplay.png)
