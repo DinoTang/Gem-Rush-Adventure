@@ -53965,14 +53965,16 @@ GameObject:
   - component: {fileID: 770346756}
   - component: {fileID: 770346759}
   - component: {fileID: 770346758}
-  - component: {fileID: 770346757}
+  - component: {fileID: 770346761}
+  - component: {fileID: 770346760}
+  - component: {fileID: 770346762}
   m_Layer: 0
   m_Name: TapToSkipUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &770346756
 RectTransform:
   m_ObjectHideFlags: 0
@@ -53994,36 +53996,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &770346757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 770346755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &770346758
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -54056,6 +54028,53 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 100
   m_TargetDisplay: 0
+--- !u!225 &770346760
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770346755}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &770346761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770346755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a490da3a412f7c24aba4f490cfbaa4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapToSkipUI
+  canvasGroup: {fileID: 770346760}
+  tapTitle: {fileID: 905871328}
+  fadeDuration: 0.2
+  pulseScale: 1.08
+  pulseDuration: 0.6
+  canContinue: 0
+--- !u!114 &770346762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770346755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &791784093
 GameObject:
   m_ObjectHideFlags: 0
@@ -54830,6 +54849,7 @@ GameObject:
   - component: {fileID: 905871328}
   - component: {fileID: 905871330}
   - component: {fileID: 905871329}
+  - component: {fileID: 905871331}
   m_Layer: 0
   m_Name: TapToSkipTitle
   m_TagString: Untagged
@@ -54894,6 +54914,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 905871327}
   m_CullTransparentMesh: 1
+--- !u!114 &905871331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905871327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916536c914233aa4f8ed16442bff155c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapToSkipTitleUI
 --- !u!1 &913553744
 GameObject:
   m_ObjectHideFlags: 0
@@ -78264,6 +78296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35bcb1643de9e4f42aa74e7e9bd07433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelCompleteHandler
+  tapToSkipUI: {fileID: 770346761}
 --- !u!4 &1333188092
 Transform:
   m_ObjectHideFlags: 0
@@ -90503,7 +90536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1645400041
 MonoBehaviour:
   m_ObjectHideFlags: 0
