@@ -29,7 +29,8 @@ public class LevelGoalManager : BaseBehaviour
 
     [SerializeField] private int currentScore;
     public int CurrentScore => currentScore;
-    public LevelState CurrentLevelState { get; private set; } = LevelState.Playing;
+    [SerializeField] public LevelState currentLevelState = LevelState.Playing;
+    public LevelState CurrentLevelState => currentLevelState;
     protected override void Awake()
     {
         base.Awake();
@@ -41,7 +42,7 @@ public class LevelGoalManager : BaseBehaviour
 
     public void SetLevelState(LevelState state)
     {
-        this.CurrentLevelState = state;
+        this.currentLevelState = state;
     }
 
     private void InitGoals()

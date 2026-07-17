@@ -2,9 +2,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CloseBtn : BaseBtn
+public class CloseBtn : PausePopupBtn
 {
-    [SerializeField] private PausePopupUI popup;
+    protected override void LoadComponent()
+    {
+        base.LoadComponent();
+        this.LoadPausePopupUI();
+    }
+
     protected override void LoadBtnSpriteSO()
     {
         if (this.btnSpriteSO != null) return;
@@ -14,6 +19,6 @@ public class CloseBtn : BaseBtn
 
     protected override void OnButtonClicked()
     {
-        this.popup.Hide();
+        this.pausePopup.Hide();
     }
 }

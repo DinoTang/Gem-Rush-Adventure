@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GemModel : GemAbstract
 {
@@ -10,6 +11,14 @@ public class GemModel : GemAbstract
     [SerializeField] private float hintPulseSpeed = 3f;
     protected Vector3 defaultLocalScale;
     private Coroutine hintRoutine;
+
+    [Header("Transform Special Animation")]
+    [SerializeField] private float transformScale = 1.18f;
+    [SerializeField] private float transformScaleDuration = 0.15f;
+    [SerializeField] private float transformRotateAngle = 10f;
+    [SerializeField] private float transformRotateDuration = 0.08f;
+
+    private Sequence transformSpecialSequence;
     protected override void Start()
     {
         base.Start();
@@ -99,12 +108,12 @@ public class GemModel : GemAbstract
 
     public Sprite GetGemVisualIdle(GemType gemType, GemSpecialType gemSpecialType)
     {
-        var visuals = this.gemCtrl?.GemDespawn?.GemSpawner?.gemVisuals;
+        var visuals = this.gemCtrl.GemDespawn.GemSpawner.gemVisuals;
 
         if (visuals == null || visuals.Count == 0)
         {
             var spawner = FindAnyObjectByType<GemSpawner>();
-            visuals = spawner?.gemVisuals;
+            visuals = spawner.gemVisuals;
         }
 
         var found = visuals?.Find(
@@ -140,5 +149,72 @@ public class GemModel : GemAbstract
 
         if (found == null) return null;
         return found.Sprite_Selected;
+    }
+
+    public void PlayTransformToSpecialAnimation()
+    {
+        transformSpecialSequence?.Kill();
+        transform.DOKill();
+
+        this.HideHintRoutine();
+
+        Vector3 startScale = this.defaultLocalScale;
+        Vector3 startRotation = Vector3.zero;
+
+        transform.localScale = startScale;
+        transform.localEulerAngles = startRotation;
+
+        transformSpecialSequence = DOTween.Sequence();
+
+        transformSpecialSequence.Append(
+            transform
+                .DOScale(startScale * transformScale, transformScaleDuration)
+                .SetEase(Ease.OutQuad)
+        );
+
+        transformSpecialSequence.Append(
+            transform
+                .DOLocalRotate(
+                    new Vector3(0f, 0f, -transformRotateAngle),
+                    transformRotateDuration
+                )
+                .SetEase(Ease.InOutSine)
+        );
+
+        transformSpecialSequence.Append(
+            transform
+                .DOLocalRotate(
+                    new Vector3(0f, 0f, transformRotateAngle),
+                    transformRotateDuration
+                )
+                .SetEase(Ease.InOutSine)
+        );
+
+        transformSpecialSequence.Append(
+            transform
+                .DOLocalRotate(
+                    new Vector3(0f, 0f, -transformRotateAngle * 0.5f),
+                    transformRotateDuration
+                )
+                .SetEase(Ease.InOutSine)
+        );
+
+        transformSpecialSequence.Append(
+            transform
+                .DOLocalRotate(startRotation, transformRotateDuration)
+                .SetEase(Ease.InOutSine)
+        );
+
+        transformSpecialSequence.Join(
+            transform
+                .DOScale(startScale, transformScaleDuration)
+                .SetEase(Ease.InQuad)
+        );
+
+        transformSpecialSequence.OnComplete(() =>
+        {
+            transform.localScale = startScale;
+            transform.localEulerAngles = startRotation;
+        });
     }
 }

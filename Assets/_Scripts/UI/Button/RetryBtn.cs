@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class RetryBtn : BaseBtn
+public class RetryBtn : PausePopupBtn
 {
     protected override void LoadBtnSpriteSO()
     {
@@ -13,6 +13,15 @@ public class RetryBtn : BaseBtn
 
     protected override void OnButtonClicked()
     {
+        if (pausePopup.PausePopupState == PausePopupState.Show)
+        {
+            pausePopup.ShowAreYouSure();
+            return;
+        }
 
+        if (pausePopup.PausePopupState == PausePopupState.AreYouSure)
+        {
+            // Restart current level.
+        }
     }
 }
