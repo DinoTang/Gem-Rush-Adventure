@@ -4,11 +4,26 @@ using UnityEngine;
 
 public class LevelCompleteHandler : BaseBehaviour
 {
+    [SerializeField] private TapToSkipUI tapToSkipUI;
     protected override void Start()
     {
         base.Start();
         LevelGoalManager.Instance.OnLevelCompleted +=
         this.HandleLevelComplete;
+    }
+    protected override void LoadComponent()
+    {
+        base.LoadComponent();
+        this.LoadTapToSkipUI();
+    }
+
+    protected void LoadTapToSkipUI()
+    {
+        if (this.tapToSkipUI != null) return;
+
+        this.tapToSkipUI = FindAnyObjectByType<TapToSkipUI>();
+
+        Debug.Log(transform.name + ": LoadTapToSkipUI", gameObject);
     }
     private void HandleLevelComplete()
     {
@@ -16,7 +31,7 @@ public class LevelCompleteHandler : BaseBehaviour
 
         LevelGoalManager.Instance.SetLevelState(LevelState.Completing);
 
-        // TapToContinueUI.Show();
+        this.tapToSkipUI.Show();
 
         StartCoroutine(
             ConvertMovesToRocketRoutine()
@@ -44,7 +59,7 @@ public class LevelCompleteHandler : BaseBehaviour
             gem.GemData.SetGemSpecialType(rocketType);
             gem.GemModel.RefreshVisual();
             gem.GemModel.PlayTransformToSpecialAnimation();
-        
+
             // Có thể spawn hiệu ứng biến đổi tại đây.
             VFXSpawner.Instance.SpawnTransformVFX(gem.transform.position);
 
@@ -54,6 +69,8 @@ public class LevelCompleteHandler : BaseBehaviour
         LevelGoalManager.Instance.SetLevelState(
             LevelState.WaitingForContinue
         );
+
+        this.tapToSkipUI.EnableContinue();
     }
 
     public List<GemCtrl> GetRandomNormalGems(int count)
