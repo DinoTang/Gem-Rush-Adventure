@@ -32,4 +32,4 @@ Assets/
 ## 📸 Demo
 ## Gameplay
 
-![Gameplay](docs/images/gameplay.png)
+![Gameplay](docs/images/gamePlay.png)
