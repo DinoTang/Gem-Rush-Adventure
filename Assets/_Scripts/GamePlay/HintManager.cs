@@ -30,7 +30,7 @@ public class HintManager : BaseBehaviour
     }
     protected void Update()
     {
-        if (BoardManager.Instance.SwapHandler.IsBusy || BoardManager.Instance.InputHandler.IsDragging || this.hintPairs.Count == 0)
+        if (BoardManager.Instance.SwapHandler.IsResolving || BoardManager.Instance.InputHandler.IsDragging || this.hintPairs.Count == 0)
         {
             this.idleTimer = 0;
             this.indexHint = 0;

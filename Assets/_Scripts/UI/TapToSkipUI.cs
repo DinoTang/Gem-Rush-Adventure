@@ -43,7 +43,7 @@ public class TapToSkipUI : BaseUI, IPointerClickHandler
     protected override void Start()
     {
         base.Start();
-        this.HideImmediately();
+        this.InitializeHidden();
     }
 
     public override void Show()
@@ -81,12 +81,6 @@ public class TapToSkipUI : BaseUI, IPointerClickHandler
         if (!this.canContinue)
             return;
 
-        if (LevelGoalManager.Instance.CurrentLevelState
-            != LevelState.WaitingForContinue)
-        {
-            return;
-        }
-
         Debug.LogWarning("Tap To Continue clicked");
 
         this.canContinue = false;
@@ -108,17 +102,28 @@ public class TapToSkipUI : BaseUI, IPointerClickHandler
                 base.Hide();
             });
     }
-
-    private void HideImmediately()
+    private void InitializeHidden()
     {
         this.KillTweens();
+
+        this.canContinue = false;
 
         this.canvasGroup.alpha = 0f;
         this.canvasGroup.interactable = false;
         this.canvasGroup.blocksRaycasts = false;
 
-        base.Hide();
+        this.tapTitle.localScale = Vector3.one;
     }
+    // private void HideImmediately()
+    // {
+    //     this.KillTweens();
+
+    //     this.canvasGroup.alpha = 0f;
+    //     this.canvasGroup.interactable = false;
+    //     this.canvasGroup.blocksRaycasts = false;
+
+    //     base.Hide();
+    // }
 
     private void KillTweens()
     {

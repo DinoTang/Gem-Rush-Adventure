@@ -58,6 +58,32 @@ public class BoardResolveHandler : BoardAbstract
         BoardValidator.ValidateBoard(this.boardManager, "AfterAnimateGravity");
     }
 
+    public IEnumerator ResolveCompletedSpecialGemsRoutine(List<GemCtrl> gems)
+    {
+        if (gems == null || gems.Count == 0)
+            yield break;
+
+        List<Vector2Int> triggerCells = new();
+
+        foreach (var gem in gems)
+        {
+            if (gem == null)
+                continue;
+
+            if (gem.GemData.GemSpecialType == GemSpecialType.None)
+                continue;
+
+            triggerCells.Add(gem.GemData.GridPos);
+        }
+
+        if (triggerCells.Count == 0)
+            yield break;
+
+        List<Vector2Int> cellsToClear = this.boardManager.MatchResolver.ResolveSpecialChains(triggerCells, this.boardManager.Grid);
+
+        yield return StartCoroutine(this.ResolveGravityRoutine(cellsToClear));
+    }
+
     public void ClearCells(List<Vector2Int> cells, HashSet<Vector2Int> specialMergeSourceCells = null)
     {
         foreach (var cell in cells)

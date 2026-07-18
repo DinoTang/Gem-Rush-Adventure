@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class BoardSwapHandler : BoardAbstract
 {
-    [SerializeField] protected bool isBusy = false;
-    public bool IsBusy => isBusy;
+    [SerializeField] protected bool isResolving = false;
+    public bool IsResolving => isResolving;
     private BoardValidator boardValidator = new();
     private List<GemState> previousBoardState = new();
 
     private void SetBusy(bool value)
     {
-        this.isBusy = value;
+        this.isResolving = value;
     }
 
     protected bool HasAnyMatch()

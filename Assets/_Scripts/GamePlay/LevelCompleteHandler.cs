@@ -5,11 +5,13 @@ using UnityEngine;
 public class LevelCompleteHandler : BaseBehaviour
 {
     [SerializeField] private TapToSkipUI tapToSkipUI;
+    private bool isHandlingCompletion;
     protected override void Start()
     {
         base.Start();
+
         LevelGoalManager.Instance.OnLevelCompleted +=
-        this.HandleLevelComplete;
+            this.HandleLevelCompleted;
     }
     protected override void LoadComponent()
     {
@@ -25,11 +27,32 @@ public class LevelCompleteHandler : BaseBehaviour
 
         Debug.Log(transform.name + ": LoadTapToSkipUI", gameObject);
     }
-    private void HandleLevelComplete()
-    {
-        // BoardInputHandler.Disable();
 
-        LevelGoalManager.Instance.SetLevelState(LevelState.Completing);
+    private void HandleLevelCompleted()
+    {
+        if (this.isHandlingCompletion)
+            return;
+
+        this.isHandlingCompletion = true;
+
+        StartCoroutine(this.HandleLevelCompleteRoutine());
+    }
+    protected override void OnDestroy()
+    {
+        if (LevelGoalManager.Instance != null)
+        {
+            LevelGoalManager.Instance.OnLevelCompleted -=
+                this.HandleLevelCompleted;
+        }
+
+        base.OnDestroy();
+    }
+    private IEnumerator HandleLevelCompleteRoutine()
+    {
+
+        yield return new WaitUntil(() => !BoardManager.Instance.SwapHandler.IsResolving);
+
+        LevelGoalManager.Instance.SetLevelState(LevelState.WaitingForContinue);
 
         this.tapToSkipUI.Show();
 
@@ -60,14 +83,19 @@ public class LevelCompleteHandler : BaseBehaviour
             gem.GemModel.RefreshVisual();
             gem.GemModel.PlayTransformToSpecialAnimation();
 
-            // Có thể spawn hiệu ứng biến đổi tại đây.
             VFXSpawner.Instance.SpawnTransformVFX(gem.transform.position);
 
             yield return new WaitForSeconds(0.5f);
         }
+        yield return new WaitForSeconds(0.3f);
+
+        if (BoardManager.Instance != null && BoardManager.Instance.ResolveHandler != null)
+        {
+            yield return StartCoroutine(BoardManager.Instance.ResolveHandler.ResolveCompletedSpecialGemsRoutine(selectedGems));
+        }
 
         LevelGoalManager.Instance.SetLevelState(
-            LevelState.WaitingForContinue
+            LevelState.Completing
         );
 
         this.tapToSkipUI.EnableContinue();

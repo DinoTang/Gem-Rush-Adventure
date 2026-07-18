@@ -13,7 +13,7 @@ public class BoardInputHandler : BoardAbstract
 
     public void BeginDrag(GemCtrl gem)
     {
-        if (this.boardManager.SwapHandler.IsBusy) return;
+        if (this.boardManager.SwapHandler.IsResolving) return;
         this.isDragging = true;
         this.selectedGem = gem;
 

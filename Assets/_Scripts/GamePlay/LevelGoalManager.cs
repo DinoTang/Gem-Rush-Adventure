@@ -31,6 +31,7 @@ public class LevelGoalManager : BaseBehaviour
     public int CurrentScore => currentScore;
     [SerializeField] public LevelState currentLevelState = LevelState.Playing;
     public LevelState CurrentLevelState => currentLevelState;
+    protected bool isCompleted = false;
     protected override void Awake()
     {
         base.Awake();
@@ -47,6 +48,10 @@ public class LevelGoalManager : BaseBehaviour
 
     private void InitGoals()
     {
+        this.isCompleted = false;
+        this.currentLevelState = LevelState.Playing;
+        this.currentScore = 0;
+
         goalProgresses.Clear();
         this.remainingMoves = this.levelData != null ? this.levelData.moveLimit : 0;
 
@@ -70,6 +75,8 @@ public class LevelGoalManager : BaseBehaviour
 
     public void AddGemProgress(GemCtrl gemCtrl)
     {
+        if (this.isCompleted) return;
+
         foreach (LevelGoalProgress progress in this.goalProgresses)
         {
             LevelGoalData data = progress.Data;
@@ -89,6 +96,7 @@ public class LevelGoalManager : BaseBehaviour
 
         if (this.AreAllGoalsCompleted())
         {
+            this.isCompleted = true;
             OnLevelCompleted?.Invoke();
             Debug.LogWarning("LEVEL COMPLETE");
         }
