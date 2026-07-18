@@ -301,9 +301,6 @@ RectTransform:
   - {fileID: 775936155}
   - {fileID: 411226237}
   - {fileID: 1167941892}
-  - {fileID: 1944166510}
-  - {fileID: 315614305}
-  - {fileID: 502226022}
   m_Father: {fileID: 1295232029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -11038,7 +11035,6 @@ GameObject:
   - component: {fileID: 252645887}
   - component: {fileID: 252645889}
   - component: {fileID: 252645888}
-  - component: {fileID: 252645890}
   m_Layer: 0
   m_Name: CoinNumberSpriteUI
   m_TagString: Untagged
@@ -11100,21 +11096,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 252645886}
   m_CullTransparentMesh: 1
---- !u!114 &252645890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252645886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0a7e6b3faab65a4d80ceba680e7833e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CoinNumberSpriteUI
-  digitPrefab: {fileID: 261885495}
-  numberSpriteSO: {fileID: 11400000, guid: 3d11da6dae94deb43becfbd8acbcb0ac, type: 2}
-  countDuration: 1.5
 --- !u!1 &253396990
 GameObject:
   m_ObjectHideFlags: 0
@@ -11181,7 +11162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &261885494
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11196,10 +11177,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 252645887}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -50}
-  m_SizeDelta: {x: 28, y: 33}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &261885495
 MonoBehaviour:
@@ -16761,7 +16742,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &306568958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21708,109 +21689,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!1 &315614304
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 315614305}
-  - component: {fileID: 315614308}
-  - component: {fileID: 315614307}
-  - component: {fileID: 315614309}
-  m_Layer: 0
-  m_Name: FlyingStar2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &315614305
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 315614304}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18946789}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: 250, y: 250}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &315614307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 315614304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -5519543357397933077, guid: 734b77487d543af45812bed02283caef, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &315614308
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 315614304}
-  m_CullTransparentMesh: 1
---- !u!114 &315614309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 315614304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74969eb45bf9675469bd1289cde6eb7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WinStarUI2
-  starImage: {fileID: 315614307}
-  starRect: {fileID: 315614305}
-  targetStarSlot: {fileID: 411226237}
-  starSpriteSO: {fileID: 11400000, guid: dffad6f9f789575478f1e40de972a177, type: 2}
-  startScale: 2.8
-  startRotation: -18
-  introDelay: 0.12
-  shrinkDuration: 0.8
-  sprite4Time: 0.38
-  sprite1Time: 0.72
-  flyDuration: 0.55
-  flyEase: 10
-  punchDuration: 0.28
-  punchScale: 0.12
-  targetOffset: {x: 0, y: 0.05}
 --- !u!1 &322264773
 GameObject:
   m_ObjectHideFlags: 0
@@ -22306,7 +22184,7 @@ GameObject:
   - component: {fileID: 374830400}
   - component: {fileID: 374830399}
   m_Layer: 0
-  m_Name: ContinueButton
+  m_Name: RetryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32435,8 +32313,9 @@ GameObject:
   - component: {fileID: 411226237}
   - component: {fileID: 411226239}
   - component: {fileID: 411226238}
+  - component: {fileID: 411226240}
   m_Layer: 0
-  m_Name: StarSlot2
+  m_Name: Star2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32499,6 +32378,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 411226236}
   m_CullTransparentMesh: 1
+--- !u!114 &411226240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411226236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c59e75a47821c148a231bf9efd535f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WinStarUI
+  starImage: {fileID: 411226238}
+  starRect: {fileID: 411226237}
+  star3Sprite: {fileID: 8188464660223921005, guid: 5d7e1c3912ac89b4cb1c9b390285d307, type: 3}
+  star4Sprite: {fileID: -3181027967389958937, guid: 0ab39c7dbee4797448478636ef498f13, type: 3}
+  star1Sprite: {fileID: 6179200808544867534, guid: 87395be918ac8d54db303c47d3cee01e, type: 3}
+  startScale: 2
+  shrinkDuration: 1
+  settleDuration: 0.5
 --- !u!1 &413385053
 GameObject:
   m_ObjectHideFlags: 0
@@ -33014,7 +32913,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 488364067}
-  - component: {fileID: 488364068}
   m_Layer: 0
   m_Name: ContinueButtonGroup
   m_TagString: Untagged
@@ -33032,7 +32930,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 374830398}
   - {fileID: 1067468045}
@@ -33043,28 +32941,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -242}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &488364068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 488364066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1abb8bb62d6a7194896ace0afea07331, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ContinueBtnUI
-  continueButton: {fileID: 374830400}
-  buttonRect: {fileID: 488364067}
-  idleScale: 1.05
-  idleMoveY: 5
-  idleDuration: 0.7
-  pressedScale: 0.92
-  pressDuration: 0.1
-  releaseDuration: 0.15
-  playOnStart: 1
-  useUnscaledTime: 1
 --- !u!1 &493387297
 GameObject:
   m_ObjectHideFlags: 0
@@ -33338,109 +33214,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500485063}
   m_CullTransparentMesh: 1
---- !u!1 &502226021
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 502226022}
-  - component: {fileID: 502226025}
-  - component: {fileID: 502226024}
-  - component: {fileID: 502226026}
-  m_Layer: 0
-  m_Name: FlyingStar3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &502226022
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 502226021}
-  m_LocalRotation: {x: -0, y: -0, z: -0.13052624, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18946789}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -15}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 230, y: -140.00006}
-  m_SizeDelta: {x: 200, y: 200}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &502226024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 502226021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -5519543357397933077, guid: 734b77487d543af45812bed02283caef, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &502226025
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 502226021}
-  m_CullTransparentMesh: 1
---- !u!114 &502226026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 502226021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 735e9afcbe2016a4988e970e3803281a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WinStarUI3
-  starImage: {fileID: 502226024}
-  starRect: {fileID: 502226022}
-  targetStarSlot: {fileID: 1167941892}
-  starSpriteSO: {fileID: 11400000, guid: dffad6f9f789575478f1e40de972a177, type: 2}
-  startScale: 2.8
-  startRotation: -18
-  introDelay: 0.12
-  shrinkDuration: 0.8
-  sprite4Time: 0.38
-  sprite1Time: 0.72
-  flyDuration: 0.55
-  flyEase: 10
-  punchDuration: 0.28
-  punchScale: 0.12
-  targetOffset: {x: 0, y: 0.05}
 --- !u!1 &503136809
 GameObject:
   m_ObjectHideFlags: 0
@@ -55140,8 +54913,9 @@ GameObject:
   - component: {fileID: 775936155}
   - component: {fileID: 775936157}
   - component: {fileID: 775936156}
+  - component: {fileID: 775936158}
   m_Layer: 0
-  m_Name: StarSlot1
+  m_Name: Star1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55204,6 +54978,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 775936154}
   m_CullTransparentMesh: 1
+--- !u!114 &775936158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775936154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c59e75a47821c148a231bf9efd535f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WinStarUI
+  starImage: {fileID: 775936156}
+  starRect: {fileID: 775936155}
+  star3Sprite: {fileID: 8188464660223921005, guid: 5d7e1c3912ac89b4cb1c9b390285d307, type: 3}
+  star4Sprite: {fileID: -3181027967389958937, guid: 0ab39c7dbee4797448478636ef498f13, type: 3}
+  star1Sprite: {fileID: 6179200808544867534, guid: 87395be918ac8d54db303c47d3cee01e, type: 3}
+  startScale: 2
+  shrinkDuration: 1
+  settleDuration: 0.5
 --- !u!1 &791784093
 GameObject:
   m_ObjectHideFlags: 0
@@ -55713,7 +55507,6 @@ MonoBehaviour:
   goalProgresses: []
   remainingMoves: 0
   currentScore: 1000
-  earnedCoin: 0
   currentLevelState: 0
 --- !u!4 &864618962
 Transform:
@@ -55722,50 +55515,6 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 864618960}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &875729196
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 875729198}
-  - component: {fileID: 875729197}
-  m_Layer: 0
-  m_Name: SaveManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &875729197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 875729196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9504803aff3b9b747ab746820933246f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SaveManager
---- !u!4 &875729198
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 875729196}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -67321,7 +67070,7 @@ GameObject:
   - component: {fileID: 1067468047}
   - component: {fileID: 1067468046}
   m_Layer: 0
-  m_Name: ContinueButtonTitle
+  m_Name: RetryButtonTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67896,10 +67645,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 500485064}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -50}
+  m_SizeDelta: {x: 28, y: 33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1122576186
 MonoBehaviour:
@@ -73195,8 +72944,9 @@ GameObject:
   - component: {fileID: 1167941892}
   - component: {fileID: 1167941894}
   - component: {fileID: 1167941893}
+  - component: {fileID: 1167941895}
   m_Layer: 0
-  m_Name: StarSlot3
+  m_Name: Star3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73259,6 +73009,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1167941891}
   m_CullTransparentMesh: 1
+--- !u!114 &1167941895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167941891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c59e75a47821c148a231bf9efd535f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WinStarUI
+  starImage: {fileID: 1167941893}
+  starRect: {fileID: 1167941892}
+  star3Sprite: {fileID: 8188464660223921005, guid: 5d7e1c3912ac89b4cb1c9b390285d307, type: 3}
+  star4Sprite: {fileID: -3181027967389958937, guid: 0ab39c7dbee4797448478636ef498f13, type: 3}
+  star1Sprite: {fileID: 6179200808544867534, guid: 87395be918ac8d54db303c47d3cee01e, type: 3}
+  startScale: 2
+  shrinkDuration: 1
+  settleDuration: 0.5
 --- !u!1 &1170448012
 GameObject:
   m_ObjectHideFlags: 0
@@ -73753,7 +73523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1185846012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74419,7 +74189,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1264230148
 RectTransform:
   m_ObjectHideFlags: 0
@@ -74687,7 +74457,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1295232029
 RectTransform:
   m_ObjectHideFlags: 0
@@ -74726,12 +74496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e822289a2ad5b034a84089714b1072a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WinPopupUI
-  coinNumberSpriteUI: {fileID: 0}
   winScoreNumberUI: {fileID: 1829873627}
-  star1: {fileID: 1944166514}
-  star2: {fileID: 315614309}
-  star3: {fileID: 502226026}
-  starAppearDelay: 0.35
 --- !u!1 &1298292999
 GameObject:
   m_ObjectHideFlags: 0
@@ -109127,109 +108892,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938333798}
   m_CullTransparentMesh: 1
---- !u!1 &1944166509
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1944166510}
-  - component: {fileID: 1944166513}
-  - component: {fileID: 1944166512}
-  - component: {fileID: 1944166514}
-  m_Layer: 0
-  m_Name: FlyingStar1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1944166510
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1944166509}
-  m_LocalRotation: {x: -0, y: -0, z: 0.13052616, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18946789}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 15}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -230, y: -140.00006}
-  m_SizeDelta: {x: 200, y: 200}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1944166512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1944166509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -5519543357397933077, guid: 734b77487d543af45812bed02283caef, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1944166513
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1944166509}
-  m_CullTransparentMesh: 1
---- !u!114 &1944166514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1944166509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61322640580d4184bb819169591f1511, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WinStarUI1
-  starImage: {fileID: 1944166512}
-  starRect: {fileID: 1944166510}
-  targetStarSlot: {fileID: 775936155}
-  starSpriteSO: {fileID: 11400000, guid: dffad6f9f789575478f1e40de972a177, type: 2}
-  startScale: 2.8
-  startRotation: -18
-  introDelay: 0.12
-  shrinkDuration: 0.8
-  sprite4Time: 0.38
-  sprite1Time: 0.72
-  flyDuration: 0.55
-  flyEase: 10
-  punchDuration: 0.28
-  punchScale: 0.12
-  targetOffset: {x: 0, y: 0.05}
 --- !u!1 &1947503507
 GameObject:
   m_ObjectHideFlags: 0
@@ -109264,9 +108926,9 @@ RectTransform:
   - {fileID: 1593874331}
   m_Father: {fileID: 2059143645}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 160.53577, y: -40.45}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1947503509
@@ -140165,6 +139827,5 @@ SceneRoots:
   - {fileID: 1185846013}
   - {fileID: 864618962}
   - {fileID: 1333188092}
-  - {fileID: 875729198}
   - {fileID: 1584529886}
   - {fileID: 720961157}

@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c9c3ccfb0be1544b342b40a87cfc6f, type: 3}
   m_Name: LevelData_1
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  moveLimit: 20
+  LevelId: 1
+  MoveLimit: 20
+  OneStarScore: 1000
+  TwoStarScore: 3000
+  ThreeStarScore: 5000
   goals:
   - type: 0
     gemType: 1

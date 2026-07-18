@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08c156b25a3b4f9429e6f8a041207bb7, type: 3}
+  m_Name: StarSpriteSO
+  m_EditorClassIdentifier: Assembly-CSharp::StarSpriteSO
+  Star3Sprite: {fileID: 8188464660223921005, guid: 5d7e1c3912ac89b4cb1c9b390285d307, type: 3}
+  Star4Sprite: {fileID: -3181027967389958937, guid: 0ab39c7dbee4797448478636ef498f13, type: 3}
+  Star1Sprite: {fileID: 6179200808544867534, guid: 87395be918ac8d54db303c47d3cee01e, type: 3}

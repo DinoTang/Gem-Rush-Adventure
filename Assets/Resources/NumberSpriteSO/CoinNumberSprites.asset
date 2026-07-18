@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32f673443e4c4e499d9e645b02b343d, type: 3}
+  m_Name: CoinNumberSprites
+  m_EditorClassIdentifier: Assembly-CSharp::NumberSpriteSO
+  digitSprites:
+  - {fileID: 9149037132470026377, guid: a4eb539b78ca9af438796dcfdb7c3bfe, type: 3}
+  - {fileID: -5777868072143747564, guid: a4eb539b78ca9af438796dcfdb7c3bfe, type: 3}
+  - {fileID: -1386506523178592710, guid: a4eb539b78ca9af438796dcfdb7c3bfe, type: 3}
+  - {fileID: 948833958032103096, guid: a4eb539b78ca9af438796dcfdb7c3bfe, type: 3}
+  - {fileID: -339384427282284747, guid: a4eb539b78ca9af438796dcfdb7c3bfe, type: 3}
+  - {fileID: -3169318618203993408, guid: a4eb539b78ca9af438796dcfdb7c3bfe, type: 3}
+  - {fileID: 3237564415883595803, guid: a4eb539b78ca9af438796dcfdb7c3bfe, type: 3}
+  - {fileID: -3774632217500144196, guid: a4eb539b78ca9af438796dcfdb7c3bfe, type: 3}
+  - {fileID: 3384652301662073769, guid: a4eb539b78ca9af438796dcfdb7c3bfe, type: 3}
+  - {fileID: -3128171581316278676, guid: a4eb539b78ca9af438796dcfdb7c3bfe, type: 3}

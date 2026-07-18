@@ -55,6 +55,7 @@ public class LevelCompleteHandler : BaseBehaviour
         LevelGoalManager.Instance.SetLevelState(LevelState.WaitingForContinue);
 
         this.tapToSkipUI.Show();
+        this.tapToSkipUI.EnableContinue();
 
         StartCoroutine(
             ConvertMovesToRocketRoutine()
@@ -93,12 +94,14 @@ public class LevelCompleteHandler : BaseBehaviour
         {
             yield return StartCoroutine(BoardManager.Instance.ResolveHandler.ResolveCompletedSpecialGemsRoutine(selectedGems));
         }
+        
+        yield return new WaitForSeconds(0.5f);
 
         LevelGoalManager.Instance.SetLevelState(
             LevelState.Completing
         );
 
-        this.tapToSkipUI.EnableContinue();
+        this.tapToSkipUI.ShowWinPopup();
     }
 
     public List<GemCtrl> GetRandomNormalGems(int count)

@@ -96,11 +96,14 @@ public class TapToSkipUI : BaseUI, IPointerClickHandler
         this.canContinue = false;
         this.Hide();
 
-        GamePlayUI.Instance.Hide();
-        this.winPopupUI.Show();
+        this.ShowWinPopup();
         Debug.LogWarning("Tap To Continue clicked");
     }
-
+    public void ShowWinPopup()
+    {
+        GamePlayUI.Instance.Hide();
+        this.winPopupUI.Show();
+    }
     public override void Hide()
     {
         this.KillTweens();

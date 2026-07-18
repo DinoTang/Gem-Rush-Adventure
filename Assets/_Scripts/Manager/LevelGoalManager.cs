@@ -25,13 +25,16 @@ public class LevelGoalManager : BaseBehaviour
     public List<LevelGoalProgress> GoalProgresses => goalProgresses;
 
     [SerializeField] private int remainingMoves;
-    public int RemainingMoves => this.remainingMoves;
+    public int RemainingMoves => remainingMoves;
 
     [SerializeField] private int currentScore;
     public int CurrentScore => currentScore;
+    [SerializeField] protected int earnedCoin;
+    public int EarnedCoin => earnedCoin;
     [SerializeField] public LevelState currentLevelState = LevelState.Playing;
     public LevelState CurrentLevelState => currentLevelState;
     protected bool isCompleted = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -51,9 +54,10 @@ public class LevelGoalManager : BaseBehaviour
         this.isCompleted = false;
         this.currentLevelState = LevelState.Playing;
         this.currentScore = 0;
+        this.earnedCoin = UnityEngine.Random.Range(10, 21);
 
         goalProgresses.Clear();
-        this.remainingMoves = this.levelData != null ? this.levelData.moveLimit : 0;
+        this.remainingMoves = this.levelData != null ? this.levelData.MoveLimit : 0;
 
         foreach (LevelGoalData goalData in levelData.goals)
         {

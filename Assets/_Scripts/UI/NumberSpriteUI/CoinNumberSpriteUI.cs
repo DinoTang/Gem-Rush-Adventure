@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class WinScoreNumberSpriteUI : NumberSpriteUI
+public class CoinNumberSpriteUI : NumberSpriteUI
 {
     [SerializeField] private float countDuration = 1.5f;
 
@@ -9,7 +9,7 @@ public class WinScoreNumberSpriteUI : NumberSpriteUI
 
     protected override void LoadNumberSprites()
     {
-        this.LoadScoreNumberSprites();
+        this.LoadCoinNumberSprites();
     }
 
     protected override void Start()
@@ -19,18 +19,18 @@ public class WinScoreNumberSpriteUI : NumberSpriteUI
         this.SetNumber(0);
     }
 
-    protected void LoadScoreNumberSprites()
+    protected void LoadCoinNumberSprites()
     {
         if (this.numberSpriteSO != null)
             return;
 
         this.numberSpriteSO =
             Resources.Load<NumberSpriteSO>(
-                "NumberSpriteSO/ScoreNumberSprites"
+                "NumberSpriteSO/CoinNumberSprites"
             );
 
         Debug.Log(
-            transform.name + ": Load Score Number Sprites",
+            transform.name + ": LoadCoinNumberSprites",
             gameObject
         );
     }

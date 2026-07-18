@@ -57,6 +57,10 @@ public class BoardManager : BaseBehaviour
     {
         this.InitGrid();
         this.SpawnGrid();
+        LevelProgressData level1 =
+    SaveManager.Instance.GetLevelProgress(1);
+
+        Debug.Log(level1.starCount);
     }
     protected void LoadGemSpawner()
     {
@@ -157,11 +161,11 @@ public class BoardManager : BaseBehaviour
         HintManager.Instance.RefreshHint();
     }
 
-    protected void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            this.ShuffleBoard();
-        }
-    }
+    // protected void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Space))
+    //     {
+    //         this.ShuffleBoard();
+    //     }
+    // }
 }
