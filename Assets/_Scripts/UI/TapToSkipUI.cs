@@ -6,6 +6,7 @@ public class TapToSkipUI : BaseUI, IPointerClickHandler
 {
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RectTransform tapTitle;
+    [SerializeField] protected WinPopupUI winPopupUI;
 
     [Header("Animation")]
     [SerializeField] private float fadeDuration = 0.2f;
@@ -20,6 +21,7 @@ public class TapToSkipUI : BaseUI, IPointerClickHandler
         base.LoadComponent();
         this.LoadCanvasGroup();
         this.LoadTapTitle();
+        this.LoadWinPopupUI();
     }
 
     protected void LoadCanvasGroup()
@@ -38,6 +40,15 @@ public class TapToSkipUI : BaseUI, IPointerClickHandler
         this.tapTitle = GetComponentInChildren<TapToSkipTitleUI>().GetComponent<RectTransform>();
 
         Debug.Log(transform.name + ": LoadTapTitle", gameObject);
+    }
+
+    protected void LoadWinPopupUI()
+    {
+        if (this.winPopupUI != null) return;
+
+        this.winPopupUI = FindAnyObjectByType<WinPopupUI>();
+        this.winPopupUI.Hide();
+        Debug.Log(transform.name + ": LoadWinPopupUI", gameObject);
     }
 
     protected override void Start()
@@ -81,10 +92,13 @@ public class TapToSkipUI : BaseUI, IPointerClickHandler
         if (!this.canContinue)
             return;
 
-        Debug.LogWarning("Tap To Continue clicked");
 
         this.canContinue = false;
         this.Hide();
+
+        GamePlayUI.Instance.Hide();
+        this.winPopupUI.Show();
+        Debug.LogWarning("Tap To Continue clicked");
     }
 
     public override void Hide()

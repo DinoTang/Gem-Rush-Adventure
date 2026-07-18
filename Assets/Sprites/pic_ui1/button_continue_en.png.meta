@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 1e306ceb202bd1544800dc938a7cc993
+guid: 5ab72fe9e6793db47969939f47ed45d6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -503099142970336748
-    second: finish_youwin_en_0
-  - first:
-      213: -2284724747545516181
-    second: finish_youwin_en_1
-  - first:
-      213: 2630362880739485072
-    second: finish_youwin_en_2
+      213: 1742991771069597448
+    second: button_continue_en_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,45 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: finish_youwin_en_0
+      name: button_continue_en_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 60
-        height: 24
+        width: 123
+        height: 23
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 41a1378bef1a409f0800000000000000
-      internalID: -503099142970336748
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: finish_youwin_en_1
-      rect:
-        serializedVersion: 2
-        x: 60
-        y: 0
-        width: 60
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b67610572f60b40e0800000000000000
-      internalID: -2284724747545516181
+      spriteID: 8074801f7c9503810800000000000000
+      internalID: 1742991771069597448
       vertices: []
       indices: 
       edges: []
@@ -153,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0dd6f7da143f24049b470f14529a1de9
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -161,12 +133,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":60.0,"y":24.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      finish_youwin_en_0: -503099142970336748
-      finish_youwin_en_1: -2284724747545516181
+      button_continue_en_0: 1742991771069597448
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

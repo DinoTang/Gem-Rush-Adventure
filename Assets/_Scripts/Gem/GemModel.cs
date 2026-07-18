@@ -65,6 +65,9 @@ public class GemModel : GemAbstract
 
     public void ShowHintRoutine()
     {
+        // Kiểm tra xem GameObject có hoạt động không trước khi start coroutine
+        if (!this.gameObject.activeInHierarchy) return;
+
         this.HideHintRoutine();
         this.hintRoutine = StartCoroutine(this.HintPulseRoutine());
     }
