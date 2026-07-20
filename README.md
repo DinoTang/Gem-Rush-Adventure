@@ -1,5 +1,17 @@
 # Gem Rush Adventure
 
+> **Gem Rush Adventure** represents my ongoing journey as a game developer. This project serves as a sandbox for experimenting with gameplay systems, UI design, software architecture, and production workflows commonly found in modern mobile puzzle games.
+>
+> It is created exclusively for educational and portfolio purposes and should not be considered a commercial product.
+>
+> Certain art assets, UI elements, and visual inspirations are associated with existing Match-3 games, particularly *Candy Witch - Match 3 Puzzle*. Ownership of these materials remains with their respective copyright holders. Their inclusion in this repository is solely intended to showcase programming, system design, and technical implementation within Unity.
+>
+> Should this project evolve beyond a learning exercise, all third-party assets will be replaced with original artwork and content.
+>
+> Thank you for taking the time to explore this project and follow my journey in learning game development with Unity.
+
+---
+
 A colorful Match-3 puzzle game built with Unity, featuring handcrafted levels, a world map progression system, and polished UI animations.
 
 ## 🎮 Gameplay
@@ -61,7 +73,6 @@ Assets
 ![BootScene Ready](docs/images/BootScene_Ready.png)
 
 ---
-
 
 ### Loading Scene
 
