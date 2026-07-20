@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f78bd2e647fbc0b4690144248a9c70f6, type: 3}
+  m_Name: LoadingSpriteSO
+  m_EditorClassIdentifier: Assembly-CSharp::LoadingSpriteSO
+  loadingSprites:
+  - LoadingImage: {fileID: -3650904940819090371, guid: 7f1a9fcdc47dcb04ebaa3bb28ed6c044, type: 3}
+    LoadingText: {fileID: -8249518550330181176, guid: b9377309caa9ae5419afc4c70a2a2723, type: 3}
+  - LoadingImage: {fileID: 6426593314317560367, guid: 728e482e88ec6a541992afbe9208788e, type: 3}
+    LoadingText: {fileID: -4827703568512624903, guid: 66c403d79f073314c870700b257fc8ab, type: 3}
+  - LoadingImage: {fileID: -1744047373789954962, guid: 990b58a061bcede458a8c511b4404c79, type: 3}
+    LoadingText: {fileID: -8074549063988982022, guid: 6e7d9b2d36bfe1649a827c05b718430a, type: 3}
