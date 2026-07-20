@@ -69,6 +69,15 @@ public class SaveManager : BaseBehaviour
         Save();
     }
 
+    public void AddStar(int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        saveData.totalStar += amount;
+        Save();
+    }
+
     public LevelProgressData GetLevelProgress(
     int levelId)
     {
@@ -104,10 +113,46 @@ public class SaveManager : BaseBehaviour
         LevelProgressData progress =
             this.GetLevelProgress(levelId);
 
+        this.UpdateBestScore(
+            progress,
+            finalScore
+        );
+
+        this.UpdateStarProgress(
+            progress,
+            earnedStars
+        );
+
+        this.RewardCoin(
+            earnedCoin
+        );
+
+        this.UnlockNextLevel(
+            levelId
+        );
+
+        this.Save();
+    }
+    private void UpdateBestScore(
+    LevelProgressData progress,
+    int finalScore)
+    {
         progress.bestScore =
             Mathf.Max(
                 progress.bestScore,
                 finalScore
+            );
+    }
+
+    private void UpdateStarProgress(
+    LevelProgressData progress,
+    int earnedStars)
+    {
+        int additionalStars =
+            Mathf.Max(
+                0,
+                earnedStars -
+                progress.starCount
             );
 
         progress.starCount =
@@ -116,15 +161,35 @@ public class SaveManager : BaseBehaviour
                 earnedStars
             );
 
-        if (earnedCoin > 0)
+        if (additionalStars > 0)
         {
-            this.saveData.totalCoin += earnedCoin;
+            this.AddStar(
+                additionalStars
+            );
         }
+    }
 
-        int nextLevelId = levelId + 1;
+    private void RewardCoin(
+    int earnedCoin)
+    {
+        if (earnedCoin <= 0)
+            return;
+
+        this.AddCoin(
+            earnedCoin
+        );
+    }
+
+    private void UnlockNextLevel(
+    int levelId)
+    {
+        int nextLevelId =
+            levelId + 1;
 
         LevelProgressData nextLevel =
-            this.GetLevelProgress(nextLevelId);
+            this.GetLevelProgress(
+                nextLevelId
+            );
 
         nextLevel.isUnlocked = true;
 
@@ -133,14 +198,5 @@ public class SaveManager : BaseBehaviour
                 this.saveData.highestUnlockedLevel,
                 nextLevelId
             );
-
-        this.Save();
-
-        Debug.Log(
-            $"Complete Level {levelId} | " +
-            $"Score: {finalScore} | " +
-            $"Stars: {earnedStars} | " +
-            $"Coin: {earnedCoin}"
-        );
     }
 }

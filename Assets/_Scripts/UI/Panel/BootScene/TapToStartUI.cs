@@ -6,7 +6,7 @@ public class TapToStartUI : BaseUI, IPointerClickHandler
 {
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RectTransform tapTitle;
-
+    [SerializeField] private LoadingSceneUI loadingSceneUI;
     [Header("Animation")]
     [SerializeField] private float fadeDuration = 0.2f;
     [SerializeField] private float pulseScale = 1.08f;
@@ -19,6 +19,7 @@ public class TapToStartUI : BaseUI, IPointerClickHandler
         base.LoadComponent();
         this.LoadCanvasGroup();
         this.LoadTapTitle();
+        this.LoadLoadingSceneUI();
     }
 
     protected void LoadCanvasGroup()
@@ -38,7 +39,14 @@ public class TapToStartUI : BaseUI, IPointerClickHandler
 
         Debug.Log(transform.name + ": LoadTapTitle", gameObject);
     }
+    protected void LoadLoadingSceneUI()
+    {
+        if (this.loadingSceneUI != null) return;
 
+        this.loadingSceneUI = FindAnyObjectByType<LoadingSceneUI>();
+
+        Debug.Log(transform.name + ": LoadLoadingSceneUI", gameObject);
+    }
 
     protected override void Start()
     {
@@ -73,7 +81,7 @@ public class TapToStartUI : BaseUI, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        LoadingSceneUI.Instance.ActivateLoadedScene();
+        this.loadingSceneUI.ActivateLoadedScene();
         Debug.LogWarning("Tap To Start clicked");
     }
 

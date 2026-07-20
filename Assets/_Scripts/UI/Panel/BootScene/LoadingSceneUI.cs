@@ -1,61 +1,57 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoadingSceneUI : BaseBehaviour
 {
-    protected static LoadingSceneUI instance;
-    public static LoadingSceneUI Instance => instance;
     [Header("UI")]
     [SerializeField] private Image fillImage;
     [SerializeField] private LoadingBarUI loadingBarUI;
     [SerializeField] private TapToStartUI tapToStartUI;
 
-    [Header("Scene")]
-    [SerializeField] private string nextSceneName = "MainMenu";
-
     [Header("Animation")]
-    [SerializeField] private float minimumLoadingTime = 1.5f;
     [SerializeField] private float fillSpeed = 2f;
 
-    private AsyncOperation loadOperation;
     private bool isReadyToStart;
 
-    protected override void Awake()
-    {
-        if (instance != null) return;
-        instance = this;
-    }
     protected override void Start()
     {
         base.Start();
+
         StartCoroutine(this.LoadingRoutine());
     }
+
     private IEnumerator LoadingRoutine()
     {
-        this.fillImage.fillAmount = 0f;
-
-        // Giữ object TapToStart active,
-        // chỉ ẩn bằng CanvasGroup.
-        this.tapToStartUI.HideImmediately();
-
-        this.loadOperation =
-            SceneManager.LoadSceneAsync(
-                this.nextSceneName
-            );
-
-        if (this.loadOperation == null)
+        if (SceneLoader.Instance == null)
         {
             Debug.LogError(
-                $"Cannot load scene: {this.nextSceneName}",
-                gameObject
+                "SceneLoader.Instance is null",
+                this
             );
 
             yield break;
         }
 
-        this.loadOperation.allowSceneActivation = false;
+        if (this.fillImage == null ||
+            this.loadingBarUI == null ||
+            this.tapToStartUI == null)
+        {
+            Debug.LogError(
+                "LoadingSceneUI is missing references",
+                this
+            );
+
+            yield break;
+        }
+
+        this.isReadyToStart = false;
+
+        this.fillImage.fillAmount = 0f;
+        this.tapToStartUI.HideImmediately();
+
+        float minimumLoadingTime =
+            SceneLoader.Instance.LoadingTime;
 
         float elapsedTime = 0f;
         float displayedProgress = 0f;
@@ -64,21 +60,10 @@ public class LoadingSceneUI : BaseBehaviour
         {
             elapsedTime += Time.unscaledDeltaTime;
 
-            float realProgress =
-                Mathf.Clamp01(
-                    this.loadOperation.progress / 0.9f
-                );
-
-            float timeProgress =
+            float targetProgress =
                 Mathf.Clamp01(
                     elapsedTime /
-                    this.minimumLoadingTime
-                );
-
-            float targetProgress =
-                Mathf.Min(
-                    realProgress,
-                    timeProgress
+                    minimumLoadingTime
                 );
 
             displayedProgress =
@@ -92,18 +77,14 @@ public class LoadingSceneUI : BaseBehaviour
             this.fillImage.fillAmount =
                 displayedProgress;
 
-            bool sceneLoaded =
-                this.loadOperation.progress >= 0.9f;
-
             bool minimumTimeReached =
                 elapsedTime >=
-                this.minimumLoadingTime;
+                minimumLoadingTime;
 
             bool barFilled =
                 displayedProgress >= 0.999f;
 
-            if (sceneLoaded &&
-                minimumTimeReached &&
+            if (minimumTimeReached &&
                 barFilled)
             {
                 this.isReadyToStart = true;
@@ -123,9 +104,6 @@ public class LoadingSceneUI : BaseBehaviour
         if (!this.isReadyToStart)
             return;
 
-        if (this.loadOperation == null)
-            return;
-
-        this.loadOperation.allowSceneActivation = true;
+        SceneLoader.Instance.GoToScene(SceneGame.HomeScene);
     }
 }

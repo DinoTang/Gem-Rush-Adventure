@@ -18,7 +18,7 @@ public abstract class BaseBtn : BaseBehaviour,
 
     protected abstract void LoadBtnSpriteSO();
 
-    protected void LoadButtonImage()
+    protected virtual void LoadButtonImage()
     {
         if (this.buttonImage == null)
             this.buttonImage = GetComponent<Image>();

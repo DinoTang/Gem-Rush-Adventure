@@ -103,8 +103,8 @@ public class WinPopupUI : BaseUI
 
     public void ReloadGame()
     {
-        SceneManager.LoadScene(
-            SceneManager.GetActiveScene().buildIndex
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
         );
     }
 
