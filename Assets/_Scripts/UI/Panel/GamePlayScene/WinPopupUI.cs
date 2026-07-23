@@ -66,7 +66,7 @@ public class WinPopupUI : BaseUI
         int earnedCoin =
             LevelGoalManager.Instance.EarnedCoin;
 
-        LevelData levelData =
+        LevelSO levelData =
             LevelGoalManager.Instance.LevelData;
 
         int earnedStars =
@@ -110,7 +110,7 @@ public class WinPopupUI : BaseUI
 
     private void CheckStar(int score)
     {
-        LevelData levelData =
+        LevelSO levelData =
             LevelGoalManager.Instance.LevelData;
 
         if (!hasPlayedStar1 &&
@@ -149,7 +149,7 @@ public class WinPopupUI : BaseUI
 
     private int CalculateStarCount(
     int score,
-    LevelData levelData)
+    LevelSO levelData)
     {
         if (score >= levelData.ThreeStarScore)
             return 3;

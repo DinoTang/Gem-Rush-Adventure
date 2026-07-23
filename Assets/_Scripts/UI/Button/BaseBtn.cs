@@ -22,6 +22,7 @@ public abstract class BaseBtn : BaseBehaviour,
     {
         if (this.buttonImage == null)
             this.buttonImage = GetComponent<Image>();
+        this.buttonImage.sprite = this.btnSpriteSO.Normal;
         Debug.Log(transform.name + ": LoadButtonImage", gameObject);
     }
 

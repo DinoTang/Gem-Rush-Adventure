@@ -18,8 +18,8 @@ public class LevelGoalManager : BaseBehaviour
     public event Action OnLevelCompleted;
     protected static LevelGoalManager instance;
     public static LevelGoalManager Instance => instance;
-    [SerializeField] private LevelData levelData;
-    public LevelData LevelData => levelData;
+    [SerializeField] private LevelSO levelData;
+    public LevelSO LevelData => levelData;
 
     [SerializeField] private List<LevelGoalProgress> goalProgresses = new();
     public List<LevelGoalProgress> GoalProgresses => goalProgresses;

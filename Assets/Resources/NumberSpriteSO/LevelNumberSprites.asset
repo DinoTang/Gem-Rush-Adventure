@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32f673443e4c4e499d9e645b02b343d, type: 3}
+  m_Name: LevelNumberSprites
+  m_EditorClassIdentifier: Assembly-CSharp::NumberSpriteSO
+  digitSprites:
+  - {fileID: 6116499831906042810, guid: 3b3a1959176662d4894ad1d6ddd56f50, type: 3}
+  - {fileID: 2931486277748320644, guid: 3b3a1959176662d4894ad1d6ddd56f50, type: 3}
+  - {fileID: -3580205639670626074, guid: 3b3a1959176662d4894ad1d6ddd56f50, type: 3}
+  - {fileID: 906481167570140391, guid: 3b3a1959176662d4894ad1d6ddd56f50, type: 3}
+  - {fileID: 306394193249744979, guid: 3b3a1959176662d4894ad1d6ddd56f50, type: 3}
+  - {fileID: 3129825548993397306, guid: 3b3a1959176662d4894ad1d6ddd56f50, type: 3}
+  - {fileID: 9174530848583363038, guid: 3b3a1959176662d4894ad1d6ddd56f50, type: 3}
+  - {fileID: 1717874999379044111, guid: 3b3a1959176662d4894ad1d6ddd56f50, type: 3}
+  - {fileID: 5784689678158044487, guid: 3b3a1959176662d4894ad1d6ddd56f50, type: 3}
+  - {fileID: -2886273367065895599, guid: 3b3a1959176662d4894ad1d6ddd56f50, type: 3}

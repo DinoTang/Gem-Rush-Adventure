@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "LevelData", menuName = "SO/Level Data")]
-public class LevelData : ScriptableObject
+[CreateAssetMenu(fileName = "LevelSO", menuName = "SO/LevelSO")]
+public class LevelSO : ScriptableObject
 {
     public int LevelId;
     public int MoveLimit;

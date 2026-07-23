@@ -15,3 +15,4 @@ MonoBehaviour:
   Star3Sprite: {fileID: 8188464660223921005, guid: 5d7e1c3912ac89b4cb1c9b390285d307, type: 3}
   Star4Sprite: {fileID: -3181027967389958937, guid: 0ab39c7dbee4797448478636ef498f13, type: 3}
   Star1Sprite: {fileID: 6179200808544867534, guid: 87395be918ac8d54db303c47d3cee01e, type: 3}
+  Star2Sprite: {fileID: -5519543357397933077, guid: 734b77487d543af45812bed02283caef, type: 3}

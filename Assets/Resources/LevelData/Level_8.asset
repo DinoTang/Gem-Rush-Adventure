@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88c9c3ccfb0be1544b342b40a87cfc6f, type: 3}
-  m_Name: LevelData_1
+  m_Name: Level_8
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  LevelId: 1
+  LevelId: 8
   MoveLimit: 20
   OneStarScore: 1000
   TwoStarScore: 3000
