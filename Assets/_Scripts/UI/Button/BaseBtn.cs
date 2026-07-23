@@ -38,5 +38,9 @@ public abstract class BaseBtn : BaseBehaviour,
         this.OnButtonClicked();
     }
 
-    protected abstract void OnButtonClicked();
+    protected virtual void OnButtonClicked()
+    {
+        AudioClip btnClickClip = AudioManager.Instance.AudioDataSO.buttonClick;
+        AudioManager.Instance.PlaySFX(btnClickClip);
+    }
 }

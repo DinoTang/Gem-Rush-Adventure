@@ -13,6 +13,7 @@ public class HomeBtn : PausePopupBtn
 
     protected override void OnButtonClicked()
     {
+        base.OnButtonClicked();
         this.pausePopup.Hide(() =>
         {
             SceneLoader.Instance.LoadSceneImmediately(SceneGame.BootScene);

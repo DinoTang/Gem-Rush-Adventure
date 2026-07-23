@@ -81,22 +81,25 @@ public class TapToStartUI : BaseUI, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        AudioClip btnClickClip = AudioManager.Instance.AudioDataSO.buttonClick;
+        AudioManager.Instance.PlaySFX(btnClickClip);
+
         this.loadingSceneUI.ActivateLoadedScene();
         Debug.LogWarning("Tap To Start clicked");
     }
 
+    // private void InitializeHidden()
+    // {
+    //     this.KillTweens();
 
-    private void InitializeHidden()
-    {
-        this.KillTweens();
 
+    //     this.canvasGroup.alpha = 0f;
+    //     this.canvasGroup.interactable = false;
+    //     this.canvasGroup.blocksRaycasts = false;
 
-        this.canvasGroup.alpha = 0f;
-        this.canvasGroup.interactable = false;
-        this.canvasGroup.blocksRaycasts = false;
+    //     this.tapTitle.localScale = Vector3.one;
+    // }
 
-        this.tapTitle.localScale = Vector3.one;
-    }
     public void HideImmediately()
     {
         this.KillTweens();

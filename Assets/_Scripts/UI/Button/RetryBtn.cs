@@ -13,6 +13,7 @@ public class RetryBtn : PausePopupBtn
 
     protected override void OnButtonClicked()
     {
+        base.OnButtonClicked();
         if (pausePopup.PausePopupState == PausePopupState.Show)
         {
             pausePopup.ShowAreYouSure();

@@ -14,5 +14,6 @@ public class MusicBtn : ToggleBtn
     protected override void OnToggleChanged()
     {
         // throw new System.NotImplementedException();
+        AudioManager.Instance.ToggleMusic(this.isOn);
     }
 }

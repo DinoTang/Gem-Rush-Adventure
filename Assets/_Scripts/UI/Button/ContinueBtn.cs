@@ -13,6 +13,7 @@ public class ContinueBtn : PausePopupBtn
 
     protected override void OnButtonClicked()
     {
+        base.OnButtonClicked();
         SceneLoader.Instance.GoToScene(SceneGame.HomeScene);
     }
 }

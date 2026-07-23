@@ -33,6 +33,7 @@ public abstract class ComingSoonBtn : BaseBtn
 
     protected override void OnButtonClicked()
     {
+        base.OnButtonClicked();
         this.comingSoonUI.Show();
     }
 }

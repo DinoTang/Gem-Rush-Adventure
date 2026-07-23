@@ -4,11 +4,12 @@ using UnityEngine;
 public class AudioDataSO : ScriptableObject
 {
     public AudioClip buttonClick;
-    public AudioClip swapGem;
+    public AudioClip swap;
+    public AudioClip noSwap;
     public AudioClip matchGem;
     public AudioClip win;
     public AudioClip lose;
 
-    public AudioClip homeBGM;
-    public AudioClip gameplayBGM;
+    public AudioClip menu;
+    public AudioClip gaming;
 }

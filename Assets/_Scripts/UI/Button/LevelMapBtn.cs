@@ -88,6 +88,7 @@ public class LevelMapBtn : BaseBtn
 
     protected override void OnButtonClicked()
     {
+        base.OnButtonClicked();
         if (!this.isUnlocked) return;
 
         int levelId = this.levelMapUI.LevelSO.LevelId;

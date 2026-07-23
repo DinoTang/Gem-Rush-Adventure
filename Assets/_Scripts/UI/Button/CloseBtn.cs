@@ -19,6 +19,7 @@ public class CloseBtn : PausePopupBtn
 
     protected override void OnButtonClicked()
     {
+        base.OnButtonClicked();
         this.pausePopup.Hide();
     }
 }

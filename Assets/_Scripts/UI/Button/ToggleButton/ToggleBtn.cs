@@ -10,6 +10,7 @@ public abstract class ToggleBtn : BaseBtn
 
     protected override void OnButtonClicked()
     {
+        base.OnButtonClicked();
         this.isOn = !this.isOn;
         this.RefreshVisual();
         this.OnToggleChanged();

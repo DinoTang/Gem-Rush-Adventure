@@ -12,6 +12,7 @@ public class PauseBtn : PausePopupBtn
     }
     protected override void OnButtonClicked()
     {
+        base.OnButtonClicked();
         this.pausePopup.Show();
     }
 }

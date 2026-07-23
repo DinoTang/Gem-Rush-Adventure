@@ -13,6 +13,7 @@ public class SettingBtn : PausePopupBtn
 
     protected override void OnButtonClicked()
     {
+        base.OnButtonClicked();
         this.pausePopup.Show();
     }
 }
