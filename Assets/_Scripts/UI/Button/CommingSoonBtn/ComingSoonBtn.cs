@@ -1,12 +1,27 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public abstract class ComingSoonBtn : BaseBtn
 {
+    [SerializeField] protected ComingSoonUI comingSoonUI;
+
+    protected override void LoadComponent()
+    {
+        base.LoadComponent();
+        this.LoadComingSoonUI();
+    }
     protected override void LoadBtnSpriteSO()
     {
 
+    }
+
+    protected void LoadComingSoonUI()
+    {
+        if (this.comingSoonUI == null)
+            this.comingSoonUI = FindAnyObjectByType<ComingSoonUI>();
+        Debug.Log(transform.name + ": LoadComingSoonUI", gameObject);
     }
 
     protected override void LoadButtonImage()
@@ -18,12 +33,6 @@ public abstract class ComingSoonBtn : BaseBtn
 
     protected override void OnButtonClicked()
     {
-        if (ComingSoonUI.Instance == null)
-        {
-            Debug.LogWarning("ComingSoonUI.Instance is null", gameObject);
-            return;
-        }
-
-        ComingSoonUI.Instance.Show();
+        this.comingSoonUI.Show();
     }
 }

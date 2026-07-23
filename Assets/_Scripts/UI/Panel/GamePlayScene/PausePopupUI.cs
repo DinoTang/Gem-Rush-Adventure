@@ -85,17 +85,32 @@ public class PausePopupUI : BaseUI
             .SetEase(Ease.OutBack)
             .SetUpdate(true);
     }
-
-    public override void Hide()
+    public void Hide(System.Action onCompleted)
     {
         this.PausePopupState = PausePopupState.Hide;
-        this.canvasGroup.DOFade(0f, 0.2f);
-        this.panel.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack).OnComplete(() =>
-        {
-            base.Hide();
-        });
-    }
 
+        this.KillTweens();
+
+        this.canvasGroup.DOFade(0f, 0.2f).SetUpdate(true);
+
+        this.panel.DOScale(Vector3.zero, 0.2f)
+            .SetEase(Ease.InBack)
+            .SetUpdate(true)
+            .OnComplete(() =>
+            {
+                base.Hide();
+                onCompleted?.Invoke();
+            });
+    }
+    public override void Hide()
+    {
+        this.Hide(null);
+    }
+    private void KillTweens()
+    {
+        this.canvasGroup?.DOKill();
+        this.panel?.DOKill();
+    }
     public void ShowAreYouSure()
     {
         if (this.PausePopupState != PausePopupState.Show)

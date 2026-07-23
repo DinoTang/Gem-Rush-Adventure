@@ -4,9 +4,6 @@ using UnityEngine.UI;
 
 public class ComingSoonUI : BaseUI
 {
-    private static ComingSoonUI instance;
-    public static ComingSoonUI Instance => instance;
-
     [Header("Components")]
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private Image cloudImage;
@@ -42,18 +39,6 @@ public class ComingSoonUI : BaseUI
     private Vector3 cloudOriginalScale;
     private Vector3 textOriginalScale;
 
-    protected override void Awake()
-    {
-        base.Awake();
-
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        instance = this;
-    }
 
     protected override void LoadComponent()
     {
@@ -270,9 +255,6 @@ public class ComingSoonUI : BaseUI
 
     protected override void OnDestroy()
     {
-        if (instance == this)
-            instance = null;
-
         this.KillAnimation();
         base.OnDestroy();
     }
