@@ -18,6 +18,12 @@ public abstract class ComingSoonBtn : BaseBtn
 
     protected override void OnButtonClicked()
     {
+        if (ComingSoonUI.Instance == null)
+        {
+            Debug.LogWarning("ComingSoonUI.Instance is null", gameObject);
+            return;
+        }
 
+        ComingSoonUI.Instance.Show();
     }
 }

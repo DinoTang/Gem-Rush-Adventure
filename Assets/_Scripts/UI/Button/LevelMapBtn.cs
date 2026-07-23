@@ -95,6 +95,8 @@ public class LevelMapBtn : BaseBtn
         Debug.Log("Open level: " + levelId);
 
         // Mở popup level hoặc load gameplay tại đây.
+        SceneLoader.Instance.SetLevelSO(this.levelMapUI.LevelSO);
+        SceneLoader.Instance.GoToScene(SceneGame.GamePlayScene);
     }
 
     protected ButtonSpriteSO GetLevelMapBtnSpriteSO(int starCount)

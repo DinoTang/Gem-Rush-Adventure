@@ -21,7 +21,7 @@ public class QuitBtn : PausePopupBtn
 
         if (pausePopup.PausePopupState == PausePopupState.AreYouSure)
         {
-            // Restart current level.
+            SceneLoader.Instance.GoToScene(SceneGame.HomeScene);
         }
     }
 }

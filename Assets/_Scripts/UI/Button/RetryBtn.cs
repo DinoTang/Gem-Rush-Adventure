@@ -21,7 +21,7 @@ public class RetryBtn : PausePopupBtn
 
         if (pausePopup.PausePopupState == PausePopupState.AreYouSure)
         {
-            // Restart current level.
+            SceneLoader.Instance.GoToScene(SceneGame.GamePlayScene);
         }
     }
 }

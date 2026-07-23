@@ -21,6 +21,9 @@ public class SceneLoader : BaseBehaviour
     public SceneGame NextScene { get; private set; } = SceneGame.HomeScene;
     public float LoadingTime { get; private set; }
 
+    [Header("Home Scene")]
+    [SerializeField] private LevelSO levelSO;
+    public LevelSO LevelSO => levelSO;
     protected override void Awake()
     {
         base.Awake();
@@ -36,7 +39,11 @@ public class SceneLoader : BaseBehaviour
 
         DontDestroyOnLoad(gameObject);
     }
-    
+    public void SetLevelSO(LevelSO levelSO)
+    {
+        this.levelSO = levelSO;
+    }
+
     public void Update()
     {
         this.GoToNextScene();

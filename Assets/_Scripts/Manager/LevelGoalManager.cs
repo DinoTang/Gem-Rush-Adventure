@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VectorGraphics;
 using UnityEngine;
 public enum LevelState
 {
@@ -51,6 +52,7 @@ public class LevelGoalManager : BaseBehaviour
 
     private void InitGoals()
     {
+        this.levelData = SceneLoader.Instance.LevelSO;
         this.isCompleted = false;
         this.currentLevelState = LevelState.Playing;
         this.currentScore = 0;

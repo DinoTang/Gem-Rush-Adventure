@@ -15,6 +15,13 @@ public class PausePopupUI : BaseUI
     public PausePopupState PausePopupState = PausePopupState.Hide;
     public MusicAndSoundGroupUI MusicAndSoundGroupUI => this.musicAndSoundGroupUI;
     public AYSTitleGroupUI AYSTitleGroupUI => this.aYSTitleGroupUI;
+    private Vector3 originalPanelScale;
+    protected override void Awake()
+    {
+        base.Awake();
+
+        this.originalPanelScale = this.panel.localScale;
+    }
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -60,7 +67,7 @@ public class PausePopupUI : BaseUI
 
         this.PausePopupState = PausePopupState.Show;
 
-        this.aYSTitleGroupUI.Hide();
+        this.aYSTitleGroupUI?.Hide();
         this.musicAndSoundGroupUI.Show();
 
         this.canvasGroup.DOKill();
@@ -74,7 +81,7 @@ public class PausePopupUI : BaseUI
             .SetUpdate(true);
 
         this.panel
-            .DOScale(Vector3.one, 0.2f)
+            .DOScale(this.originalPanelScale, 0.2f)
             .SetEase(Ease.OutBack)
             .SetUpdate(true);
     }
@@ -97,7 +104,7 @@ public class PausePopupUI : BaseUI
         this.PausePopupState = PausePopupState.AreYouSure;
 
         this.musicAndSoundGroupUI.HideAnimated();
-        this.aYSTitleGroupUI.ShowAnimated();
+        this.aYSTitleGroupUI?.ShowAnimated();
 
         this.panel.DOKill();
 
@@ -118,7 +125,7 @@ public class PausePopupUI : BaseUI
 
         this.PausePopupState = PausePopupState.Show;
 
-        this.aYSTitleGroupUI.HideAnimated();
+        this.aYSTitleGroupUI?.HideAnimated();
         this.musicAndSoundGroupUI.ShowAnimated();
 
         this.panel.DOKill();
