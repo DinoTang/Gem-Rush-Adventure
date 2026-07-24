@@ -83,7 +83,8 @@ public class LevelCompleteHandler : BaseBehaviour
             gem.GemData.SetGemSpecialType(rocketType);
             gem.GemModel.RefreshVisual();
             gem.GemModel.PlayTransformToSpecialAnimation();
-
+            
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.AudioDataSO.create);
             VFXSpawner.Instance.SpawnTransformVFX(gem.transform.position);
 
             yield return new WaitForSeconds(0.5f);
@@ -94,7 +95,7 @@ public class LevelCompleteHandler : BaseBehaviour
         {
             yield return StartCoroutine(BoardManager.Instance.ResolveHandler.ResolveCompletedSpecialGemsRoutine(selectedGems));
         }
-        
+
         yield return new WaitForSeconds(0.5f);
 
         LevelGoalManager.Instance.SetLevelState(

@@ -90,6 +90,8 @@ public class BoardSwapHandler : BoardAbstract
         yield return StartCoroutine(
             this.SwapViewRoutine(gemA, gemB, posB, posA)
         );
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.AudioDataSO.noSwap);
     }
 
     protected IEnumerator PerformSwapRoutine(GemCtrl gemA, GemCtrl gemB)
@@ -102,6 +104,8 @@ public class BoardSwapHandler : BoardAbstract
         yield return StartCoroutine(
             this.SwapViewRoutine(gemA, gemB, posB, posA)
         );
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.AudioDataSO.swap);
     }
     protected IEnumerator SwapViewRoutine(GemCtrl gemA, GemCtrl gemB, Vector2Int posA, Vector2Int posB)
     {

@@ -4,5 +4,5 @@ public enum GemSpecialType
     HorizontalRocket,
     VerticalRocket,
     Bomb,
-    Cube
+    Cube,
 }

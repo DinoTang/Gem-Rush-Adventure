@@ -55,11 +55,16 @@ public class MatchResolver
             GemCtrl specialGem = grid.Get(specialCell.x, specialCell.y);
             if (specialGem == null) continue;
 
+            AudioManager.Instance?.PlaySpecialClearSound(
+                specialGem.GemData.GemSpecialType
+            );
+
+
             var extraCells =
             this.specialPatternRegistry
             .GetPattern(specialGem.GemData.GemSpecialType)
             .GetCells(specialGem, grid);
-            
+
             Debug.LogWarning("So luong gem bi clear boi cube gem: " + extraCells.Count);
             VFXSpawner.Instance.SpawnSpecialVFX(specialGem);
 

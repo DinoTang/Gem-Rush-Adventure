@@ -11,6 +11,8 @@ public class BoardResolveHandler : BoardAbstract
 
     public IEnumerator ResolveBoardRoutine(GemCtrl gemA, GemCtrl gemB)
     {
+        int comboIndex = 0;
+
         while (true)
         {
             var matches = matchFinder.FindMatches(this.boardManager.Grid);
@@ -22,6 +24,10 @@ public class BoardResolveHandler : BoardAbstract
                 HintManager.Instance.RefreshHint();
                 yield break;
             }
+
+            comboIndex++;
+
+            AudioManager.Instance.PlayMatchClearSound(matches, comboIndex);
 
             var resolveResult = this.BuildResolveResult(matches, gemA.GemData.GridPos, gemB.GemData.GridPos);
             // Debug

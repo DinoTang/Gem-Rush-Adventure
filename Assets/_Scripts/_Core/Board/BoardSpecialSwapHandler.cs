@@ -22,6 +22,8 @@ public class BoardSpecialSwapHandler : BoardAbstract
 
         if (specialCells != null && specialCells.Count > 0)
         {
+            AudioManager.Instance.PlaySpecialClearSound(gemA, gemB);
+
             HashSet<Vector2Int> finalCells = new(specialCells);
             finalCells.UnionWith(originalCells);
 
@@ -67,4 +69,5 @@ public class BoardSpecialSwapHandler : BoardAbstract
         yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveGravityRoutine(cells));
         yield return StartCoroutine(this.boardManager.ResolveHandler.ResolveBoardRoutine(gemA, gemB));
     }
+
 }

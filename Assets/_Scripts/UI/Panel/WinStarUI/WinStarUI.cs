@@ -128,6 +128,8 @@ public abstract class WinStarUI : BaseBehaviour
          * Phase 1:
          * Ngôi sao thu nhỏ nhưng vẫn còn lớn hơn slot một chút.
          */
+        // AudioManager.Instance.PlaySFX(AudioManager.Instance.AudioDataSO.progressStar);
+
         this.animationSequence.Append(
             this.starRect
                 .DOScale(

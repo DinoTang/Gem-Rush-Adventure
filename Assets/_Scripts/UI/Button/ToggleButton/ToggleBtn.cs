@@ -8,6 +8,12 @@ public abstract class ToggleBtn : BaseBtn
     protected ToggleButtonSpriteSO ToggleSpriteSO
        => this.btnSpriteSO as ToggleButtonSpriteSO;
 
+    public void SetState(bool value)
+    {
+        this.isOn = value;
+        this.RefreshVisual();
+    }
+
     protected override void OnButtonClicked()
     {
         base.OnButtonClicked();
@@ -23,8 +29,6 @@ public abstract class ToggleBtn : BaseBtn
 
     public override void OnPointerUp(PointerEventData eventData)
     {
-        this.buttonImage.sprite = this.ToggleSpriteSO.Normal;
-
         this.OnButtonClicked();
     }
 

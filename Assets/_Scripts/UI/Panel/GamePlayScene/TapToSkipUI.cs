@@ -60,7 +60,7 @@ public class TapToSkipUI : BaseUI, IPointerClickHandler
     public override void Show()
     {
         base.Show();
-
+        
         this.KillTweens();
 
         this.canContinue = false;

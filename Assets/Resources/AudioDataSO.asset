@@ -15,8 +15,26 @@ MonoBehaviour:
   buttonClick: {fileID: 8300000, guid: e60d2d3d93336664688359cbc3c3eb83, type: 3}
   swap: {fileID: 8300000, guid: f1ab68f5bb8b16e4b9db2495f1c1fdab, type: 3}
   noSwap: {fileID: 8300000, guid: 8f296c82fb1f8b9439e8551bafb5a198, type: 3}
-  matchGem: {fileID: 8300000, guid: ebee6264efb0b5d4a8f0bd18d01a10a7, type: 3}
+  create: {fileID: 8300000, guid: 013e1b668351e484495616d98055b125, type: 3}
   win: {fileID: 8300000, guid: 2c195ac3beb33994c9757b32eb2e42ef, type: 3}
   lose: {fileID: 8300000, guid: 41cbc8a6f52fca44480d6f6a203a9c70, type: 3}
+  progressStar: {fileID: 8300000, guid: 480eedff4cc811048acfae75d3842aa0, type: 3}
   menu: {fileID: 8300000, guid: 48068bfbae3320a4fbdb4b610e32271c, type: 3}
   gaming: {fileID: 8300000, guid: cc1896f4adfb4ba479487d776bad8434, type: 3}
+  matchGem: {fileID: 8300000, guid: ebee6264efb0b5d4a8f0bd18d01a10a7, type: 3}
+  clearBomb: {fileID: 8300000, guid: cb4391bc1df276848874654448f60dbf, type: 3}
+  clearRocket: {fileID: 8300000, guid: 3a1ef15474ca1d24e93d325e2739a66c, type: 3}
+  clearBombAndRocket: {fileID: 8300000, guid: a459781224e95064e9dcdc33e8a01b38, type: 3}
+  comboSounds:
+  - {fileID: 8300000, guid: 465a7d781fc66e4498192d12b59ee27e, type: 3}
+  - {fileID: 8300000, guid: 29fbe26cf225ec04ebac6aca2c106246, type: 3}
+  - {fileID: 8300000, guid: c019f4ca198854d448c4d8da6f88a2ff, type: 3}
+  - {fileID: 8300000, guid: 9ebd9d63ef3bb5e4aa1c4c18becdef88, type: 3}
+  - {fileID: 8300000, guid: 98d0c476150a9864e8071b15c3dd85f3, type: 3}
+  comboVoices:
+  - {fileID: 8300000, guid: cab21201256f5e645a6848e3d2955c3f, type: 3}
+  - {fileID: 8300000, guid: ac6a942d8ed628a41bcbbd57108c1ecf, type: 3}
+  - {fileID: 8300000, guid: 3e586c703569dbf46b0427b056649d1a, type: 3}
+  - {fileID: 8300000, guid: e22315364ef2cdd4ebf1d469bb0ab3e4, type: 3}
+  - {fileID: 8300000, guid: ce42e1492bf44b94b8cd2c9a08802fb6, type: 3}
+  - {fileID: 8300000, guid: 2b59eae9534774941a4280818374910a, type: 3}

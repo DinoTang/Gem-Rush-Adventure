@@ -4,6 +4,13 @@ using UnityEngine.UI;
 
 public class SoundBtn : ToggleBtn
 {
+    protected override void Start()
+    {
+        base.Start();
+
+        this.SetState(SaveManager.Instance.SaveData.soundEnabled);
+    }
+
     protected override void LoadBtnSpriteSO()
     {
         if (this.btnSpriteSO != null) return;

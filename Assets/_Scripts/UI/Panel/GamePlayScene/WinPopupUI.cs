@@ -8,10 +8,18 @@ public class WinPopupUI : BaseUI
     [SerializeField] protected WinStarUI1 star1;
     [SerializeField] protected WinStarUI2 star2;
     [SerializeField] protected WinStarUI3 star3;
-    [SerializeField] private float starAppearDelay = 0.35f;
+    // [SerializeField] private float starAppearDelay = 0.35f;
     protected bool hasPlayedStar1;
     protected bool hasPlayedStar2;
     protected bool hasPlayedStar3;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        AudioManager.Instance.StopBGM();
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.AudioDataSO.win);
+    }
+
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -103,8 +111,8 @@ public class WinPopupUI : BaseUI
 
     public void ReloadGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(
-            UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
         );
     }
 
