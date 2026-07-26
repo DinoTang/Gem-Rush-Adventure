@@ -4,11 +4,10 @@ using UnityEngine.SceneManagement;
 public class WinPopupUI : BaseUI
 {
     [SerializeField] protected CoinNumberSpriteUI coinNumberSpriteUI;
-    [SerializeField] protected WinScoreNumberSpriteUI winScoreNumberUI;
+    [SerializeField] protected FinalScoreNumberSpriteUI winScoreNumberUI;
     [SerializeField] protected WinStarUI1 star1;
     [SerializeField] protected WinStarUI2 star2;
     [SerializeField] protected WinStarUI3 star3;
-    // [SerializeField] private float starAppearDelay = 0.35f;
     protected bool hasPlayedStar1;
     protected bool hasPlayedStar2;
     protected bool hasPlayedStar3;
@@ -39,7 +38,7 @@ public class WinPopupUI : BaseUI
     protected void LoadWinScoreNumberSpriteUI()
     {
         if (this.winScoreNumberUI != null) return;
-        this.winScoreNumberUI = FindAnyObjectByType<WinScoreNumberSpriteUI>();
+        this.winScoreNumberUI = FindAnyObjectByType<FinalScoreNumberSpriteUI>();
         Debug.Log(transform.name + ": LoadWinScoreNumberUI", gameObject);
     }
     protected void LoadStar1()
@@ -92,21 +91,12 @@ public class WinPopupUI : BaseUI
 
         this.winScoreNumberUI.PlayCountAnimation(
             finalScore,
-            this.CheckStar,
-            this.HandleCompleted
+            this.CheckStar
         );
 
         this.coinNumberSpriteUI.PlayCountAnimation(
             earnedCoin
         );
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            this.ReloadGame();
-            Debug.Log("Reload Game", gameObject);
-        }
     }
 
     public void ReloadGame()
@@ -169,10 +159,5 @@ public class WinPopupUI : BaseUI
             return 1;
 
         return 0;
-    }
-
-    private void HandleCompleted()
-    {
-        Debug.Log("Score animation completed");
     }
 }

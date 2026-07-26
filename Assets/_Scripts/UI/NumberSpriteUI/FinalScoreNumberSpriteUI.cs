@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class WinScoreNumberSpriteUI : NumberSpriteUI
+public class FinalScoreNumberSpriteUI : NumberSpriteUI
 {
     [SerializeField] private float countDuration = 1.5f;
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelCompleteHandler : BaseBehaviour
 {
     [SerializeField] private TapToSkipUI tapToSkipUI;
+    [SerializeField] private NoMoreMoveUI noMoreMoveUI;
     private bool isHandlingCompletion;
     protected override void Start()
     {
@@ -12,11 +13,15 @@ public class LevelCompleteHandler : BaseBehaviour
 
         LevelGoalManager.Instance.OnLevelCompleted +=
             this.HandleLevelCompleted;
+        LevelGoalManager.Instance.OnLevelFailed +=
+            this.HandleLevelFailed;
     }
     protected override void LoadComponent()
     {
         base.LoadComponent();
+
         this.LoadTapToSkipUI();
+        this.LoadNoMoreMoveUI();
     }
 
     protected void LoadTapToSkipUI()
@@ -28,6 +33,17 @@ public class LevelCompleteHandler : BaseBehaviour
         Debug.Log(transform.name + ": LoadTapToSkipUI", gameObject);
     }
 
+    protected void LoadNoMoreMoveUI()
+    {
+        if (this.noMoreMoveUI != null) return;
+
+        this.noMoreMoveUI =
+            FindAnyObjectByType<NoMoreMoveUI>();
+
+        Debug.Log(transform.name + ": LoadNoMoreMoveUI", gameObject);
+    }
+
+
     private void HandleLevelCompleted()
     {
         if (this.isHandlingCompletion)
@@ -37,16 +53,51 @@ public class LevelCompleteHandler : BaseBehaviour
 
         StartCoroutine(this.HandleLevelCompleteRoutine());
     }
+
+
     protected override void OnDestroy()
     {
         if (LevelGoalManager.Instance != null)
         {
             LevelGoalManager.Instance.OnLevelCompleted -=
                 this.HandleLevelCompleted;
+            LevelGoalManager.Instance.OnLevelFailed -=
+                this.HandleLevelFailed;
         }
 
         base.OnDestroy();
     }
+
+    private void HandleLevelFailed()
+    {
+        if (this.isHandlingCompletion)
+            return;
+
+        if (this.noMoreMoveUI == null)
+            return;
+
+        this.isHandlingCompletion = true;
+        StartCoroutine(this.ShowLoseRoutine());
+    }
+
+    private IEnumerator ShowLoseRoutine()
+    {
+        if (BoardManager.Instance != null &&
+            BoardManager.Instance.SwapHandler != null)
+        {
+            yield return new WaitUntil(() =>
+                !BoardManager.Instance.SwapHandler.IsResolving);
+        }
+
+        yield return new WaitForSeconds(0.3f);
+
+        LevelGoalManager.Instance.SetLevelState(
+            LevelState.Completing
+        );
+
+        this.noMoreMoveUI.ShowThenLose();
+    }
+
     private IEnumerator HandleLevelCompleteRoutine()
     {
 
@@ -83,7 +134,7 @@ public class LevelCompleteHandler : BaseBehaviour
             gem.GemData.SetGemSpecialType(rocketType);
             gem.GemModel.RefreshVisual();
             gem.GemModel.PlayTransformToSpecialAnimation();
-            
+
             AudioManager.Instance.PlaySFX(AudioManager.Instance.AudioDataSO.create);
             VFXSpawner.Instance.SpawnTransformVFX(gem.transform.position);
 
@@ -102,7 +153,12 @@ public class LevelCompleteHandler : BaseBehaviour
             LevelState.Completing
         );
 
-        this.tapToSkipUI.ShowWinPopup();
+        this.tapToSkipUI.DisableContinue();
+
+        this.tapToSkipUI.Hide(() =>
+        {
+            this.tapToSkipUI.ShowWinPopup();
+        });
     }
 
     public List<GemCtrl> GetRandomNormalGems(int count)

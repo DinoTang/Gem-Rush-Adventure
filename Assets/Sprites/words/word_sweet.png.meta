@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 1a3d8689354cbc843b05f8d6c0f4241a
+guid: e9205085a86ed324e8f7d828645bc196
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4142089544947886153
-    second: You lose_0
-  - first:
-      213: -5923145565439155865
-    second: You lose_1
-  - first:
-      213: -6795634753292874498
-    second: You lose_2
+      213: 7676941928091941620
+    second: word_sweet_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -119,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: You lose_0
+      name: word_sweet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 116
-        height: 24
+        width: 348
+        height: 111
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9486a72de78ab7930800000000000000
-      internalID: 4142089544947886153
+      spriteID: 4faf839620af98a60800000000000000
+      internalID: 7676941928091941620
       vertices: []
       indices: 
       edges: []
@@ -144,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3f37796d9ca8a204584d8c9108cf8205
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -152,11 +146,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":116.0,"y":24.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      You lose_0: 4142089544947886153
+      word_sweet_0: 7676941928091941620
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

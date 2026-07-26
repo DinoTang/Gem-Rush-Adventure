@@ -22,6 +22,12 @@ public class BoardResolveHandler : BoardAbstract
             if (matches.Count == 0)
             {
                 HintManager.Instance.RefreshHint();
+
+                if (LevelGoalManager.Instance != null)
+                {
+                    LevelGoalManager.Instance.EvaluateLevelResult();
+                }
+
                 yield break;
             }
 

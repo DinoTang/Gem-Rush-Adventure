@@ -17,6 +17,7 @@ public class LevelGoalManager : BaseBehaviour
     public event Action<int> OnMoveCountChanged;
     public event Action<int> OnScoreChanged;
     public event Action OnLevelCompleted;
+    public event Action OnLevelFailed;
     protected static LevelGoalManager instance;
     public static LevelGoalManager Instance => instance;
     [SerializeField] private LevelSO levelData;
@@ -72,6 +73,9 @@ public class LevelGoalManager : BaseBehaviour
     }
     public void UseMove()
     {
+        if (this.currentLevelState != LevelState.Playing)
+            return;
+
         if (this.remainingMoves <= 0)
             return;
 
@@ -81,7 +85,8 @@ public class LevelGoalManager : BaseBehaviour
 
     public void AddGemProgress(GemCtrl gemCtrl)
     {
-        if (this.isCompleted) return;
+        if (this.currentLevelState != LevelState.Playing)
+            return;
 
         foreach (LevelGoalProgress progress in this.goalProgresses)
         {
@@ -97,14 +102,7 @@ public class LevelGoalManager : BaseBehaviour
                 continue;
 
             progress.DeductProgress();
-            OnGoalProgressChanged?.Invoke(progress);
-        }
-
-        if (this.AreAllGoalsCompleted())
-        {
-            this.isCompleted = true;
-            OnLevelCompleted?.Invoke();
-            Debug.LogWarning("LEVEL COMPLETE");
+            this.OnGoalProgressChanged?.Invoke(progress);
         }
     }
 
@@ -126,5 +124,29 @@ public class LevelGoalManager : BaseBehaviour
 
         currentScore += amount;
         OnScoreChanged?.Invoke(currentScore);
+    }
+
+    public void EvaluateLevelResult()
+    {
+        if (this.currentLevelState != LevelState.Playing)
+            return;
+
+        if (this.AreAllGoalsCompleted())
+        {
+            this.isCompleted = true;
+            this.currentLevelState = LevelState.Completing;
+
+            Debug.LogWarning("LEVEL COMPLETE", gameObject);
+            this.OnLevelCompleted?.Invoke();
+            return;
+        }
+
+        if (this.remainingMoves <= 0)
+        {
+            this.currentLevelState = LevelState.Lose;
+
+            Debug.LogWarning("LEVEL FAILED", gameObject);
+            this.OnLevelFailed?.Invoke();
+        }
     }
 }
