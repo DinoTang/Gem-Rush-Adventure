@@ -3,13 +3,22 @@ using UnityEngine.EventSystems;
 
 public class TapToSkipUI : EndGameMessageUI, IPointerClickHandler
 {
+    [Header("TapToSkipUI")]
+    [SerializeField] protected Camera cam;
     [SerializeField] protected WinPopupUI winPopupUI;
     [SerializeField] private bool canContinue;
 
     protected override void LoadComponent()
     {
         base.LoadComponent();
+        this.LoadMainCamera();
         this.LoadWinPopupUI();
+    }
+    protected void LoadMainCamera()
+    {
+        if (this.cam != null) return;
+        this.cam = Camera.main;
+        Debug.Log(transform.name + ": LoadMainCamera", gameObject);
     }
 
     protected override void LoadTitleRect()
@@ -58,20 +67,27 @@ public class TapToSkipUI : EndGameMessageUI, IPointerClickHandler
     {
         if (!this.canContinue) return;
 
-        this.canContinue = false;
-        this.SetRaycastState(false);
+        // Chuyển sang 
+        LevelGoalManager.Instance.SetLevelState(
+            LevelState.Win
+        );
+        SceneLoader.Instance.LoadSceneImmediately(SceneGame.ResultScene);
 
-        this.Hide(() =>
-        {
-            this.ShowWinPopup();
-        });
 
-        Debug.LogWarning("Tap To Skip clicked", gameObject);
+        // this.canContinue = false;
+        // this.SetRaycastState(false);
+
+        // this.Hide(() =>
+        // {
+        //     this.ShowWinPopup();
+        // });
+
+        // Debug.LogWarning("Tap To Skip clicked", gameObject);
     }
 
     public void ShowWinPopup()
     {
-        GamePlayUI.Instance?.Hide();
-        this.winPopupUI?.Show();
+        GamePlayUI.Instance.Hide();
+        this.winPopupUI.Show();
     }
 }

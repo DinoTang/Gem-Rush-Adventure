@@ -26,7 +26,7 @@ public class SaveManager : BaseBehaviour
             Application.persistentDataPath,
             "player_save.json"
         );
-
+        Debug.LogWarning(savePath);
         Load();
     }
 

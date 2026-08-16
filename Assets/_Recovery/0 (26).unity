@@ -81400,7 +81400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelCompleteHandler
   tapToSkipUI: {fileID: 770346761}
-  noMoreMoveUI: {fileID: 567630445}
+  noMoreMoveUI: {fileID: 0}
 --- !u!4 &1333188092
 Transform:
   m_ObjectHideFlags: 0

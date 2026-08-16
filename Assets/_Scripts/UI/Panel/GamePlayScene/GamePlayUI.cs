@@ -23,10 +23,4 @@ public class GamePlayUI : BaseUI
         instance = this;
     }
 
-    public override void Hide()
-    {
-        base.Hide();
-        BoardManager.Instance.gameObject.SetActive(false);
-        this.gemSpawner.gameObject.SetActive(false);
-    }
 }

@@ -8,15 +8,14 @@ public class WinPopupUI : BaseUI
     [SerializeField] protected WinStarUI1 star1;
     [SerializeField] protected WinStarUI2 star2;
     [SerializeField] protected WinStarUI3 star3;
-    protected bool hasPlayedStar1;
-    protected bool hasPlayedStar2;
-    protected bool hasPlayedStar3;
 
-    protected override void OnEnable()
+    protected override void Start()
     {
-        base.OnEnable();
+        base.Start();
         AudioManager.Instance.StopBGM();
         AudioManager.Instance.PlaySFX(AudioManager.Instance.AudioDataSO.win);
+
+        this.Show();
     }
 
     protected override void LoadComponent()
@@ -63,10 +62,6 @@ public class WinPopupUI : BaseUI
     {
         base.Show();
 
-        this.hasPlayedStar1 = false;
-        this.hasPlayedStar2 = false;
-        this.hasPlayedStar3 = false;
-
         int finalScore =
             LevelGoalManager.Instance.CurrentScore;
 
@@ -90,60 +85,50 @@ public class WinPopupUI : BaseUI
         );
 
         this.winScoreNumberUI.PlayCountAnimation(
-            finalScore,
-            this.CheckStar
+            finalScore
         );
 
         this.coinNumberSpriteUI.PlayCountAnimation(
             earnedCoin
         );
+
+        this.PlayStarAnimations(earnedStars);
     }
 
-    public void ReloadGame()
+    private void PlayStarAnimations(int earnedStars)
     {
-        SceneManager.LoadScene(
-            SceneManager.GetActiveScene().buildIndex
-        );
-    }
-
-    private void CheckStar(int score)
-    {
-        LevelSO levelData =
-            LevelGoalManager.Instance.LevelData;
-
-        if (!hasPlayedStar1 &&
-            score >= levelData.OneStarScore)
+        if (earnedStars >= 1)
         {
-            hasPlayedStar1 = true;
-
             DOVirtual.DelayedCall(
                 0.2f,
                 () => star1.PlayUnlockAnimation()
             );
         }
 
-        if (!hasPlayedStar2 &&
-            score >= levelData.TwoStarScore)
+        if (earnedStars >= 2)
         {
-            hasPlayedStar2 = true;
-
             DOVirtual.DelayedCall(
                 0.5f,
                 () => star2.PlayUnlockAnimation()
             );
         }
 
-        if (!hasPlayedStar3 &&
-            score >= levelData.ThreeStarScore)
+        if (earnedStars >= 3)
         {
-            hasPlayedStar3 = true;
-
             DOVirtual.DelayedCall(
                 0.8f,
                 () => star3.PlayUnlockAnimation()
             );
         }
     }
+
+    // public void ReloadGame()
+    // {
+    //     SceneManager.LoadScene(
+    //         SceneManager.GetActiveScene().buildIndex
+    //     );
+    // }
+
 
     private int CalculateStarCount(
     int score,

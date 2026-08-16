@@ -7,7 +7,8 @@ public enum SceneGame
     BootScene,
     LoadingScene,
     HomeScene,
-    GamePlayScene
+    GamePlayScene,
+    ResultScene
 }
 
 public class SceneLoader : BaseBehaviour

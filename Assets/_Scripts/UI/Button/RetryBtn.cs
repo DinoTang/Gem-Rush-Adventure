@@ -14,14 +14,20 @@ public class RetryBtn : PausePopupBtn
     protected override void OnButtonClicked()
     {
         base.OnButtonClicked();
+
         if (pausePopup.PausePopupState == PausePopupState.Show)
         {
             pausePopup.ShowAreYouSure();
             return;
         }
-
-        if (pausePopup.PausePopupState == PausePopupState.AreYouSure)
+        else if (pausePopup.PausePopupState == PausePopupState.AreYouSure)
         {
+            LevelGoalManager.Instance.InitGoals();
+            SceneLoader.Instance.GoToScene(SceneGame.GamePlayScene);
+        }
+        else
+        {
+            LevelGoalManager.Instance.InitGoals();
             SceneLoader.Instance.GoToScene(SceneGame.GamePlayScene);
         }
     }

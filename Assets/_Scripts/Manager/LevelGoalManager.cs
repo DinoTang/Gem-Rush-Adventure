@@ -5,7 +5,6 @@ using UnityEngine;
 public enum LevelState
 {
     Playing,
-    Completing,
     WaitingForContinue,
     Win,
     Lose
@@ -18,6 +17,7 @@ public class LevelGoalManager : BaseBehaviour
     public event Action<int> OnScoreChanged;
     public event Action OnLevelCompleted;
     public event Action OnLevelFailed;
+
     protected static LevelGoalManager instance;
     public static LevelGoalManager Instance => instance;
     [SerializeField] private LevelSO levelData;
@@ -39,10 +39,18 @@ public class LevelGoalManager : BaseBehaviour
 
     protected override void Awake()
     {
-        base.Awake();
-        if (instance != null) Debug.LogWarning("Only 1 LevelGoalManager allows to exist");
-        instance = this;
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    protected override void Start()
+    {
         this.InitGoals();
     }
 
@@ -51,7 +59,19 @@ public class LevelGoalManager : BaseBehaviour
         this.currentLevelState = state;
     }
 
-    private void InitGoals()
+    public void InitializeLevel(LevelSO newLevelData)
+    {
+        if (newLevelData == null)
+        {
+            Debug.LogError("LevelGoalManager: LevelData is null!");
+            return;
+        }
+
+        this.levelData = newLevelData;
+        this.InitGoals();
+    }
+
+    public void InitGoals()
     {
         // this.levelData = SceneLoader.Instance?.LevelSO;
         this.isCompleted = false;
@@ -134,14 +154,14 @@ public class LevelGoalManager : BaseBehaviour
         if (this.AreAllGoalsCompleted())
         {
             this.isCompleted = true;
-            this.currentLevelState = LevelState.Completing;
+            this.currentLevelState = LevelState.Win;
 
             Debug.LogWarning("LEVEL COMPLETE", gameObject);
             this.OnLevelCompleted?.Invoke();
             return;
         }
 
-        if (this.remainingMoves <= 0)
+        if (this.remainingMoves < 1)
         {
             this.currentLevelState = LevelState.Lose;
 

@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Level_7
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   LevelId: 7
-  MoveLimit: 20
+  MoveLimit: 30
   OneStarScore: 1000
   TwoStarScore: 3000
   ThreeStarScore: 5000
   goals:
   - type: 0
     gemType: 1
-    gemSpecialType: 0
-    targetAmount: 20
+    gemSpecialType: 2
+    targetAmount: 5
   - type: 0
     gemType: 2
-    gemSpecialType: 0
-    targetAmount: 15
+    gemSpecialType: 3
+    targetAmount: 4

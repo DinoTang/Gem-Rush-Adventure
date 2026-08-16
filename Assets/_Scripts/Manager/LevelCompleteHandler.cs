@@ -91,10 +91,6 @@ public class LevelCompleteHandler : BaseBehaviour
 
         yield return new WaitForSeconds(0.3f);
 
-        LevelGoalManager.Instance.SetLevelState(
-            LevelState.Completing
-        );
-
         this.noMoreMoveUI.ShowThenLose();
     }
 
@@ -150,15 +146,18 @@ public class LevelCompleteHandler : BaseBehaviour
         yield return new WaitForSeconds(0.5f);
 
         LevelGoalManager.Instance.SetLevelState(
-            LevelState.Completing
+            LevelState.Win
         );
 
-        this.tapToSkipUI.DisableContinue();
+        // Chuyển scene sang WinPopupUI.
+        SceneLoader.Instance.LoadSceneImmediately(SceneGame.ResultScene);
 
-        this.tapToSkipUI.Hide(() =>
-        {
-            this.tapToSkipUI.ShowWinPopup();
-        });
+        // this.tapToSkipUI.DisableContinue();
+
+        // this.tapToSkipUI.Hide(() =>
+        // {
+        //     this.tapToSkipUI.ShowWinPopup();
+        // });
     }
 
     public List<GemCtrl> GetRandomNormalGems(int count)

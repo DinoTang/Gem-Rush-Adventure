@@ -10,19 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88c9c3ccfb0be1544b342b40a87cfc6f, type: 3}
-  m_Name: Level_4
+  m_Name: Level_10
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  LevelId: 4
+  LevelId: 10
   MoveLimit: 20
-  OneStarScore: 1800
-  TwoStarScore: 2600
-  ThreeStarScore: 3500
+  OneStarScore: 3200
+  TwoStarScore: 4500
+  ThreeStarScore: 6000
   goals:
   - type: 0
-    gemType: 5
+    gemType: 7
     gemSpecialType: 0
-    targetAmount: 18
-  - type: 0
-    gemType: 1
-    gemSpecialType: 0
-    targetAmount: 18
+    targetAmount: 2

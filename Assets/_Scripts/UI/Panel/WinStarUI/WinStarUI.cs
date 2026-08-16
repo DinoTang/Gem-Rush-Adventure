@@ -8,7 +8,6 @@ public abstract class WinStarUI : BaseBehaviour
     [SerializeField] protected Image starImage;
     [SerializeField] protected RectTransform starRect;
 
-    [Tooltip("Ngôi sao hoặc slot có sẵn dùng làm vị trí đích.")]
     [SerializeField] protected RectTransform targetStarSlot;
 
     [Header("Sprites")]

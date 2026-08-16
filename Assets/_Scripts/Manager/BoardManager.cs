@@ -10,7 +10,7 @@ public class BoardManager : BaseBehaviour
     public static BoardManager Instance => instance;
     [Header("BoardManager")]
     [SerializeField] protected GemSpawner gemSpawner;
-    [SerializeField] protected Vector3 boardOrigin = new(0.3f, 3.95f, 0);
+    [SerializeField] protected Vector3 boardOrigin = new(0.3f, 3.4f, 0);
     [SerializeField] protected float cellSpacing = 0.52f;
     [SerializeField] protected int width = 8;
     [SerializeField] protected int height = 8;
@@ -58,7 +58,7 @@ public class BoardManager : BaseBehaviour
         this.InitGrid();
         this.SpawnGrid();
         LevelProgressData level1 =
-    SaveManager.Instance.GetLevelProgress(1);
+        SaveManager.Instance.GetLevelProgress(1);
 
         Debug.Log(level1.starCount);
     }

@@ -1431,7 +1431,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 83.333336, y: -97.5}
+  m_AnchoredPosition: {x: 83.33334, y: -97.5}
   m_SizeDelta: {x: 150, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &323599406
@@ -4244,7 +4244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1f575bcc9a9db4497c92bd718a9f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelMapUI
-  levelSO: {fileID: 11400000, guid: 4cb5d1018603b9d41a163f4003ec0254, type: 2}
+  levelSO: {fileID: 11400000, guid: c5fc96a63ba1b7f4ba18c6051458848c, type: 2}
   lockedLevelMapBtnSpriteSO: {fileID: 11400000, guid: 61e8515627eeea5428dab763ce1c9998, type: 2}
   noStarLevelMapBtnSpriteSO: {fileID: 11400000, guid: e292ab50150ad0c45810e319dacd6078, type: 2}
   star1LevelMapBtnSpriteSO: {fileID: 11400000, guid: d0cc854d495e4584fbb61b40f1f61115, type: 2}
@@ -9052,7 +9052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1f575bcc9a9db4497c92bd718a9f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelMapUI
-  levelSO: {fileID: 11400000, guid: 4cb5d1018603b9d41a163f4003ec0254, type: 2}
+  levelSO: {fileID: 11400000, guid: 82ba66833f241364e9ade488b21a2d1f, type: 2}
   lockedLevelMapBtnSpriteSO: {fileID: 11400000, guid: 61e8515627eeea5428dab763ce1c9998, type: 2}
   noStarLevelMapBtnSpriteSO: {fileID: 11400000, guid: e292ab50150ad0c45810e319dacd6078, type: 2}
   star1LevelMapBtnSpriteSO: {fileID: 11400000, guid: d0cc854d495e4584fbb61b40f1f61115, type: 2}
@@ -9320,6 +9320,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1515548815}
   m_CullTransparentMesh: 1
+--- !u!1 &1520452931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1520452933}
+  - component: {fileID: 1520452932}
+  m_Layer: 0
+  m_Name: LevelGoalManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1520452932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520452931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a931ce3abcc9e42b3eda732718d567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelGoalManager
+  levelData: {fileID: 11400000, guid: 659adad6c6e910c4caa209aef647cff7, type: 2}
+  goalProgresses: []
+  remainingMoves: 0
+  currentScore: 1000
+  earnedCoin: 0
+  currentLevelState: 0
+--- !u!4 &1520452933
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520452931}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1526994080
 GameObject:
   m_ObjectHideFlags: 0
@@ -12291,3 +12341,4 @@ SceneRoots:
   - {fileID: 807512518}
   - {fileID: 1583608293}
   - {fileID: 1027686817}
+  - {fileID: 1520452933}

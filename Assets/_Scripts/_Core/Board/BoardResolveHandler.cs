@@ -44,7 +44,10 @@ public class BoardResolveHandler : BoardAbstract
             // Debug
             BoardValidator.ValidateBoard(this.boardManager, "AfterAnimateMerge");
 
-            yield return StartCoroutine(ResolveGravityRoutine(resolveResult.CellsToClear, resolveResult.SpecialMergeSourceCells));
+            yield return this.ResolveGravityRoutine(
+                resolveResult.CellsToClear,
+                resolveResult.SpecialMergeSourceCells
+            );
         }
 
     }
@@ -65,7 +68,7 @@ public class BoardResolveHandler : BoardAbstract
         var allFallMoves = new List<FallMove>(fallMoves);
         allFallMoves.AddRange(fallMovesSpawn);
 
-        yield return StartCoroutine(this.boardManager.AnimationHandler.AnimateGravity(allFallMoves));
+        yield return this.boardManager.AnimationHandler.AnimateGravity(allFallMoves);
         //Debug
         BoardValidator.ValidateBoard(this.boardManager, "AfterAnimateGravity");
     }
@@ -93,7 +96,7 @@ public class BoardResolveHandler : BoardAbstract
 
         List<Vector2Int> cellsToClear = this.boardManager.MatchResolver.ResolveSpecialChains(triggerCells, this.boardManager.Grid);
 
-        yield return StartCoroutine(this.ResolveGravityRoutine(cellsToClear));
+        yield return this.ResolveGravityRoutine(cellsToClear);
     }
 
     public void ClearCells(List<Vector2Int> cells, HashSet<Vector2Int> specialMergeSourceCells = null)

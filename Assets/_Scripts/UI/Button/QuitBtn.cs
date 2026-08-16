@@ -14,13 +14,17 @@ public class QuitBtn : PausePopupBtn
     protected override void OnButtonClicked()
     {
         base.OnButtonClicked();
+
         if (pausePopup.PausePopupState == PausePopupState.Show)
         {
             pausePopup.ShowAreYouSure();
             return;
         }
-
-        if (pausePopup.PausePopupState == PausePopupState.AreYouSure)
+        else if (pausePopup.PausePopupState == PausePopupState.AreYouSure)
+        {
+            SceneLoader.Instance.GoToScene(SceneGame.HomeScene);
+        }
+        else
         {
             SceneLoader.Instance.GoToScene(SceneGame.HomeScene);
         }

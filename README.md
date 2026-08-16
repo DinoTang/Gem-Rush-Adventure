@@ -14,6 +14,12 @@
 
 A colorful Match-3 puzzle game built with Unity, featuring handcrafted levels, a world map progression system, and polished UI animations.
 
+## 🎮 Play the Game
+
+**[Play Gem Rush Adventure on itch.io](https://dinotang.itch.io/gem-rush-adventure)**
+
+> A playable WebGL build is available on itch.io.
+
 ## 🎮 Gameplay
 
 - Swap adjacent gems to create matches.

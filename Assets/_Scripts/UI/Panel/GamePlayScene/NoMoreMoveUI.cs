@@ -126,7 +126,7 @@ public class NoMoreMoveUI : EndGameMessageUI
         this.Show();
 
         yield return new WaitForSecondsRealtime(
-            this.moveDuration + this.stayDuration
+            this.moveDuration + this.stayDuration + 1.5f
         );
 
         this.showRoutine = null;
@@ -138,7 +138,7 @@ public class NoMoreMoveUI : EndGameMessageUI
                 gameObject
             );
 
-            GamePlayUI.Instance?.Hide();
+            GamePlayUI.Instance.Hide();
 
             if (this.losePopupUI == null)
             {
@@ -149,8 +149,11 @@ public class NoMoreMoveUI : EndGameMessageUI
 
                 return;
             }
+            // Lúc trước dùng chung scene nên dùng lệnh này
+            // this.losePopupUI.Show();
 
-            this.losePopupUI.Show();
+            // Lúc sau tách scene nên dùng lệnh này
+            SceneLoader.Instance.LoadSceneImmediately(SceneGame.ResultScene);
         });
     }
 
