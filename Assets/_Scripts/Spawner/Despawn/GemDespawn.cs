@@ -14,6 +14,9 @@ public class GemDespawn : Despawn<GemCtrl>
 
         if (gem.GemData.ClearReason == ClearReason.Cube) VFXSpawner.Instance.SpawnCubeClearVFX(gem);
 
+        if (gem.GemData.GemSpecialType == GemSpecialType.Cube)
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.AudioDataSO.cubeClear);
+
         this.SkipVFX = false;
         gem.GemData.ResetData();
 

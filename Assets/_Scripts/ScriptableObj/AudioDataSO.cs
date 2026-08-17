@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AudioDataSO", menuName = "SO/Audio/AudioDataSO")]
 public class AudioDataSO : ScriptableObject
 {
-    [Header("Sound")]
+    [Header("SFX")]
     public AudioClip buttonClick;
     public AudioClip swap;
     public AudioClip noSwap;
@@ -12,6 +12,9 @@ public class AudioDataSO : ScriptableObject
     public AudioClip win;
     public AudioClip lose;
     public AudioClip progressStar;
+    public AudioClip cubeClear;
+    public AudioClip electronic;
+
     [Header("Music")]
     public AudioClip menu;
     public AudioClip gaming;

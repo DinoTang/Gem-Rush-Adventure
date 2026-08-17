@@ -35,7 +35,7 @@ public class BoardSpecialSwapHandler : BoardAbstract
                 GemCtrl cubeGem = gemA.GemData.GemSpecialType == GemSpecialType.Cube ? gemA : gemB;
                 GemCubeModel cubeModel = cubeGem.GemModel as GemCubeModel;
 
-                cubeModel?.PlayAnimateAndEffectCubeGem();
+                cubeModel.PlayAnimateAndEffectCubeGem();
 
                 List<Vector2Int> cubeTargets = new(finalCells);
                 cubeTargets.RemoveAll(cell =>
@@ -52,6 +52,8 @@ public class BoardSpecialSwapHandler : BoardAbstract
                 }
 
                 VFXSpawner.Instance.SpawnGemWasActiveByCubeVFX(cubeGem, new List<Vector2Int>(finalCells));
+
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.AudioDataSO.electronic);
 
                 yield return new WaitForSeconds(4);
             }

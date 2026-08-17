@@ -19,6 +19,8 @@ MonoBehaviour:
   win: {fileID: 8300000, guid: 2c195ac3beb33994c9757b32eb2e42ef, type: 3}
   lose: {fileID: 8300000, guid: 41cbc8a6f52fca44480d6f6a203a9c70, type: 3}
   progressStar: {fileID: 8300000, guid: 480eedff4cc811048acfae75d3842aa0, type: 3}
+  cubeClear: {fileID: 8300000, guid: 5246d1efc840ccb43991828cb8a6cd24, type: 3}
+  electronic: {fileID: 8300000, guid: f1067e078d4601d479c9d2925b288002, type: 3}
   menu: {fileID: 8300000, guid: 48068bfbae3320a4fbdb4b610e32271c, type: 3}
   gaming: {fileID: 8300000, guid: cc1896f4adfb4ba479487d776bad8434, type: 3}
   matchGem: {fileID: 8300000, guid: ebee6264efb0b5d4a8f0bd18d01a10a7, type: 3}
