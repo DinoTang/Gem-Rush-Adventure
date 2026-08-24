@@ -7,7 +7,7 @@ using UnityEngine;
 public class CubeSpecialPattern : ISpecialComboPattern
 {
     private ISpecialPattern pattern;
-    private float timeToClearCells = 0.18f;
+    private float timeToClearCells = 0.7f;
     public CubeSpecialPattern(ISpecialPattern specialPattern)
     {
         this.pattern = specialPattern;
@@ -59,6 +59,8 @@ public class CubeSpecialPattern : ISpecialComboPattern
     GemSpecialType specialType
 )
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.AudioDataSO.create);
+
         foreach (var cell in cells)
         {
             GemCtrl gem = grid.Get(cell.x, cell.y);
@@ -66,7 +68,10 @@ public class CubeSpecialPattern : ISpecialComboPattern
             if (gem == null) continue;
 
             gem.GemData.SetGemSpecialType(specialType);
+            gem.GemModel.PlayTransformToSpecialAnimation();
             gem.GemModel.RefreshVisual();
+
+            VFXSpawner.Instance.SpawnTransformVFX(gem.transform.position);
         }
 
         yield return new WaitForSeconds(this.timeToClearCells);

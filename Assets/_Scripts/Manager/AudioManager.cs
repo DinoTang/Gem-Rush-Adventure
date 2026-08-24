@@ -213,7 +213,7 @@ public class AudioManager : BaseBehaviour
         bool hasBomb = typeA == GemSpecialType.Bomb || typeB == GemSpecialType.Bomb;
         bool hasRocket = this.IsRocket(typeA) || this.IsRocket(typeB);
 
-        if (typeA == GemSpecialType.Cube || typeB == GemSpecialType.Cube)
+        if (hasCube)
         {
             // this.PlaySFX(this.audioDataSO.clearCube);
             return;

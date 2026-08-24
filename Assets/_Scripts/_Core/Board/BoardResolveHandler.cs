@@ -94,9 +94,9 @@ public class BoardResolveHandler : BoardAbstract
         if (triggerCells.Count == 0)
             yield break;
 
-        List<Vector2Int> cellsToClear = this.boardManager.MatchResolver.ResolveSpecialChains(triggerCells, this.boardManager.Grid);
+        SpecialChainResult specialChainResult = this.boardManager.MatchResolver.ResolveSpecialChains(triggerCells, this.boardManager.Grid);
 
-        yield return this.ResolveGravityRoutine(cellsToClear);
+        yield return this.ResolveGravityRoutine(specialChainResult.ClearCells);
     }
 
     public void ClearCells(List<Vector2Int> cells, HashSet<Vector2Int> specialMergeSourceCells = null)
