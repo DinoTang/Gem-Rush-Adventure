@@ -72,31 +72,26 @@ public class MatchResolver
     // - Play sound
     // =========================================================
 
-    public SpecialChainResult ResolveSpecialChains(
-      List<Vector2Int> inputCells,
-      GridModel<GemCtrl> grid)
+    public SpecialChainResult ResolveSpecialChains(List<Vector2Int> inputCells, GridModel<GemCtrl> grid)
     {
         SpecialChainResult result = new();
 
-        HashSet<Vector2Int> cellsToClear =
-            new(inputCells);
+        HashSet<Vector2Int> cellsToClear = new(inputCells);
 
-        Queue<Vector2Int> specialQueue =
-            new();
+        Queue<Vector2Int> specialQueue = new();
 
-        HashSet<Vector2Int> processedSpecials =
-            new();
+        HashSet<Vector2Int> processedSpecials = new();
+
 
         foreach (var cell in inputCells)
         {
             GemCtrl gem =
                 grid.Get(cell.x, cell.y);
 
-            if (gem == null)
-                continue;
+            if (gem == null) continue;
 
-            if (gem.GemData.GemSpecialType !=
-                GemSpecialType.None)
+
+            if (gem.GemData.GemSpecialType != GemSpecialType.None)
             {
                 specialQueue.Enqueue(cell);
             }
@@ -104,17 +99,13 @@ public class MatchResolver
 
         while (specialQueue.Count > 0)
         {
-            Vector2Int specialCell =
-                specialQueue.Dequeue();
+            Vector2Int specialCell = specialQueue.Dequeue();
 
-            if (!processedSpecials.Add(specialCell))
-                continue;
 
-            GemCtrl specialGem =
-                grid.Get(
-                    specialCell.x,
-                    specialCell.y
-                );
+            if (!processedSpecials.Add(specialCell)) continue;
+
+
+            GemCtrl specialGem = grid.Get(specialCell.x, specialCell.y);
 
             if (specialGem == null)
                 continue;
@@ -123,34 +114,21 @@ public class MatchResolver
             // GHI NHỚ SPECIAL NÀY CẦN TRIGGER
             // =====================================================
 
-            result.SpecialCells.Add(
-                specialCell
-            );
+            result.SpecialCells.Add(specialCell);
 
-            var pattern =
-                specialPatternRegistry.GetPattern(
-                    specialGem.GemData.GemSpecialType
-                );
+            var pattern = specialPatternRegistry.GetPattern(specialGem.GemData.GemSpecialType);
 
-            if (pattern == null)
-                continue;
+            if (pattern == null) continue;
 
-            var extraCells =
-                pattern.GetCells(
-                    specialGem,
-                    grid
-                );
+
+            var extraCells = pattern.GetCells(specialGem, grid);
 
             foreach (var cell in extraCells)
             {
                 if (!cellsToClear.Add(cell))
                     continue;
 
-                GemCtrl targetGem =
-                    grid.Get(
-                        cell.x,
-                        cell.y
-                    );
+                GemCtrl targetGem = grid.Get(cell.x, cell.y);
 
                 if (targetGem == null)
                     continue;
@@ -288,17 +266,9 @@ public class MatchResolver
             if (type == GemSpecialType.None)
                 continue;
 
-            // =====================================================
-            // SPECIAL VFX
-            // =====================================================
-
             VFXSpawner.Instance.SpawnSpecialVFX(
                 specialGem
             );
-
-            // =====================================================
-            // SOUND
-            // =====================================================
 
             AudioManager.Instance?.PlaySpecialClearSound(
                 type

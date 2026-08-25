@@ -443,24 +443,11 @@ public class BoardSpecialSwapHandler : BoardAbstract
         if (type == GemSpecialType.Cube)
             return;
 
-        // =========================================================
-        // SOUND
-        // =========================================================
 
         AudioManager.Instance?.PlaySpecialClearSound(
             type
         );
 
-        // =========================================================
-        // ⭐ SPECIAL VFX
-        //
-        // Đây chính là chỗ để:
-        //
-        // Rocket     -> Beam
-        // Bomb       -> Bomb VFX
-        // Horizontal -> Horizontal Beam
-        // Vertical   -> Vertical Beam
-        // =========================================================
 
         VFXSpawner.Instance.SpawnSpecialVFX(
             specialGem
