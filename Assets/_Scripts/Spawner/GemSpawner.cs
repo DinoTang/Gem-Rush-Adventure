@@ -14,8 +14,6 @@ public class GemSpawner : Spawner<GemCtrl>
         GemType.Green,
         GemType.Yellow,
         GemType.Purple,
-        // GemType.Orange,
-        // GemType.RainBow
     };
     protected override void LoadComponent()
     {
@@ -30,7 +28,7 @@ public class GemSpawner : Spawner<GemCtrl>
     }
     protected void LoadGemVisuals()
     {
-        LoadGemVisualPrefab();
+        this.LoadGemVisualPrefab();
 
         if (gemVisuals.Count > 0) return;
 
@@ -46,7 +44,7 @@ public class GemSpawner : Spawner<GemCtrl>
     public GemCtrl Spawn(GemType type, Vector2 pos)
     {
         GemCtrl prefab = this.GetGemPrefabByType(type);
-        return Spawn(prefab, pos);
+        return this.Spawn(prefab, pos);
     }
     protected GemCtrl GetGemPrefabByType(GemType gemType)
     {
@@ -54,6 +52,7 @@ public class GemSpawner : Spawner<GemCtrl>
         {
             GemCtrl gem = child.GetComponent<GemCtrl>();
             if (gem.GemData.GemType != gemType) continue;
+
             return gem;
         }
         return null;
@@ -62,15 +61,14 @@ public class GemSpawner : Spawner<GemCtrl>
     {
         List<GemType> availableTypes = new List<GemType>(types);
 
-        RemoveHorizontalMatchCandidate(x, y, grid, availableTypes);
-        RemoveVerticalMatchCandidate(x, y, grid, availableTypes);
+        this.RemoveHorizontalMatchCandidate(x, y, grid, availableTypes);
+        this.RemoveVerticalMatchCandidate(x, y, grid, availableTypes);
 
         return availableTypes[Random.Range(0, availableTypes.Count)];
     }
     protected void RemoveHorizontalMatchCandidate(int x, int y, GridModel<GemCtrl> grid, List<GemType> availableTypes)
     {
-        if (x < 2)
-            return;
+        if (x < 2) return;
 
         GemType left1 = grid.Get(x - 1, y).GemData.GemType;
         GemType left2 = grid.Get(x - 2, y).GemData.GemType;
@@ -81,8 +79,7 @@ public class GemSpawner : Spawner<GemCtrl>
 
     protected void RemoveVerticalMatchCandidate(int x, int y, GridModel<GemCtrl> grid, List<GemType> availableTypes)
     {
-        if (y < 2)
-            return;
+        if (y < 2) return;
 
         GemType up1 = grid.Get(x, y - 1).GemData.GemType;
         GemType up2 = grid.Get(x, y - 2).GemData.GemType;
