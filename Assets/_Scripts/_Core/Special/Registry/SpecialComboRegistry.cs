@@ -28,12 +28,28 @@ public class SpecialComboRegistry
              new CubeSpecialPattern(new ColumnRocketPattern()));
 
         this.patterns.Add(
-       (GemSpecialType.Bomb, GemSpecialType.Cube),
-        new CubeSpecialPattern(new BombPattern()));
+            (GemSpecialType.Bomb, GemSpecialType.Cube),
+                new CubeSpecialPattern(new BombPattern()));
 
         this.patterns.Add(
             (GemSpecialType.Cube, GemSpecialType.Bomb),
              new CubeSpecialPattern(new BombPattern()));
+
+        this.patterns.Add(
+            (GemSpecialType.HorizontalRocket, GemSpecialType.Bomb),
+            new RocketBombPattern(new RowRocketPattern()));
+
+        this.patterns.Add(
+            (GemSpecialType.Bomb, GemSpecialType.HorizontalRocket),
+            new RocketBombPattern(new RowRocketPattern()));
+
+        this.patterns.Add(
+            (GemSpecialType.VerticalRocket, GemSpecialType.Bomb),
+            new RocketBombPattern(new ColumnRocketPattern()));
+
+        this.patterns.Add(
+            (GemSpecialType.Bomb, GemSpecialType.VerticalRocket),
+            new RocketBombPattern(new ColumnRocketPattern()));
     }
 
     public ISpecialComboPattern GetPattern(GemSpecialType typeA, GemSpecialType typeB)

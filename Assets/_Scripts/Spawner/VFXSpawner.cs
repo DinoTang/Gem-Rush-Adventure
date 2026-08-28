@@ -91,9 +91,9 @@ public class VFXSpawner : Spawner<VFXCtrl>
         this.SpawnGemVFXCommon(GemType.None, CommonVFXType.Shockwave_Merge, pos);
     }
 
-    public void SpawnBeamVFX(GemCtrl gem, Vector3 direction, Vector3 rotation)
+    public void SpawnBeamVFX(GemCtrl gem, GemType beamType, Vector3 direction, Vector3 rotation)
     {
-        VFXCtrl vfx = this.SpawnGemVFXCommon(gem.GemData.GemType, CommonVFXType.Beam, gem.transform.position);
+        VFXCtrl vfx = this.SpawnGemVFXCommon(beamType, CommonVFXType.Beam, gem.transform.position);
         VFXBeamCtrl vfXBeamCtrl = vfx.GetComponent<VFXBeamCtrl>();
         vfXBeamCtrl.VfxMove.SetDirection(direction);
         vfXBeamCtrl.VfxMove.SetRotation(rotation);
@@ -104,13 +104,13 @@ public class VFXSpawner : Spawner<VFXCtrl>
         switch (gem.GemData.GemSpecialType)
         {
             case GemSpecialType.HorizontalRocket:
-                this.SpawnBeamVFX(gem, Vector3.right, Vector3.zero);
-                this.SpawnBeamVFX(gem, Vector3.left, new Vector3(0, 0, 180));
+                this.SpawnBeamVFX(gem, gem.GemData.GemType, Vector3.right, Vector3.zero);
+                this.SpawnBeamVFX(gem, gem.GemData.GemType, Vector3.left, new Vector3(0, 0, 180));
                 this.SpawnGemVFXCommon(GemType.None, CommonVFXType.Flash, gem.transform.position);
                 break;
             case GemSpecialType.VerticalRocket:
-                this.SpawnBeamVFX(gem, Vector3.up, new Vector3(0, 0, 90));
-                this.SpawnBeamVFX(gem, Vector3.down, new Vector3(0, 0, -90));
+                this.SpawnBeamVFX(gem, gem.GemData.GemType, Vector3.up, new Vector3(0, 0, 90));
+                this.SpawnBeamVFX(gem, gem.GemData.GemType, Vector3.down, new Vector3(0, 0, -90));
                 this.SpawnGemVFXCommon(GemType.None, CommonVFXType.Flash, gem.transform.position);
                 break;
             case GemSpecialType.Bomb:

@@ -12,6 +12,7 @@ public class BoardManager : BaseBehaviour
     [SerializeField] protected GemSpawner gemSpawner;
     [SerializeField] protected Vector3 boardOrigin = new(0.3f, 3.4f, 0);
     [SerializeField] protected float cellSpacing = 0.52f;
+    public float CellSpacing => cellSpacing;
     [SerializeField] protected int width = 8;
     [SerializeField] protected int height = 8;
     private GridModel<GemCtrl> grid;
