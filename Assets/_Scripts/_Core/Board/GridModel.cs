@@ -10,28 +10,6 @@ public class GridModel<T>
     private bool[,] validCells;
 
     // =========================================================
-    // RECTANGULAR BOARD
-    // =========================================================
-
-    public GridModel(int width, int height)
-    {
-        this.Width = width;
-        this.Height = height;
-
-        this.cells = new T[width, height];
-
-        this.validCells = new bool[width, height];
-
-        for (int x = 0; x < Width; x++)
-        {
-            for (int y = 0; y < Height; y++)
-            {
-                this.validCells[x, y] = true;
-            }
-        }
-    }
-
-    // =========================================================
     // FLEX BOARD
     // =========================================================
 

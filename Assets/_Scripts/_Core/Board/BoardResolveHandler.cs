@@ -51,26 +51,27 @@ public class BoardResolveHandler : BoardAbstract
         }
 
     }
-    public IEnumerator ResolveGravityRoutine(List<Vector2Int> cells, HashSet<Vector2Int> specialMergeSourceCells = null)
+    public IEnumerator ResolveGravityRoutine(
+     List<Vector2Int> cells,
+     HashSet<Vector2Int> specialMergeSourceCells = null)
     {
         this.ClearCells(cells, specialMergeSourceCells);
-        //Debug
-        BoardValidator.ValidateBoard(this.boardManager, "AfterClearCells");
 
-        var fallMoves = this.gravityResolver.ApplyGravity(this.boardManager.Grid);
-        //Debug
-        BoardValidator.ValidateBoard(this.boardManager, "AfterApplyGravity");
+        var fallMoves = this.gravityResolver.ApplyGravity(
+            this.boardManager.Grid
+        );
 
-        var fallMovesSpawn = this.boardManager.GemSpawner.FillEmptyCells(this.boardManager.Grid);
-        //Debug
-        BoardValidator.ValidateBoard(this.boardManager, "AfterFillEmptyCells");
+        yield return this.boardManager.AnimationHandler.AnimateGravity(
+            fallMoves
+        );
 
-        var allFallMoves = new List<FallMove>(fallMoves);
-        allFallMoves.AddRange(fallMovesSpawn);
+        var spawnMoves = this.boardManager.GemSpawner.FillEmptyCells(
+            this.boardManager.Grid
+        );
 
-        yield return this.boardManager.AnimationHandler.AnimateGravity(allFallMoves);
-        //Debug
-        BoardValidator.ValidateBoard(this.boardManager, "AfterAnimateGravity");
+        yield return this.boardManager.AnimationHandler.AnimateGravity(
+            spawnMoves
+        );
     }
 
     public IEnumerator ResolveCompletedSpecialGemsRoutine(List<GemCtrl> gems)

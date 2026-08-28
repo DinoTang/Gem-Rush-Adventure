@@ -9,11 +9,12 @@ public class BoardManager : BaseBehaviour
     protected static BoardManager instance;
     public static BoardManager Instance => instance;
     [Header("BoardManager")]
+    [SerializeField] protected BoardShapeSO boardShapeSO;
     [SerializeField] protected GemSpawner gemSpawner;
     [SerializeField] protected Vector3 boardOrigin = new(0.3f, 3.4f, 0);
     [SerializeField] protected float cellSpacing = 0.52f;
-    [SerializeField] protected int width = 8;
-    [SerializeField] protected int height = 8;
+    // [SerializeField] protected int width = 8;
+    // [SerializeField] protected int height = 8;
     private GridModel<GemCtrl> grid;
     public GridModel<GemCtrl> Grid => grid;
 
@@ -45,6 +46,7 @@ public class BoardManager : BaseBehaviour
     protected override void LoadComponent()
     {
         base.LoadComponent();
+        this.LoadBoardShapeSO();
         this.LoadGemSpawner();
         this.LoadBoardInputHandler();
         this.LoadBoardSwapHandler();
@@ -67,6 +69,13 @@ public class BoardManager : BaseBehaviour
         if (this.gemSpawner != null) return;
         this.gemSpawner = FindAnyObjectByType<GemSpawner>();
         Debug.Log(transform.name + ": LoadGemSpawner");
+    }
+
+    protected void LoadBoardShapeSO()
+    {
+        if (this.boardShapeSO != null) return;
+        this.boardShapeSO = Resources.Load<BoardShapeSO>("BoardShapeSO");
+        Debug.Log(transform.name + ": LoadBoardShapeSO");
     }
     protected void LoadBoardInputHandler()
     {
@@ -100,7 +109,9 @@ public class BoardManager : BaseBehaviour
     }
     protected void InitGrid()
     {
-        this.grid = new GridModel<GemCtrl>(width, height);
+        this.grid = new GridModel<GemCtrl>(this.boardShapeSO.Width,
+                                           this.boardShapeSO.Height,
+                                           this.boardShapeSO.GetValidCells2D());
     }
 
     public Vector3 GetWorldPos(int x, int y)
@@ -110,10 +121,12 @@ public class BoardManager : BaseBehaviour
 
     protected void SpawnGrid()
     {
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < this.grid.Height; y++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < this.grid.Width; x++)
             {
+                if (!this.grid.HasCell(x, y)) continue;
+
                 Vector2 pos = this.GetWorldPos(x, y);
 
                 GemType type = this.gemSpawner.GetSafeRandomGemType(x, y, this.grid);

@@ -70,6 +70,8 @@ public class GemSpawner : Spawner<GemCtrl>
     {
         if (x < 2) return;
 
+        if (!grid.HasCell(x - 1, y) || !grid.HasCell(x - 2, y)) return;
+
         GemType left1 = grid.Get(x - 1, y).GemData.GemType;
         GemType left2 = grid.Get(x - 2, y).GemData.GemType;
 
@@ -81,6 +83,8 @@ public class GemSpawner : Spawner<GemCtrl>
     {
         if (y < 2) return;
 
+        if (!grid.HasCell(x, y - 1) || !grid.HasCell(x, y - 2)) return;
+
         GemType up1 = grid.Get(x, y - 1).GemData.GemType;
         GemType up2 = grid.Get(x, y - 2).GemData.GemType;
 
@@ -88,39 +92,133 @@ public class GemSpawner : Spawner<GemCtrl>
             availableTypes.Remove(up1);
     }
 
+    // public List<FallMove> FillEmptyCells(GridModel<GemCtrl> grid)
+    // {
+    //     List<FallMove> fallMoves = new();
+    //     for (int x = 0; x < grid.Width; x++)
+    //     {
+    //         int stackIndex = 1;
+    //         for (int y = grid.Height - 1; y >= 0; y--)
+    //         {
+    //             if (!grid.HasCell(x, y)) continue;
+
+    //             if (grid.Get(x, y) != null) continue;
+
+    //             GemType type = GetRandomPieceType();
+
+    //             Vector2Int spawnPointPos = new Vector2Int(x, -1 - stackIndex);
+    //             Vector2Int targetPointPos = new Vector2Int(x, y);
+    //             GemCtrl gem = Spawn(type, spawnPointPos);
+
+    //             gem.Init(type, x, y);
+
+    //             grid.Set(x, y, gem);
+
+    //             FallMove fallMove = new()
+    //             {
+    //                 Gem = gem,
+    //                 CurrentPos = spawnPointPos,
+    //                 TargetPos = targetPointPos
+    //             };
+    //             fallMoves.Add(fallMove);
+    //             stackIndex++;
+    //         }
+    //     }
+    //     return fallMoves;
+    // }
+
     public List<FallMove> FillEmptyCells(GridModel<GemCtrl> grid)
     {
         List<FallMove> fallMoves = new();
-        for (int x = 0; x < grid.Width; x++)
+        GravityMap gravityMap = new(grid);
+
+        foreach (Vector2Int entry in gravityMap.GetEntryCells())
         {
-            int stackIndex = 1;
-            for (int y = grid.Height - 1; y >= 0; y--)
+            int emptyCount = CountEmptyCellsFromEntry(entry, grid);
+
+            for (int i = 0; i < emptyCount; i++)
             {
-                if (grid.Get(x, y) != null) continue;
-
-
                 GemType type = GetRandomPieceType();
 
-                Vector2Int spawnPointPos = new Vector2Int(x, -1 - stackIndex);
-                Vector2Int targetPointPos = new Vector2Int(x, y);
-                GemCtrl gem = Spawn(type, spawnPointPos);
+                Vector2Int spawnPos = new(
+                    entry.x,
+                    entry.y - i - 1
+                );
 
-                gem.Init(type, x, y);
+                Vector2Int targetPos = FindNextEmptyCell(
+                    entry,
+                    grid
+                );
 
-                grid.Set(x, y, gem);
+                if (targetPos.x == -1)
+                    continue;
 
-                FallMove fallMove = new()
+                GemCtrl gem = Spawn(
+                    type,
+                    BoardManager.Instance.GetWorldPos(
+                        spawnPos.x,
+                        spawnPos.y
+                    )
+                );
+
+                gem.Init(
+                    type,
+                    targetPos.x,
+                    targetPos.y
+                );
+
+                grid.Set(
+                    targetPos.x,
+                    targetPos.y,
+                    gem
+                );
+
+                fallMoves.Add(new FallMove
                 {
                     Gem = gem,
-                    CurrentPos = spawnPointPos,
-                    TargetPos = targetPointPos
-                };
-                fallMoves.Add(fallMove);
-                stackIndex++;
+                    CurrentPos = spawnPos,
+                    TargetPos = targetPos
+                });
             }
         }
+
         return fallMoves;
     }
+
+    private int CountEmptyCellsFromEntry(
+        Vector2Int entry,
+        GridModel<GemCtrl> grid)
+    {
+        int count = 0;
+
+        for (int y = entry.y; y < grid.Height; y++)
+        {
+            if (!grid.HasCell(entry.x, y))
+                break;
+
+            if (grid.Get(entry.x, y) == null)
+                count++;
+        }
+
+        return count;
+    }
+
+    private Vector2Int FindNextEmptyCell(
+        Vector2Int entry,
+        GridModel<GemCtrl> grid)
+    {
+        for (int y = entry.y; y < grid.Height; y++)
+        {
+            if (!grid.HasCell(entry.x, y))
+                break;
+
+            if (grid.Get(entry.x, y) == null)
+                return new Vector2Int(entry.x, y);
+        }
+
+        return new Vector2Int(-1, -1);
+    }
+
     protected GemType GetRandomPieceType()
     {
         return types[Random.Range(0, this.types.Length)];
@@ -132,7 +230,12 @@ public class GemSpawner : Spawner<GemCtrl>
         {
             for (int y = 0; y < grid.Height; y++)
             {
+                if (!grid.HasCell(x, y)) continue;
+
                 GemCtrl gem = grid.Get(x, y);
+
+                if (gem == null) continue;
+
                 gem.GemDespawn.DoDespawn();
             }
         }
