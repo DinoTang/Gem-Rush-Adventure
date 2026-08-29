@@ -85,9 +85,9 @@ public class TapToSkipUI : EndGameMessageUI, IPointerClickHandler
         // Debug.LogWarning("Tap To Skip clicked", gameObject);
     }
 
-    public void ShowWinPopup()
-    {
-        GamePlayUI.Instance.Hide();
-        this.winPopupUI.Show();
-    }
+    // public void ShowWinPopup()
+    // {
+    //     GamePlayUI.Instance.Hide();
+    //     this.winPopupUI.Show();
+    // }
 }

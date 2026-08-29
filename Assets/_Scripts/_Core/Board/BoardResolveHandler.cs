@@ -54,23 +54,15 @@ public class BoardResolveHandler : BoardAbstract
     public IEnumerator ResolveGravityRoutine(List<Vector2Int> cells, HashSet<Vector2Int> specialMergeSourceCells = null)
     {
         this.ClearCells(cells, specialMergeSourceCells);
-        //Debug
-        BoardValidator.ValidateBoard(this.boardManager, "AfterClearCells");
 
         var fallMoves = this.gravityResolver.ApplyGravity(this.boardManager.Grid);
-        //Debug
-        BoardValidator.ValidateBoard(this.boardManager, "AfterApplyGravity");
 
         var fallMovesSpawn = this.boardManager.GemSpawner.FillEmptyCells(this.boardManager.Grid);
-        //Debug
-        BoardValidator.ValidateBoard(this.boardManager, "AfterFillEmptyCells");
 
         var allFallMoves = new List<FallMove>(fallMoves);
         allFallMoves.AddRange(fallMovesSpawn);
 
         yield return this.boardManager.AnimationHandler.AnimateGravity(allFallMoves);
-        //Debug
-        BoardValidator.ValidateBoard(this.boardManager, "AfterAnimateGravity");
     }
 
     public IEnumerator ResolveCompletedSpecialGemsRoutine(List<GemCtrl> gems)
@@ -94,9 +86,20 @@ public class BoardResolveHandler : BoardAbstract
         if (triggerCells.Count == 0)
             yield break;
 
-        SpecialChainResult specialChainResult = this.boardManager.MatchResolver.ResolveSpecialChains(triggerCells, this.boardManager.Grid);
+        SpecialChainResult specialChainResult =
+            this.boardManager.MatchResolver.ResolveSpecialChains(
+                triggerCells,
+                this.boardManager.Grid
+            );
 
-        yield return this.ResolveGravityRoutine(specialChainResult.ClearCells);
+        this.boardManager.MatchResolver.PlaySpecialChainEffects(
+            specialChainResult.SpecialCells,
+            this.boardManager.Grid
+        );
+
+        yield return this.ResolveGravityRoutine(
+            specialChainResult.ClearCells
+        );
     }
 
     public void ClearCells(List<Vector2Int> cells, HashSet<Vector2Int> specialMergeSourceCells = null)
